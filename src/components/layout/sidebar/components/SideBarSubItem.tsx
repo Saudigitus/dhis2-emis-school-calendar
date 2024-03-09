@@ -1,9 +1,9 @@
 import React from 'react';
-import style from "../SideBar.module.css"
+import style from "../sideBar.module.css"
 import { Badge } from '../../../badge';
-import { MenuDataItemProps } from '../../../../types/common/components';
 import classNames from 'classnames';
 import { useConfig } from '@dhis2/app-runtime';
+import { MenuDataItemProps } from '../../../../types/menu/MenuTypes';
 
 export default function SideBarSubItem({ sidebarIcon, title, showBadge, disabled, route, appName,program,leftLabel }: MenuDataItemProps) {
     const { baseUrl } = useConfig()

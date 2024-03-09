@@ -2,7 +2,7 @@
 import { useConfig } from "@dhis2/app-runtime";
 import { Box, Card } from "@dhis2/ui";
 import React from "react";
-import style from "./Card.module.css";
+import style from "./card.module.css";
 import { Divider, IconButton, Tooltip } from "@material-ui/core";
 import { Add, Menu } from "@material-ui/icons";
 import classNames from "classnames";

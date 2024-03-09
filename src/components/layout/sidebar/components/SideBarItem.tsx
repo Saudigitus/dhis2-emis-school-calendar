@@ -1,5 +1,5 @@
 import React from 'react'
-import style from "../SideBar.module.css"
+import style from "../sideBar.module.css"
 import SideBarItemTitle from './SideBarItemTitle'
 import SideBarSubItem from './SideBarSubItem'
 import { MenuDataItemProps, MenuDataProps } from '../../../../types/menu/MenuTypes'

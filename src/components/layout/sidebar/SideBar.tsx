@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import style from "./SideBar.module.css"
+import style from "./sideBar.module.css"
 import SideBarItem from './components/SideBarItem'
 import SibeBarCollapseButton from './components/SibeBarCollapseButton';
-import { menuData } from '../../../utils';
+import { menuData } from '../../../utils/constants';
 import { MenuDataProps } from '../../../types/menu/MenuTypes';
 import { getDataStoreKeys } from '../../../utils/common/dataStore/getDataStoreKeys';
 

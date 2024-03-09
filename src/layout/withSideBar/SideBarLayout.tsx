@@ -1,5 +1,5 @@
 import React from 'react'
-import style from "../Layout.module.css"
+import style from "../layout.module.css"
 import { SideBarLayoutProps } from '../../types/layout/SideBarLayoutTypes'
 import { SideBar } from '../../components/layout'
 
