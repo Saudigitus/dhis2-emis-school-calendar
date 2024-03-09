@@ -4,6 +4,7 @@ import { useDataStore } from '../hooks/appwarapper/useDataStore';
 import { AppConfigurationsProps } from '../types/app/AppConfigurationsProps';
 
 export default function AppWrapper(props: AppConfigurationsProps) {
+    const { children } = props;
     const { error, loading } = useDataStore()
 
     if (loading) {
@@ -23,6 +24,6 @@ export default function AppWrapper(props: AppConfigurationsProps) {
     }
 
     return (
-        <>{props.children}</>
+        <>{children}</>
     )
 }

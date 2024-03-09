@@ -5,7 +5,8 @@ import classNames from 'classnames';
 import { useConfig } from '@dhis2/app-runtime';
 import { MenuDataItemProps } from '../../../../types/menu/MenuTypes';
 
-export default function SideBarSubItem({ sidebarIcon, title, showBadge, disabled, route, appName,program,leftLabel }: MenuDataItemProps) {
+export default function SideBarSubItem(props: MenuDataItemProps) {
+    const { sidebarIcon, title, showBadge, disabled, route, appName } = props
     const { baseUrl } = useConfig()
 
     return (
