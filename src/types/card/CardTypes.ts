@@ -4,15 +4,10 @@ interface DashboardCardProps {
 }
 
 interface CardSubItemProps {
-    icon: string
     title: string
-    leftLabel: string
-    program: string
-    formLink: string
-    value?: string
-    listLink: string
+    date: string
+    offDayType: string
     disabled?: boolean
-    appName: string
 }
 
 
