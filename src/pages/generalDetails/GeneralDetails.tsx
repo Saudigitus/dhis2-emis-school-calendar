@@ -1,5 +1,6 @@
 import React from 'react'
 import { WithPadding } from '../../components'
+import OffDaysCard from "../../components/card/CardComponent";
 
 function GeneralDetails() {
   return (
