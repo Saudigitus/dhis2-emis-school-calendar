@@ -1,0 +1,14 @@
+.menu_item svg{
+    width: 20px !important;
+    height: 20px !important;
+    opacity: 0.7;
+    margin : 0 !important;
+}
+
+.menu_item span {
+    margin-left : 2px !important;
+}
+
+.delete_option {
+    color: #E7422B !important;
+}
