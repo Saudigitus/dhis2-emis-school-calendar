@@ -1,8 +1,6 @@
-import React, {useState, ReactElement, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import {CenteredContent, CircularLoader} from "@dhis2/ui";
-import {HeaderFilters, TableComponent} from '../components'
-import RenderHeader from './RenderHeader'
-import RenderRows from './RenderRows'
+import {HeaderFilters} from '../components'
 import {makeStyles} from '@material-ui/core/styles';
 import {Paper} from '@material-ui/core';
 import WithBorder from '../../template/withBorder';
