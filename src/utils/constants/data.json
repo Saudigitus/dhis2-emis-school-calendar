@@ -1,77 +1,32 @@
 [
   {
-    "name": "Independence day",
+    "description": "Independence day",
     "type": "Public Holiday",
-    "Date": "2024-10-10"
+    "date": "2024-10-10"
   },
   {
-    "name": "Independence day",
+    "description": "Independence day",
     "type": "Public Holiday",
-    "Date": "2024-10-10"
+    "date": "2024-10-10"
   },
   {
-    "name": "Independence day",
+    "description": "Independence day",
     "type": "Public Holiday",
-    "Date": "2024-10-10"
+    "date": "2024-10-10"
   },
   {
-    "name": "Independence day",
+    "description": "Independence day",
     "type": "Public Holiday",
-    "Date": "2024-10-10"
+    "date": "2024-10-10"
   },
   {
-    "name": "Independence day",
+    "description": "Independence day",
     "type": "Public Holiday",
-    "Date": "2024-10-10"
+    "date": "2024-10-10"
   },
   {
-    "name": "Independence day",
+    "description": "Independence day",
     "type": "Public Holiday",
-    "Date": "2024-10-10"
-  },
-  {
-    "name": "Independence day",
-    "type": "Public Holiday",
-    "Date": "2024-10-10"
-  },
-  {
-    "name": "Independence day",
-    "type": "Public Holiday",
-    "Date": "2024-10-10"
-  },
-  {
-    "name": "Independence day",
-    "type": "Public Holiday",
-    "Date": "2024-10-10"
-  },
-  {
-    "name": "Independence day",
-    "type": "Public Holiday",
-    "Date": "2024-10-10"
-  },
-  {
-    "name": "Independence day",
-    "type": "Public Holiday",
-    "Date": "2024-10-10"
-  },
-  {
-    "name": "Independence day",
-    "type": "Public Holiday",
-    "Date": "2024-10-10"
-  },
-  {
-    "name": "Independence day",
-    "type": "Public Holiday",
-    "Date": "2024-10-10"
-  },
-  {
-    "name": "Independence day",
-    "type": "Public Holiday",
-    "Date": "2024-10-10"
-  },
-  {
-    "name": "Independence day",
-    "type": "Public Holiday",
-    "Date": "2024-10-10"
+    "date": "2024-10-10"
   }
 ]

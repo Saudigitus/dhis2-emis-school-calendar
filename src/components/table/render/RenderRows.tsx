@@ -6,6 +6,7 @@ import { RowCell, RowTable } from '../components';
 import { getDisplayName } from '../../../utils/table/rows/getDisplayNameByOption';
 import MenuComponent from '../../menu/menu';
 import { CustomAttributeProps } from '../../../types/attributes/AttributeColumns';
+import Actions from "../../menu/menu";
 
 interface RenderHeaderProps {
     rowsData: any[]
@@ -65,7 +66,7 @@ function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactEle
                         >
                             <div>
                                 {getDisplayName({ attribute: column.id, headers: headerData, value: row[column.id] })}
-                                {column.header == "Actions" ? <MenuComponent row={row} /> : null}
+                                {column.header == "Actions" ? <Actions row={row} /> : null}
                             </div>
                         </RowCell>
                     ));

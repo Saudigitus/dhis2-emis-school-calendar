@@ -1,31 +1,43 @@
-import React, { useState, ReactElement, useEffect } from 'react'
-import { CenteredContent, CircularLoader } from "@dhis2/ui";
-import { HeaderFilters, TableComponent } from '../components'
+import React, {useState, ReactElement, useEffect} from 'react'
+import {CenteredContent, CircularLoader} from "@dhis2/ui";
+import {HeaderFilters, TableComponent} from '../components'
 import RenderHeader from './RenderHeader'
 import RenderRows from './RenderRows'
-import { makeStyles } from '@material-ui/core/styles';
-import { Paper } from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
+import {Paper} from '@material-ui/core';
 import WithBorder from '../../template/withBorder';
-import { useHeader } from '../../../hooks/tableHeader/useHeader';
-import { useTableData } from '../../../hooks/tableData/useTableData';
+import {useHeader} from '../../../hooks/tableHeader/useHeader';
+import {useTableData} from '../../../hooks/tableData/useTableData';
 import Pagination from '../components/pagination/Pagination';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import GridViewComponent from '../components/gridView/GridViewComponent';
 import {WithPadding} from "../../template";
 import {LoadOffDays} from "../../../schema/loadSchema";
 import {offDaysViewState} from "../../../schema/offDaysViewSchema";
+import Button from '@material-ui/core/Button';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
-const usetStyles = makeStyles({
+// @ts-ignore
+const useStyles = makeStyles((theme) => ({
+    button: {
+        textTransform: "Capitalize"
+    },
     tableContainer: {
         overflowX: 'auto'
+    },
+    topOfTheTable: {
+        width: "100%",
+        display: "flex",
+        justifyContent: "space-between"
     }
-});
+}));
+
 
 function Table() {
-    const classes = usetStyles()
-    const { columns } = useHeader()
+    const classes = useStyles()
+    const {columns} = useHeader()
     const [page, setpage] = useState(1)
-    const { tableData } = useTableData()
+    const {tableData} = useTableData()
     const [copy, setCopy] = useState<any[]>([])
     const [pageSize, setpageSize] = useState(10)
     const [loading,] = useRecoilState(LoadOffDays);
@@ -55,45 +67,32 @@ function Table() {
     }
 
     return (
-        <Paper style={{ overflow: "hidden" }} >
-            {/*<WithPadding padding='10px'>*/}
-            {/*    <div className='row d-flex align-items-center justify-content-between'>*/}
-            {/*        <h5 className='m-0'>{tableTitle}</h5>*/}
-            {/*        {tableAction ?? null}*/}
-            {/*    </div>*/}
-            {/*</WithPadding>*/}
-            <WithBorder type='bottom' />
-            <WithPadding >
-                <WithBorder type='all' >
-                    <HeaderFilters />
+        <Paper style={{overflow: "hidden"}}>
+            <WithPadding padding='10px'>
+                <div className={classes.topOfTheTable}>
+                    <h5>Non School Days</h5>
+                    <Button
+                        variant="outlined"
+                        className={classes.button}
+                        startIcon={<AddCircleOutlineIcon/>}
+                    >
+                        New Off Day
+                    </Button>
+                </div>
+            </WithPadding>
+            <WithBorder type='bottom'/>
+            <WithPadding>
+                <WithBorder type='all'>
+                    <HeaderFilters/>
                     <div
                         className={classes.tableContainer}
                     >
-                        {templatesViewMode === "list" ?
-                            <TableComponent>
-                                <>
-                                    <RenderHeader
-                                        createSortHandler={() => { }}
-                                        order='asc'
-                                        orderBy='desc'
-                                        rowsHeader={columns}
-                                    />
-                                    {!loading &&
-                                        <RenderRows
-                                            headerData={columns}
-                                            rowsData={dataToShow}
-                                        />
-                                    }
-                                </>
-                            </TableComponent>
-                            :
-                            <WithPadding>
-                                {!loading && <GridViewComponent offDays={tableData} />}
-                            </WithPadding>
-                        }
+                        <WithPadding>
+                            {!loading && <GridViewComponent offDays={tableData}/>}
+                        </WithPadding>
                         {loading &&
                             <CenteredContent className="p-4">
-                                <CircularLoader />
+                                <CircularLoader/>
                             </CenteredContent>
                         }
                     </div>
