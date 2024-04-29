@@ -49,7 +49,7 @@
     "required": true,
     "name": "description",
     "labelName": "Description",
-    "valueType": "Text",
+    "valueType": "TEXT",
     "disabled": false,
     "pattern": "",
     "visible": true,

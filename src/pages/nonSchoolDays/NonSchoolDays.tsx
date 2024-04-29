@@ -1,12 +1,11 @@
 import React from 'react'
 import {WithPadding} from '../../components'
-import Table from "../../components/table/render/Table";
+import OffDaysList from "../../components/table/offDaysList";
 
 const NonSchoolDays = () => {
-
     return (
         <WithPadding padding="10px 30px">
-            <Table/>
+            <OffDaysList/>
         </WithPadding>
     )
 }
