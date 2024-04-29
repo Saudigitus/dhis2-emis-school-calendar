@@ -15,7 +15,8 @@ const DATASTORE_QUERY = ({
 export function useDataStore() {
     const setDataStoreState = useSetRecoilState(DataStoreState);
     const { hide, show } = useShowAlerts()
-    const { data, loading, error } = useDataQuery<{ config: any }>(DATASTORE_QUERY, {
+
+    const { data, loading, error, refetch } = useDataQuery<{ config: any }>(DATASTORE_QUERY, {
         onError(error) {
             show({
                 message: `${("Could not get data")}: ${error.message}`,
@@ -31,6 +32,7 @@ export function useDataStore() {
     return {
         data,
         loading,
-        error
+        error,
+        refetch
     }
 }

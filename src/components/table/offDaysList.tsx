@@ -10,6 +10,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import NewOdffDay from "../modal/newOffDay/modalAddNewOffDay";
 import ModalComponent from "../modal/modal";
 import {DataStoreState} from "../../schema/dataStoreSchema";
+import {useDataStore} from "../../hooks/appwarapper/useDataStore";
 
 // @ts-expect-error
 const useStyles = makeStyles((theme) => ({
@@ -28,14 +29,15 @@ const useStyles = makeStyles((theme) => ({
 
 function OffDaysList() {
     const classes = useStyles()
-    const [loading] = useRecoilState(LoadState);
     const [open, setOpen] = useState(false)
     const data = useRecoilValue(DataStoreState)
+    const {loading} = useDataStore()
 
     return (
         <div style={{overflow: "hidden"}}>
             {/* eslint-disable-next-line react/no-children-prop */}
-            <ModalComponent setOpen={setOpen} open={open} title={'Non School Day Register'} children={<NewOdffDay setOpen={setOpen}/>}/>
+            <ModalComponent setOpen={setOpen} open={open} title={'Non School Day Register'}
+                            children={<NewOdffDay setOpen={setOpen}/>}/>
             <WithPadding padding='10px'>
                 <div className={classes.topOfTheTable}>
                     <h5>Non School Days</h5>
@@ -55,12 +57,11 @@ function OffDaysList() {
                 <div
                     className={classes.tableContainer}
                 >
-                    {loading
-                        ? <CenteredContent className="p-4">
+                    {loading ? <CenteredContent className="p-4">
                             <CircularLoader/>
                         </CenteredContent>
                         : <WithPadding>
-                            {!loading && <GridViewComponent offDays={data.holidays}/>}
+                            <GridViewComponent offDays={data.holidays}/>
                         </WithPadding>
                     }
                 </div>

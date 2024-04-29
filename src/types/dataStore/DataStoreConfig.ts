@@ -15,7 +15,8 @@ interface dataStoreRecord {
     holidays: [
         {
             "date": Date
-            "description": string
+            "event": string
+            "type": string
         }
     ]
     weekDays: {

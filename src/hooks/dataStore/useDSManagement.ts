@@ -1,10 +1,10 @@
 import {useState} from 'react';
 import {useDataEngine} from "@dhis2/app-runtime";
 import useShowAlerts from "../commons/useShowAlert";
-import {getDataStoreData} from "./getDataStoreData";
+import {useDataStore} from "../appwarapper/useDataStore";
 
 const DATASTOREQUERY: any = {
-    resource: "dataStore/tdp-config/schoolCalendar",
+    resource: "dataStore/semis/schoolCalendar",
     data: ({data}: any) => data,
     type: 'update'
 }
@@ -16,7 +16,7 @@ export const dataStoreManagement = () => {
         show
     } = useShowAlerts()
     const [loading, setloading] = useState(false)
-    const {getScholCalendar} = getDataStoreData()
+    const {refetch} = useDataStore()
 
     async function postData(data: any): Promise<void> {
         setloading(true)
@@ -25,7 +25,12 @@ export const dataStoreManagement = () => {
                 data: data
             },
             onComplete() {
-                void getScholCalendar()
+                show({
+                    message: `Data saved successfully`,
+                    type: {success: true}
+                });
+                setTimeout(hide, 5000);
+                void refetch()
             },
             onError(error) {
                 show({

@@ -14,19 +14,52 @@
   },
   {
     "required": true,
-    "name": "description",
-    "labelName": "Description",
+    "name": "type",
+    "labelName": "Type",
+    "Placeholder": "Non-Schoolday Type",
+    "valueType": "LIST",
+    "options": {
+      "optionSet": {
+        "options": [
+          {
+            "value": "pHoliday",
+            "label": "Public Holiday"
+          },
+          {
+            "value": "anniversary",
+            "label": "School Anniversary"
+          },
+          {
+            "value": "other",
+            "label": "Other"
+          }
+        ]
+      }
+    },
+    "disabled": false,
+    "visible": true,
+    "description": "Type",
+    "error": false,
+    "content": "",
+    "id": "Type",
+    "displayName": "Type",
+    "header": "Type"
+  },
+  {
+    "required": true,
+    "name": "event",
+    "labelName": "Event",
     "valueType": "TEXT",
     "disabled": false,
     "pattern": "",
     "visible": true,
-    "description": "Description",
+    "description": "Event",
     "searchable": false,
     "error": false,
     "programStage": "",
     "content": "",
-    "id": "Description",
-    "displayName": "Description",
-    "header": "Description"
+    "id": "Event",
+    "displayName": "Event",
+    "header": "Event"
   }
 ]
