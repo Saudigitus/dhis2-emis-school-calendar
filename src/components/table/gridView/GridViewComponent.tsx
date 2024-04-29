@@ -1,5 +1,5 @@
 import React from "react";
-import OffDaysCard from "../../../card/CardComponent";
+import OffDaysCard from "../../card/CardComponent";
 import style from './GridView.module.css'
 interface GridViewProps {
   offDays: any [];
