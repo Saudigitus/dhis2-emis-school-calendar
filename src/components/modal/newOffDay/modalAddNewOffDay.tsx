@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {ModalActions, Button, ButtonStrip} from "@dhis2/ui";
 import WithPadding from "../../template/WithPadding";
 import {Form} from "react-final-form";
@@ -20,7 +20,7 @@ export default function NewOdffDay({setOpen}: ContentProps): React.ReactElement 
             white: true
         },
         {
-            id: "saveandcontinue",
+            id: "save",
             type: "button",
             label: i18n.t("Save"),
             primary: true
@@ -32,11 +32,8 @@ export default function NewOdffDay({setOpen}: ContentProps): React.ReactElement 
       <span>
         {i18n.t("To register new off day, please fill out the form")}
       </span>
-            <Form initialValues={{}}
-                  onSubmit={(e) => {
-                  }
-                      // navigate(`/new-template?program=${e.program}&templateName=${e.name}`)
-                  }
+            <Form initialValues={{}} onSubmit={() => {
+            }}
             >
                 {({values}) => {
                     return (

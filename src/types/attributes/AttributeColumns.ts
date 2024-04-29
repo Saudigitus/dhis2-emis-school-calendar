@@ -16,7 +16,7 @@ export interface CustomAttributeProps {
     assignedValue?: string | undefined
     labelName?: string
     valueType: typeof Attribute.valueType
-    disabled?: boolean
+    disabled: boolean
     visible?: boolean
     options?: {
         optionSet: {
