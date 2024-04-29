@@ -1,22 +1,37 @@
 import * as React from 'react';
-import { Button } from "@dhis2/ui";
+import { Button, CircularLoader } from "@dhis2/ui";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
+import {dataStoreManagement} from "../../hooks/dataStore/useDSManagement";
+import {useRecoilValue} from "recoil";
+import {DataStoreState} from "../../schema/dataStoreSchema";
+import {type CardSubItemProps} from "../../types/card/CardTypes";
 
 interface props {
-    open: boolean,
+    open: boolean
     setOpen: (arg: boolean) => void
-    row: any
+    row: CardSubItemProps
 }
 
 export default function AlertDialog(props: props) {
     const { open, setOpen, row } = props
+    const { postData, loading} = dataStoreManagement()
+    const dataStoreData = useRecoilValue(DataStoreState)
 
     const handleClose = () => {
         setOpen(false);
     };
 
     const handleAgree = () => {
-        setOpen(false)
+        let copy = [...dataStoreData.holidays]
+        copy.splice(row.index, 1)
+
+        void postData({
+            ...dataStoreData,
+            holidays: [...copy]
+        }).then(() => {
+            setOpen(false);
+            setOpen(false)
+        })
     }
 
     return (
@@ -38,7 +53,7 @@ export default function AlertDialog(props: props) {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose} primary>Disagree</Button>
-                        <Button onClick={handleAgree} destructive>Agree</Button>
+                        <Button onClick={handleAgree} destructive icon={loading && <CircularLoader small />}>Agree</Button>
                     </DialogActions>
                 </div>
             </Dialog>
