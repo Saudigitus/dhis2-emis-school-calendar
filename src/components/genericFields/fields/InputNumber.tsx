@@ -8,8 +8,8 @@ import {
 } from '@dhis2/ui'
 import React from 'react'
 import style from "./fields.module.css";
+import { formatToString } from '../../../utils/common/formatToString'
 import { FormFieldsProps } from '../../../types/form/GenericFieldsTypes';
-import { formatToString } from './formatters';
 
 const { Field } = ReactFinalForm
 
