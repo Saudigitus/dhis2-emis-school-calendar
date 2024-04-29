@@ -14,7 +14,7 @@ export default function OffDaysCard(props: CardSubItemProps): React.ReactElement
   const { title, date, disabled, offDayType } = props;
 
   return (
-    <Box width="180px">
+    <Box>
       <Card
         className={classNames(
           style.cardContainer,
