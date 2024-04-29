@@ -12,7 +12,7 @@ function GroupForm(props: GroupFormProps) {
         <WithPadding padding={"16px 5px 0px 5px"}>
             <Subtitle label={name} />
             <Label>{description}</Label>
-            <WithPadding padding="10px">
+            <WithPadding padding="5px">
                 {fields?.filter(x => x.visible)?.map((x, i) => {
                     return (
                         <div
@@ -22,12 +22,10 @@ function GroupForm(props: GroupFormProps) {
                                     x.error ? styles.errorFormField : styles.notErrorFormField,
                                     i % 2 === 0 ? styles.evenFormField : styles.oddFormField)}
                         >
-                            <div className="col-12 col-md-6 d-flex">
+                            <div className="col-12 col-md-6 d-flex flex-column">
                                 <Label className={styles.label}>
                                     {x.labelName} {x.required ? " *" : ""}
                                 </Label>
-                            </div>
-                            <div className="col-12 col-md-6">
                                 <GenericFields
                                     attribute={x}
                                     disabled={x.disabled}
