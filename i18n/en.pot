@@ -5,35 +5,20 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-04-28T19:39:43.737Z\n"
-"PO-Revision-Date: 2024-04-28T19:39:43.737Z\n"
+"POT-Creation-Date: 2024-04-29T09:05:45.790Z\n"
+"PO-Revision-Date: 2024-04-29T09:05:45.790Z\n"
 
 msgid "Column"
 msgstr "Column"
 
-msgid "Select columns"
-msgstr "Select columns"
-
-msgid "Columns to show in the table"
-msgstr "Columns to show in the table"
+msgid "Cancel"
+msgstr "Cancel"
 
 msgid "Save"
 msgstr "Save"
 
-msgid "Reset Filter"
-msgstr "Reset Filter"
+msgid "To register new off day, please fill out the form"
+msgstr "To register new off day, please fill out the form"
 
-msgid "List view"
-msgstr "List view"
-
-msgid "Grid view"
-msgstr "Grid view"
-
-msgid "Rows per page"
-msgstr "Rows per page"
-
-msgid "Page"
-msgstr "Page"
-
-msgid "No data to display"
-msgstr "No data to display"
+msgid "Off Day Details"
+msgstr "Off Day Details"
