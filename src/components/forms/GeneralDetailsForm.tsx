@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { WithPadding } from "../template";
 import { generalDetailsFormData } from "../../utils/constants/generalDetailsFormData";
-import { FormSectionProps } from "../../types/form/FormSectionProps";
+import {type FormSectionProps } from "../../types/form/FormSectionProps";
 import GroupForm from "../groupForm/GroupForm";
 import { Form } from "react-final-form"
 

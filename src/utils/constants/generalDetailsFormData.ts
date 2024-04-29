@@ -1,9 +1,8 @@
-import { FormSectionProps } from "../../types/form/FormSectionProps";
+import { type FormSectionProps } from "../../types/form/FormSectionProps";
 import { Attribute } from "../../types/generated/models";
-import { CustomAttributeProps, VariablesTypes } from "../../types/variables/AttributeColumns";
+import { type CustomAttributeProps, VariablesTypes } from "../../types/variables/AttributeColumns";
 
 export function generalDetailsFormData(): FormSectionProps[] {
-
     return [
         {
             section: "Period",
@@ -72,7 +71,8 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     key: "",
                     unique: true,
                     displayInFilters: true,
-                    type: VariablesTypes.Attribute
+                    type: VariablesTypes.Attribute,
+                    radio: false
                 },
                 {
                     id: `tuesday`,
@@ -91,8 +91,9 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     key: "",
                     unique: true,
                     displayInFilters: true,
-                    type: VariablesTypes.Attribute
-                },                {
+                    type: VariablesTypes.Attribute,
+                    radio: false
+                }, {
                     id: `wednesday`,
                     displayName: "Wednesday",
                     header: "",
@@ -109,8 +110,9 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     key: "",
                     unique: true,
                     displayInFilters: true,
-                    type: VariablesTypes.Attribute
-                },                {
+                    type: VariablesTypes.Attribute,
+                    radio: false
+                }, {
                     id: `thursday`,
                     displayName: "Thursday",
                     header: "",
@@ -127,8 +129,9 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     key: "",
                     unique: true,
                     displayInFilters: true,
-                    type: VariablesTypes.Attribute
-                },                {
+                    type: VariablesTypes.Attribute,
+                    radio: false
+                }, {
                     id: `friday`,
                     displayName: "Friday",
                     header: "",
@@ -145,8 +148,9 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     key: "",
                     unique: true,
                     displayInFilters: true,
-                    type: VariablesTypes.Attribute
-                },                {
+                    type: VariablesTypes.Attribute,
+                    radio: false
+                }, {
                     id: `saturday`,
                     displayName: "Saturday",
                     header: "",
@@ -163,8 +167,9 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     key: "",
                     unique: true,
                     displayInFilters: true,
-                    type: VariablesTypes.Attribute
-                },                {
+                    type: VariablesTypes.Attribute,
+                    radio: false
+                }, {
                     id: `sunday`,
                     displayName: "Sunday",
                     header: "",
@@ -181,10 +186,10 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     key: "",
                     unique: true,
                     displayInFilters: true,
-                    type: VariablesTypes.Attribute
+                    type: VariablesTypes.Attribute,
+                    radio: false
                 }
             ]
         }
     ]
-
 }

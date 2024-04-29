@@ -7,14 +7,17 @@ import SingleSelectField from "./fields/SingleSelect";
 import InputArea from "./fields/InputArea";
 import { Attribute } from "../../types/generated/models";
 import RadioButton from "./fields/RadioButton";
-import { GenericFieldsComponentProps } from "../../types/form/GenericFieldsTypes";
-import { CustomAttributeProps } from "../../types/variables/AttributeColumns";
+import { type GenericFieldsComponentProps } from "../../types/form/GenericFieldsTypes";
+import { type CustomAttributeProps } from "../../types/variables/AttributeColumns";
+import SwitchInput from "./fields/SwitchInput";
 
 function GenericFields({ attribute, disabled, valueType }: GenericFieldsComponentProps) {
+
   switch (valueType) {
     case Attribute.valueType.BOOLEAN as unknown as CustomAttributeProps["valueType"]:
-      return <RadioButton {...attribute} disabled={disabled} />;
-
+      return <>
+          {attribute?.radio ? <RadioButton {...attribute} disabled={disabled} /> : <SwitchInput {...attribute} disabled={disabled || attribute.disabled} required={false}/>}
+   </>
     case Attribute.valueType.PHONE_NUMBER as unknown as CustomAttributeProps["valueType"]:
     case Attribute.valueType.EMAIL as unknown as CustomAttributeProps["valueType"]:
     case Attribute.valueType.TEXT as unknown as CustomAttributeProps["valueType"]:
