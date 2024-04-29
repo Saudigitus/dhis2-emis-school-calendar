@@ -5,7 +5,8 @@ import GeneralDetailsForm from '../../components/forms/GeneralDetailsForm'
 function GeneralDetails() {
   return (
     <WithPadding padding="10px 30px">
-      <GeneralDetailsForm/>
+        <h5>General Details</h5>
+        <GeneralDetailsForm/>
     </WithPadding>
   )
 }

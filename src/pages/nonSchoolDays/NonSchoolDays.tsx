@@ -4,7 +4,7 @@ import OffDaysList from "../../components/table/offDaysList";
 
 const NonSchoolDays = () => {
     return (
-        <WithPadding padding="10px 30px">
+        <WithPadding padding="5px 15px">
             <OffDaysList/>
         </WithPadding>
     )
