@@ -1,3 +1,3 @@
 import WithPadding from "./WithPadding"
-import WithBorder from "./WithBorder"
+import WithBorder from "./withBorder"
 export {WithPadding, WithBorder}
