@@ -7,7 +7,10 @@ interface CardSubItemProps {
     title: string
     date: string
     offDayType: string
+    type: string
     disabled?: boolean
+    setOpen: (value: boolean) => void | null
+    index: number
 }
 
 
