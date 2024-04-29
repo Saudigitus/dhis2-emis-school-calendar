@@ -1,6 +1,8 @@
 import React from "react";
 import { Modal, ModalTitle, ModalContent } from "@dhis2/ui";
 import styles from './modal.module.css'
+import {useRecoilValue, useSetRecoilState} from "recoil";
+import {editState} from "../../schema/editDataSchema";
 
 interface ModalProps {
   open: boolean
@@ -15,6 +17,7 @@ function ModalComponent({
   title,
   children
 }: ModalProps): React.ReactElement {
+
   return (
     <div>
       {open && <Modal

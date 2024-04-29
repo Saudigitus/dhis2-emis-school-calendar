@@ -4,7 +4,9 @@ import styles from './menu.module.css'
 import {Delete, Edit, MoreHoriz} from '@material-ui/icons';
 import {CircularLoader} from "@dhis2/ui";
 import AlertDialog from '../confirm/confirm';
-import {IconButton, Menu, MenuList, Popover} from "@material-ui/core";
+import {IconButton, MenuList, Popover} from "@material-ui/core";
+import {useSetRecoilState} from "recoil";
+import {editState} from "../../schema/editDataSchema";
 
 const options = [
     {
@@ -23,10 +25,14 @@ const options = [
     }
 ]
 
-export default function MenuComponent({row}: { row: any }) {
+export default function MenuComponent({
+                                          row,
+                                          setOpen
+                                      }: { row: any, setOpen: (value: boolean) => void }) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [confirm, setConfirm] = React.useState<boolean>(false);
     const open = Boolean(anchorEl);
+    const setSelected = useSetRecoilState(editState)
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -41,7 +47,11 @@ export default function MenuComponent({row}: { row: any }) {
         if (type === 'delete') {
             setConfirm(true)
         } else if (type === 'edit') {
-
+            setOpen(true)
+            setSelected({
+                data: row,
+                edit: true
+            })
         }
     }
 

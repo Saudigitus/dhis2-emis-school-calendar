@@ -36,8 +36,7 @@ function OffDaysList() {
     return (
         <div style={{overflow: "hidden"}}>
             {/* eslint-disable-next-line react/no-children-prop */}
-            <ModalComponent setOpen={setOpen} open={open} title={'Non School Day Register'}
-                            children={<NewOdffDay setOpen={setOpen}/>}/>
+            <ModalComponent setOpen={setOpen} open={open} title={'Non School Day Register'} children={<NewOdffDay setOpen={setOpen}/>}/>
             <WithPadding padding='10px'>
                 <div className={classes.topOfTheTable}>
                     <h5>Non School Days</h5>
@@ -61,7 +60,7 @@ function OffDaysList() {
                             <CircularLoader/>
                         </CenteredContent>
                         : <WithPadding>
-                            <GridViewComponent offDays={data.holidays}/>
+                            <GridViewComponent setOpen={setOpen} offDays={data.holidays}/>
                         </WithPadding>
                     }
                 </div>

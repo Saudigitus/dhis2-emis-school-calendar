@@ -8,7 +8,7 @@ import { type CardSubItemProps } from "../../types/card/CardTypes";
 import MenuComponent from "../menu/menu";
 
 export default function OffDaysCard(props: CardSubItemProps): React.ReactElement {
-  const { title, date, disabled, offDayType } = props;
+  const { title, date, disabled, offDayType, setOpen } = props;
 
   return (
     <Box>
@@ -20,7 +20,7 @@ export default function OffDaysCard(props: CardSubItemProps): React.ReactElement
       >
           <div className={style.infoSection}>
               <span className={style.title} >{title}</span>
-              <MenuComponent row={{}} />
+              <MenuComponent setOpen={setOpen} row={props} />
           </div>
           <div className={classNames(
               style.infoSection,
