@@ -26,6 +26,7 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
         options={options}
         fullWidth
         closeIcon={null}
+        className={styles["auto-complete__component"]}
         disabled={props.disabled}
         getOptionLabel={(option) => option.label}
         getOptionSelected={(option, value) => option.value === value.value}

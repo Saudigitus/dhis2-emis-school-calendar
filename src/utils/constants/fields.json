@@ -1,0 +1,65 @@
+[
+  {
+    "required": true,
+    "name": "date",
+    "labelName": "Date",
+    "Placeholder": "Date",
+    "valueType": "DATE",
+    "disabled": false,
+    "pattern": "",
+    "visible": true,
+    "description": "Date",
+    "id": "date",
+    "displayName": "Date"
+  },
+  {
+    "required": true,
+    "name": "type",
+    "labelName": "Type",
+    "Placeholder": "Non-Schoolday Type",
+    "valueType": "LIST",
+    "options": {
+      "optionSet": {
+        "options": [
+          {
+            "value": "2023",
+            "label": "2022-2023"
+          },
+          {
+            "value": "2022",
+            "label": "2021-2022"
+          },
+          {
+            "value": "2021",
+            "label": "2020-2021"
+          }
+        ]
+      }
+    },
+    "disabled": false,
+    "visible": true,
+    "description": "Type",
+    "error": false,
+    "content": "",
+    "id": "Type",
+    "displayName": "Type",
+    "header": "Type"
+  },
+  {
+    "required": true,
+    "name": "description",
+    "labelName": "Description",
+    "valueType": "TEXT",
+    "disabled": false,
+    "pattern": "",
+    "visible": true,
+    "description": "Description",
+    "searchable": false,
+    "error": false,
+    "programStage": "",
+    "content": "",
+    "id": "Description",
+    "displayName": "Description",
+    "header": "Description"
+  }
+]

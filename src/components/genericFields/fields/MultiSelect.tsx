@@ -9,7 +9,6 @@ function SelectMultiple(props: MutlipleSelectProps) {
                 className="select"
                 {...props}
                 disabled={props.disabled}
-
             >
                 {props?.options?.map(x =>
                     <MultiSelectOption key={x.value} label={x.label} value={x.value} />

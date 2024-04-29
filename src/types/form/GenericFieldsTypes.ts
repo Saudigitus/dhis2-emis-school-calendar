@@ -7,12 +7,20 @@ interface GenericFieldsComponentProps {
 }
 
 interface FormFieldsProps {
+<<<<<<< HEAD
     name: string
     disabled: boolean
     required: string | boolean
     type?: string
     optionSet?: CustomAttributeProps["options"]
     trackedEntity?: string
+=======
+    disabled: boolean
+    required: string | boolean
+    type?: string
+    name?: string
+    optionSet?: CustomAttributeProps["options"]
+>>>>>>> 61237f5748d5c7a10408db7665e9059cf5d8906d
 }
 
 interface MutlipleSelectProps {

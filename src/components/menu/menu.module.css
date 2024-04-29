@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 .menuItem:hover{
     color: inherit !important;
     text-decoration: none !important;
+=======
+.actionsContainer{
+    display: flex;
+>>>>>>> 61237f5748d5c7a10408db7665e9059cf5d8906d
 }

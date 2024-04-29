@@ -8,7 +8,6 @@ function SingleSelect(props: SingleSelectProps) {
             <SingleSelectField
                 className="select"
                 {...props}
-
             >
                 {props?.options?.map(x =>
                     <SingleSelectOption key={x.value} label={x.label} value={x.value} />
