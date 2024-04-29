@@ -11,11 +11,11 @@ export function termsFormData(): FormSectionProps[] {
         disabled: false,
         fields: [
             {
-                id: "Start date",
+                id: `startdate${section}`,
                 displayName: "Start date",
                 header: "",
                 required: false,
-                name: "Start date",
+                name: `startdate${section}`,
                 labelName: "Start date",
                 valueType: Attribute.valueType.DATE as unknown as CustomAttributeProps["valueType"],
                 visible: true,
@@ -30,11 +30,11 @@ export function termsFormData(): FormSectionProps[] {
                 type: VariablesTypes.Attribute
             },
             {
-                id: "End date",
+                id: `enddate${section}`,
                 displayName: "End date",
                 header: "",
                 required: false,
-                name: "End date",
+                name: `enddate${section}`,
                 labelName: "End date",
                 valueType: Attribute.valueType.DATE as unknown as CustomAttributeProps["valueType"],
                 visible: true,
