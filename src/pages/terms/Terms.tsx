@@ -1,11 +1,16 @@
 import React from 'react'
 import { WithPadding } from '../../components'
+import TermForm from '../../components/forms/TermForm'
+import DropdownButtonComponent from '../../components/buttons/DropdownButton'
 
 function Terms() {
   //USE SOMETHING TO GET ROUTE TERM NUMBER/ID TO RENDER CONDITIONALLY
+  // const { } = use
+  
   return (
-    <WithPadding padding="10px 30px">
-      <div>{"termId"}</div>
+    <WithPadding padding="10px">
+      <DropdownButtonComponent name='Term' options={[]} disabled={false}/>
+      <TermForm/>
     </WithPadding>
 
   )

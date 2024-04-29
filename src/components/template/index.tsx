@@ -1,2 +1,3 @@
 import WithPadding from "./WithPadding"
-export {WithPadding}
+import WithBorder from "./WithBorder"
+export {WithPadding, WithBorder}
