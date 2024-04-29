@@ -6,7 +6,7 @@ import { GroupFormProps } from "../../types/form/GroupFormProps";
 import styles from './groupform.module.css'
 
 function GroupForm(props: GroupFormProps) {
-    const { name, fields, description } = props
+    const {  fields, description } = props
 
     return (
             <WithPadding padding={"16px 5px 0px 5px"}>

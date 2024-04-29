@@ -1,7 +1,7 @@
-import { CustomAttributeProps } from "../variables/AttributeColumns"
+import { type CustomAttributeProps } from "../attributes/AttributeColumns";
 
 interface GroupFormProps {
-    name: string
+    name?: string
     description: string
     fields: CustomAttributeProps[]
     disabled: boolean

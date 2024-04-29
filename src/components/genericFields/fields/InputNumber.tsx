@@ -9,7 +9,7 @@ import {
 import React from 'react'
 import style from "./fields.module.css";
 import { FormFieldsProps } from '../../../types/form/GenericFieldsTypes';
-import { formatToString } from '../../../utils';
+import { formatToString } from './formatters';
 
 const { Field } = ReactFinalForm
 

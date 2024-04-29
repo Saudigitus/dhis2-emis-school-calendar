@@ -1,13 +1,15 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {CenteredContent, CircularLoader} from "@dhis2/ui";
 import {makeStyles} from '@material-ui/core/styles';
-import {useTableData} from '../../../hooks/tableData/useTableData';
+import {useTableData} from '../../hooks/tableData/useTableData';
 import {useRecoilState} from 'recoil';
-import GridViewComponent from '../gridView/GridViewComponent';
-import {WithPadding} from "../../template";
-import {LoadOffDays} from "../../../schema/loadSchema";
+import GridViewComponent from './gridView/GridViewComponent';
+import {WithPadding} from "../template";
+import {LoadOffDays} from "../../schema/loadSchema";
 import Button from '@material-ui/core/Button';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import NewOdffDay from "../modal/newOffDay/modalAddNewOffDay";
+import ModalComponent from "../modal/modal";
 
 // @ts-ignore
 const useStyles = makeStyles((theme) => ({
@@ -24,13 +26,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Table() {
+function OffDaysList() {
     const classes = useStyles()
     const {tableData} = useTableData()
     const [loading] = useRecoilState(LoadOffDays);
+    const [open, setOpen] = useState(false)
 
     return (
         <div style={{overflow: "hidden"}}>
+            <ModalComponent setOpen={setOpen} open={open} title={'Non School Day Register'} children={<NewOdffDay setOpen={setOpen}/>}/>
             <WithPadding padding='10px'>
                 <div className={classes.topOfTheTable}>
                     <h5>Non School Days</h5>
@@ -38,6 +42,7 @@ function Table() {
                         variant="outlined"
                         className={classes.button}
                         startIcon={<AddCircleOutlineIcon/>}
+                        onClick={() => setOpen(true)}
                     >
                         New Off Day
                     </Button>
@@ -61,4 +66,4 @@ function Table() {
     )
 }
 
-export default Table
+export default OffDaysList
