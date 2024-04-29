@@ -34,7 +34,7 @@ function OffDaysList() {
 
     return (
         <div style={{overflow: "hidden"}}>
-            <ModalComponent setOpen={setOpen} open={open} title={'Non School Day Register'} children={<NewOdffDay setOpen={setOpen}/>} />
+            <ModalComponent setOpen={setOpen} open={open} title={'Non School Day Register'} children={<NewOdffDay setOpen={setOpen}/>}/>
             <WithPadding padding='10px'>
                 <div className={classes.topOfTheTable}>
                     <h5>Non School Days</h5>
@@ -42,7 +42,7 @@ function OffDaysList() {
                         variant="outlined"
                         className={classes.button}
                         startIcon={<AddCircleOutlineIcon/>}
-                        onClick={()=>setOpen(true)}
+                        onClick={() => setOpen(true)}
                     >
                         New Off Day
                     </Button>
