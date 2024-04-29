@@ -6,7 +6,7 @@ const { Field } = ReactFinalForm;
 
 function CheckInput(props: CheckFieldProps) {
   return (
-    <div>
+    <div className="d-flex">
       <Field
         {...props}
         type="checkbox"

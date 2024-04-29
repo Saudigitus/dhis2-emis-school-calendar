@@ -4,6 +4,7 @@ interface FormSectionProps {
     section: string
     description: string
     fields: CustomAttributeProps[]
+    disabled: boolean
 }
 
 export type { FormSectionProps }

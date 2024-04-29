@@ -24,6 +24,7 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
       <Autocomplete
         {...props}
         options={options}
+        fullWidth
         closeIcon={null}
         className={styles["auto-complete__component"]}
         disabled={props.disabled}
@@ -35,7 +36,7 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
             {...params}
             variant="outlined"
             error={cliked && input.value === "" && props?.required}
-            helperText={(cliked && input.value === "" && props?.required) && "Please provide a value"}
+            helperText={(cliked && input.value === "" && (Boolean(props?.required))) && "Please provide a value"}
             size="small"
             InputProps={{
               ...params.InputProps,
@@ -51,7 +52,7 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
         }}
       />
       {
-        (cliked && input.value === "" && props?.required) && <div className={styles["alert-icon__area"]}>
+        (cliked && input.value === "" && (Boolean(props?.required))) && <div className={styles["alert-icon__area"]}>
           <ErrorIcon />
         </div>
       }
