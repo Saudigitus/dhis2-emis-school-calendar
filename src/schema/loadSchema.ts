@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-export const LoadOffDays = atom({
+export const LoadState = atom({
     key: "load-offDays",
     default: false
 })
