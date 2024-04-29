@@ -1,16 +1,12 @@
 /* eslint-disable react/prop-types */
-import { useConfig } from "@dhis2/app-runtime";
 import { Box, Card } from "@dhis2/ui";
 import React from "react";
 import style from "./Card.module.css";
 import { MoreHoriz } from "@material-ui/icons";
 import classNames from "classnames";
-import { CardSubItemProps } from "../../types/card/CardTypes";
-
-
+import { type CardSubItemProps } from "../../types/card/CardTypes";
 
 export default function OffDaysCard(props: CardSubItemProps): React.ReactElement {
-  const { baseUrl } = useConfig();
   const { title, date, disabled, offDayType } = props;
 
   return (

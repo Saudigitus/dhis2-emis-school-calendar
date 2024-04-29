@@ -22,16 +22,16 @@
       "optionSet": {
         "options": [
           {
-            "value": "2023",
-            "label": "2022-2023"
+            "value": "pHoliday",
+            "label": "Public Holiday"
           },
           {
-            "value": "2022",
-            "label": "2021-2022"
+            "value": "anniversary",
+            "label": "School Anniversary"
           },
           {
-            "value": "2021",
-            "label": "2020-2021"
+            "value": "other",
+            "label": "Other"
           }
         ]
       }
@@ -47,19 +47,19 @@
   },
   {
     "required": true,
-    "name": "description",
-    "labelName": "Description",
+    "name": "event",
+    "labelName": "Event",
     "valueType": "TEXT",
     "disabled": false,
     "pattern": "",
     "visible": true,
-    "description": "Description",
+    "description": "Event",
     "searchable": false,
     "error": false,
     "programStage": "",
     "content": "",
-    "id": "Description",
-    "displayName": "Description",
-    "header": "Description"
+    "id": "Event",
+    "displayName": "Event",
+    "header": "Event"
   }
 ]

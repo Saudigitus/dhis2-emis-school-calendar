@@ -1,7 +1,7 @@
 import React from 'react'
 import { CenteredContent, CircularLoader } from "@dhis2/ui";
 import { useDataStore } from '../hooks/appwarapper/useDataStore';
-import { AppConfigurationsProps } from '../types/app/AppConfigurationsProps';
+import { type AppConfigurationsProps } from '../types/app/AppConfigurationsProps';
 
 export default function AppWrapper(props: AppConfigurationsProps) {
     const { error, loading } = useDataStore()

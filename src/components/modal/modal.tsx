@@ -15,7 +15,6 @@ function ModalComponent({
   title,
   children
 }: ModalProps): React.ReactElement {
-
   return (
     <div>
       {open && <Modal

@@ -1,7 +1,7 @@
-import { atom } from "recoil"
-import { dataStoreRecord } from "../types/dataStore/DataStoreConfig"
+import {atom} from "recoil"
+import {type dataStoreRecord} from "../types/dataStore/DataStoreConfig"
 
-export const DataStoreState = atom<dataStoreRecord[]>({
+export const DataStoreState = atom<dataStoreRecord>({
     key: "dataStore-get-state",
-    default: []
+    default: Object()
 })
