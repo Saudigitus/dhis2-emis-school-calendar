@@ -1,0 +1,190 @@
+import { FormSectionProps } from "../../types/form/FormSectionProps";
+import { Attribute } from "../../types/generated/models";
+import { CustomAttributeProps, VariablesTypes } from "../../types/variables/AttributeColumns";
+
+export function generalDetailsFormData(): FormSectionProps[] {
+
+    return [
+        {
+            section: "Period",
+            description: "",
+            disabled: false,
+            fields: [
+                {
+                    id: `startdate`,
+                    displayName: "Start date",
+                    header: "",
+                    required: false,
+                    name: `startdate`,
+                    labelName: "Start date",
+                    valueType: Attribute.valueType.DATE as unknown as CustomAttributeProps["valueType"],
+                    visible: true,
+                    disabled: false,
+                    pattern: '',
+                    searchable: false,
+                    error: false,
+                    content: '',
+                    key: "",
+                    unique: true,
+                    displayInFilters: true,
+                    type: VariablesTypes.Attribute
+                },
+                {
+                    id: `enddate`,
+                    displayName: "End date",
+                    header: "",
+                    required: false,
+                    name: `enddate`,
+                    labelName: "End date",
+                    valueType: Attribute.valueType.DATE as unknown as CustomAttributeProps["valueType"],
+                    visible: true,
+                    disabled: false,
+                    pattern: '',
+                    searchable: false,
+                    error: false,
+                    content: '',
+                    key: "",
+                    unique: true,
+                    displayInFilters: true,
+                    type: VariablesTypes.Attribute
+                }
+            ]
+        },
+        {
+            section: "School days",
+            description: "",
+            disabled: false,
+            fields: [
+                {
+                    id: `monday`,
+                    displayName: "Monday",
+                    header: "",
+                    required: false,
+                    name: `monday`,
+                    labelName: "Monday",
+                    valueType: Attribute.valueType.BOOLEAN as unknown as CustomAttributeProps["valueType"],
+                    visible: true,
+                    disabled: false,
+                    pattern: '',
+                    searchable: false,
+                    error: false,
+                    content: '',
+                    key: "",
+                    unique: true,
+                    displayInFilters: true,
+                    type: VariablesTypes.Attribute
+                },
+                {
+                    id: `tuesday`,
+                    displayName: "Tuesday",
+                    header: "",
+                    required: false,
+                    name: `tuesday`,
+                    labelName: "Tuesday",
+                    valueType: Attribute.valueType.BOOLEAN as unknown as CustomAttributeProps["valueType"],
+                    visible: true,
+                    disabled: false,
+                    pattern: '',
+                    searchable: false,
+                    error: false,
+                    content: '',
+                    key: "",
+                    unique: true,
+                    displayInFilters: true,
+                    type: VariablesTypes.Attribute
+                },                {
+                    id: `wednesday`,
+                    displayName: "Wednesday",
+                    header: "",
+                    required: false,
+                    name: `wednesday`,
+                    labelName: "Wednesday",
+                    valueType: Attribute.valueType.BOOLEAN as unknown as CustomAttributeProps["valueType"],
+                    visible: true,
+                    disabled: false,
+                    pattern: '',
+                    searchable: false,
+                    error: false,
+                    content: '',
+                    key: "",
+                    unique: true,
+                    displayInFilters: true,
+                    type: VariablesTypes.Attribute
+                },                {
+                    id: `thursday`,
+                    displayName: "Thursday",
+                    header: "",
+                    required: false,
+                    name: `thursday`,
+                    labelName: "Thursday",
+                    valueType: Attribute.valueType.BOOLEAN as unknown as CustomAttributeProps["valueType"],
+                    visible: true,
+                    disabled: false,
+                    pattern: '',
+                    searchable: false,
+                    error: false,
+                    content: '',
+                    key: "",
+                    unique: true,
+                    displayInFilters: true,
+                    type: VariablesTypes.Attribute
+                },                {
+                    id: `friday`,
+                    displayName: "Friday",
+                    header: "",
+                    required: false,
+                    name: `friday`,
+                    labelName: "Friday",
+                    valueType: Attribute.valueType.BOOLEAN as unknown as CustomAttributeProps["valueType"],
+                    visible: true,
+                    disabled: false,
+                    pattern: '',
+                    searchable: false,
+                    error: false,
+                    content: '',
+                    key: "",
+                    unique: true,
+                    displayInFilters: true,
+                    type: VariablesTypes.Attribute
+                },                {
+                    id: `saturday`,
+                    displayName: "Saturday",
+                    header: "",
+                    required: false,
+                    name: `saturday`,
+                    labelName: "Saturday",
+                    valueType: Attribute.valueType.BOOLEAN as unknown as CustomAttributeProps["valueType"],
+                    visible: true,
+                    disabled: false,
+                    pattern: '',
+                    searchable: false,
+                    error: false,
+                    content: '',
+                    key: "",
+                    unique: true,
+                    displayInFilters: true,
+                    type: VariablesTypes.Attribute
+                },                {
+                    id: `sunday`,
+                    displayName: "Sunday",
+                    header: "",
+                    required: false,
+                    name: `sunday`,
+                    labelName: "Sunday",
+                    valueType: Attribute.valueType.BOOLEAN as unknown as CustomAttributeProps["valueType"],
+                    visible: true,
+                    disabled: false,
+                    pattern: '',
+                    searchable: false,
+                    error: false,
+                    content: '',
+                    key: "",
+                    unique: true,
+                    displayInFilters: true,
+                    type: VariablesTypes.Attribute
+                }
+            ]
+        }
+    ]
+
+}

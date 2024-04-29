@@ -1,11 +1,11 @@
 import React from 'react'
 import { WithPadding } from '../../components'
-import OffDaysCard from "../../components/card/CardComponent";
+import GeneralDetailsForm from '../../components/forms/GeneralDetailsForm'
 
 function GeneralDetails() {
   return (
     <WithPadding padding="10px 30px">
-      <div>GeneralDetails</div>
+      <GeneralDetailsForm/>
     </WithPadding>
   )
 }
