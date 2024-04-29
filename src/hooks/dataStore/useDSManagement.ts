@@ -26,7 +26,7 @@ export const dataStoreManagement = () => {
             },
             onComplete() {
                 show({
-                    message: `Data saved successfully`,
+                    message: `Data updated successfully`,
                     type: {success: true}
                 });
                 setTimeout(hide, 5000);
@@ -34,7 +34,7 @@ export const dataStoreManagement = () => {
             },
             onError(error) {
                 show({
-                    message: `Could not create data: ${error.message}`,
+                    message: `Could not update data: ${error.message}`,
                     type: {critical: true}
                 });
                 setTimeout(hide, 5000);
