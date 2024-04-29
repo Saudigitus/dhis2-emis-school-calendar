@@ -4,7 +4,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import GridViewComponent from './gridView/GridViewComponent';
 import {WithPadding} from "../template";
-import {LoadState} from "../../schema/loadSchema";
 import Button from '@material-ui/core/Button';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import NewOdffDay from "../modal/newOffDay/modalAddNewOffDay";
