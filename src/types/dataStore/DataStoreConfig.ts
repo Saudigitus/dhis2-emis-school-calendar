@@ -2,27 +2,28 @@ interface defaults {
     currentAcademicYear: string
 }
 
+interface ClassPeriodType {
+    key: string
+    description: string
+    endDate: string
+    startDate: string
+}
+
+interface HolidayType {
+    date: Date
+    event: string
+    type: string
+}
+
 interface dataStoreRecord {
     key: string
     defaults: defaults
-    classPeriods: [
-        {
-            "description": string
-            "endDate": Date
-            "startDate": Date
-        }
-    ]
-    academicYear: {
+academicYear: {
         "endDate": Date
         "startDate": Date
     }
-    holidays: [
-        {
-            "date": Date
-            "event": string
-            "type": string
-        }
-    ]
+    classPeriods: ClassPeriodType[]
+    holidays: HolidayType[]
     weekDays: {
         "friday": boolean
         "monday": boolean
@@ -34,4 +35,4 @@ interface dataStoreRecord {
     }
 }
 
-export type {dataStoreRecord}
+export type { dataStoreRecord, ClassPeriodType, HolidayType }
