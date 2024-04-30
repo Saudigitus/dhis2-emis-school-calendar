@@ -35,6 +35,7 @@ export interface CustomAttributeProps {
     trackedEntity?: string
     placeholder?: string
     unique?: boolean
+    radio?: boolean
 }
 
 export interface OptionsProps {

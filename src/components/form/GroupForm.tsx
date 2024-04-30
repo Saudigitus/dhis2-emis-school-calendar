@@ -16,7 +16,7 @@ function GroupForm(props: GroupFormProps) {
                     {fields?.filter(x => x.visible)?.map((x, i) => {
                         return (
                             <div className="row d-flex align-items-center" key={i}
-                                style={{ display: "flex", padding: (x.error ?? false) ? "8px 8px 8px 12px" : "8px 8px 8px 5px", backgroundColor: (x.error === true) ? "#FBEAE5" : i % 2 === 0 ? "#ebf0f6" : "#FFFF", height: (x.error ?? false) ? 102 : "auto" }}>
+                                style={{ display: "flex", padding: (x.error ?? false) ? "8px 8px 8px 12px" : "8px 8px 8px 5px", backgroundColor: (x.error === true) ? "#FBEAE5" : "", height: (x.error ?? false) ? 102 : "auto" }}>
                                 <div className="col-12 col-md-6 d-flex">
                                     <Label className={styles.label}>
                                         {x.labelName} {(x.required === true) ? " *" : ""}

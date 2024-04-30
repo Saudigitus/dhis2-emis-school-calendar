@@ -6,34 +6,31 @@ import GroupForm from "../../form/GroupForm";
 import fields from "../../../utils/constants/fields.json";
 import i18n from "../../../locales";
 import {dataStoreManagement} from "../../../hooks/dataStore/useDSManagement";
-import {useRecoilValue} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import {DataStoreState} from "../../../schema/dataStoreSchema";
+import {editState} from "../../../schema/editDataSchema";
 
 interface ContentProps {
     setOpen: (value: boolean) => void
 }
 
 export default function NewOdffDay({setOpen}: ContentProps): React.ReactElement {
-    const {
-        postData,
-        loading
-    } = dataStoreManagement()
+    const { postData, loading} = dataStoreManagement()
     const dataStoreData = useRecoilValue(DataStoreState)
+    const [selectedCard, setSelectedCard] = useRecoilState(editState)
 
     const modalActions = [
         {
             id: "cancel",
             type: "Cancel",
             label: i18n.t("Cancel"),
-            white: true,
-            disabled: loading
+            white: true
         },
         {
             id: "save",
             type: "button",
             label: i18n.t("Save"),
             primary: true,
-            disabled: loading,
             icon: loading && <CircularLoader small/>
         }
     ];
@@ -44,10 +41,22 @@ export default function NewOdffDay({setOpen}: ContentProps): React.ReactElement 
                 setOpen(false)
                 break
             case "save":
+                let copy = [...dataStoreData.holidays]
+
+                if (selectedCard.edit) {
+                    copy[selectedCard?.data?.index] = values
+                } else {
+                    copy.push(values)
+                }
+
                 void postData({
                     ...dataStoreData,
-                    holidays: [...dataStoreData.holidays, values]
-                }).then(() => { setOpen(false); })
+                    holidays: [...copy]
+                }).then(() => {
+                    setOpen(false);
+                    if (selectedCard.edit) setSelectedCard({edit: false, data: Object()})
+                })
+
                 break
         }
     }
@@ -57,10 +66,10 @@ export default function NewOdffDay({setOpen}: ContentProps): React.ReactElement 
       <span>
         {i18n.t("To register new off day, please fill out the form")}
       </span>
-            <Form initialValues={{}} onSubmit={() => {
+            <Form initialValues={selectedCard.edit ? {date: selectedCard.data.date, type: selectedCard.data.type, event: selectedCard.data.title} : {}} onSubmit={() => {
             }}
             >
-                {({values}) => {
+                {({values, pristine}) => {
                     return (
                         <form>
                             <br/>
@@ -74,7 +83,7 @@ export default function NewOdffDay({setOpen}: ContentProps): React.ReactElement 
                             <ModalActions>
                                 <ButtonStrip end>
                                     {modalActions.map((action, i) => (
-                                        <Button key={i} {...action} onClick={(e: any) => {
+                                        <Button key={i} disabled={loading || pristine} {...action} onClick={(e: any) => {
                                             actions(action.id, values)
                                         }}>
                                             {action.label}
