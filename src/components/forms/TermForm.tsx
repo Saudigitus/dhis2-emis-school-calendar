@@ -17,9 +17,8 @@ function TermForm(): React.ReactElement {
     const dataStoreRecord = useRecoilValue(DataStoreState)
     const classPeriod = dataStoreRecord?.classPeriods?.find((x: ClassPeriodType) => x.key === location.pathname.slice(1))
     const [initialValues, setInitailValues] = useState<object>({ ...termsInitalValues(classPeriod?.startDate, classPeriod?.endDate) })
-    const { postData, loading } = dataStoreManagement()
+    const { postData, loading, } = dataStoreManagement()
     const [disabled, setDisabled] = useState<boolean>(true)
-    const [fieldsWitValue, setFieldsWitValues] = useState<any[]>([])
     const [clickedButton, setClickedButton] = useState<string>("");
     const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> = useRef(null);
     const [values, setValues] = useState<Record<string, string>>({ ...initialValues })
@@ -28,30 +27,40 @@ function TermForm(): React.ReactElement {
         setInitailValues({ ...termsInitalValues(classPeriod?.startDate, classPeriod?.endDate) })
     }, [classPeriod])
 
+    useEffect(() => {
+        if (clickedButton === "save")
+            setDisabled(true)
+    }, [loading])
+
     const modalActions = [
-        { id: "enable", type: "button", label: "Edit", primary: true, disabled: false, onClick: () => { setDisabled(!disabled) }, display: disabled },
-        { id: "cancel", type: "button", label: "Cancel", secondary: true, disabled: false, onClick: () => { setDisabled(!disabled) }, display: !disabled },
-        { id: "save", type: "submit", label: "Save", primary: true, disabled: false, onClick: () => { setDisabled(!disabled) }, display: !disabled }
+        { id: "enable", type: "button", label: "Edit", primary: true, disabled: false, onClick: () => { setDisabled(!disabled); setClickedButton("enable") }, display: disabled },
+        { id: "cancel", type: "button", label: "Cancel", secondary: true, disabled: false, onClick: () => { setDisabled(!disabled); setClickedButton("cancel") }, display: !disabled },
+        { id: "save", type: "submit", label: "Save", primary: true, disabled: false, onClick: () => { setClickedButton("save") }, display: !disabled }
     ];
 
-    console.log(values)
+    const formatClassPeriods = (data: ClassPeriodType[], values: any, selectedTermKey: string) => {
+        const selectedTermIndex = data.findIndex((x: ClassPeriodType) => x.key === selectedTermKey);
 
+        if (selectedTermIndex === -1)
+            return data;
 
-    const formatClassPeriods = (data: ClassPeriodType[], values: any) => {
-        const selectedTerm = data.find((x: ClassPeriodType) => x.key === location.pathname.slice(1))
+        const updatedSelectedTerm = {
+            ...data[selectedTermIndex],
+            startDate: values['class_startdate'],
+            endDate: values['class_enddate']
+        };
 
-        return [
-            ...data,
-            { ...selectedTerm, startDate: values['class_startdate'], endDate: values['class_enddate'] }
-        ]
+        const newData = [...data];
+        newData[selectedTermIndex] = updatedSelectedTerm;
+
+        return newData;
     }
 
     function onSubmit() {
         void postData({
             ...dataStoreRecord,
-            classPeriods: [...dataStoreRecord.holidays, values]
+            classPeriods: formatClassPeriods(dataStoreRecord.classPeriods, values, classPeriod?.key)
         })
-            .then(() => { })
     }
 
     function onChange(changeValues: any) {
@@ -85,7 +94,7 @@ function TermForm(): React.ReactElement {
 
                                             <Button
                                                 key={i}
-                                                loading={false}
+                                                loading={loading}
                                                 {...action}
                                             >
                                                 {action.label}
