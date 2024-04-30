@@ -9,9 +9,14 @@ interface dataStoreRecord {
         {
             "description": string
             "endDate": Date
+            "key": string
             "startDate": Date
         }
     ]
+    academicYear: {
+        "endDate": Date
+        "startDate": Date
+    }
     holidays: [
         {
             "date": Date

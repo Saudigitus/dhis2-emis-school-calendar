@@ -10,11 +10,11 @@ export function generalDetailsFormData(): FormSectionProps[] {
             disabled: false,
             fields: [
                 {
-                    id: `startdate`,
+                    id: `startDate`,
                     displayName: "Start date",
                     header: "",
                     required: false,
-                    name: `startdate`,
+                    name: `startDate`,
                     labelName: "Start date",
                     valueType: Attribute.valueType.DATE as unknown as CustomAttributeProps["valueType"],
                     visible: true,
@@ -29,11 +29,11 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     type: VariablesTypes.Attribute
                 },
                 {
-                    id: `enddate`,
+                    id: `endDate`,
                     displayName: "End date",
                     header: "",
                     required: false,
-                    name: `enddate`,
+                    name: `endDate`,
                     labelName: "End date",
                     valueType: Attribute.valueType.DATE as unknown as CustomAttributeProps["valueType"],
                     visible: true,

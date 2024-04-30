@@ -18,18 +18,20 @@ export const dataStoreManagement = () => {
     const [loading, setloading] = useState(false)
     const {refetch} = useDataStore()
 
-    async function postData(data: any): Promise<void> {
+    async function postData(data: any, msg: string | null): Promise<void> {
         setloading(true)
         await engine.mutate(DATASTOREQUERY, {
             variables: {
                 data: data
             },
             onComplete() {
-                show({
-                    message: `Data updated successfully`,
-                    type: {success: true}
-                });
-                setTimeout(hide, 5000);
+                if (msg !== null) {
+                    show({
+                        message: msg,
+                        type: {success: true}
+                    });
+                    setTimeout(hide, 5000);
+                }
                 void refetch()
             },
             onError(error) {
