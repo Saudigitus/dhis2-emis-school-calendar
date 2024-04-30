@@ -60,7 +60,7 @@ function TermForm(): React.ReactElement {
         void postData({
             ...dataStoreRecord,
             classPeriods: formatClassPeriods(dataStoreRecord.classPeriods, values, classPeriod?.key)
-        })
+        }, 'Data updated successfully')
     }
 
     function onChange(changeValues: any) {
