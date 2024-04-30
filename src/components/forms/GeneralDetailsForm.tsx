@@ -4,17 +4,15 @@ import {generalDetailsFormData} from "../../utils/constants/generalDetailsFormDa
 import {type FormSectionProps} from "../../types/form/FormSectionProps";
 import GroupForm from "../groupForm/GroupForm";
 import {Form} from "react-final-form"
-import {useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilValue} from "recoil";
 import {DataStoreState} from "../../schema/dataStoreSchema";
 import {dataStoreManagement} from "../../hooks/dataStore/useDSManagement";
 import {type dataStoreRecord} from "../../types/dataStore/DataStoreConfig";
-import {showFeedBackState} from "../../schema/responseSchema";
 
 function GeneralDetailsForm(): React.ReactElement {
     const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> = useRef(null);
     const dataStoreData = useRecoilValue(DataStoreState)
     const {postData} = dataStoreManagement()
-    const setFeedBak = useSetRecoilState(showFeedBackState)
 
     function getValues(formValues: dataStoreRecord['weekDays'] | dataStoreRecord ['academicYear'], dataStoreKey: any) {
         const updatedValues: any = {}
@@ -29,12 +27,12 @@ function GeneralDetailsForm(): React.ReactElement {
         return updatedValues
     }
 
-    function onChange(e: any, visited: any) {
+    function onChange(e: any, active: any) {
         void postData({
             ...dataStoreData,
             weekDays: getValues(e, dataStoreData.weekDays),
             academicYear: getValues(e, dataStoreData.academicYear)
-        }, 'Data saved successfuly')
+        }, dataStoreData.academicYear?.[active] ? 'Data saved successfuly' : null)
     }
 
     return (
@@ -45,13 +43,13 @@ function GeneralDetailsForm(): React.ReactElement {
                       handleSubmit,
                       values,
                       form,
-                      visited
+                    active
                   }) => {
                     formRef.current = form;
                     return <form
                         onSubmit={handleSubmit}
                         onChange={() => {
-                            onChange(values, visited)
+                            onChange(values, active)
                         }}
                     >
                         {generalDetailsFormData()?.map((section: FormSectionProps, index: number) => {

@@ -9,7 +9,6 @@ interface dataStoreRecord {
         {
             "description": string
             "endDate": Date
-            "key": string
             "startDate": Date
         }
     ]
