@@ -22,16 +22,12 @@
       "optionSet": {
         "options": [
           {
-            "value": "pHoliday",
+            "value": "public_holiday",
             "label": "Public Holiday"
           },
           {
-            "value": "anniversary",
-            "label": "School Anniversary"
-          },
-          {
-            "value": "other",
-            "label": "Other"
+            "value": "special_events",
+            "label": "Special Events"
           }
         ]
       }

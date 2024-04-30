@@ -52,7 +52,7 @@ export default function NewOdffDay({setOpen}: ContentProps): React.ReactElement 
                 void postData({
                     ...dataStoreData,
                     holidays: [...copy]
-                }).then(() => {
+                }, 'Off day registered successfully').then(() => {
                     setOpen(false);
                     if (selectedCard.edit) setSelectedCard({edit: false, data: Object()})
                 })
