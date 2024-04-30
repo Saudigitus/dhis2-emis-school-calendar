@@ -2,9 +2,9 @@
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 1.25rem;
     line-height: 24px;
-    color: #1A557F;
+    /* color: #1A557F; */
 }
 
 .title {

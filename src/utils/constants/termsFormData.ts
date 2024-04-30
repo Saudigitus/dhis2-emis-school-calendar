@@ -7,8 +7,8 @@ export function termsFormData(disabled: boolean): FormSectionProps[] {
 
     return [
         {
-            section: "Class days",
-            description: "",
+            section: "",
+            description: "Register class stard and end days.",
             disabled: disabled,
             fields: [
                 {
@@ -151,11 +151,13 @@ export function termsFormData(disabled: boolean): FormSectionProps[] {
 
 }
 
-export const termsInitalValues = {
-    class_startdate: format(new Date(), "yyyy-MM-dd"),
-    class_enddate: format(new Date(), "yyyy-MM-dd"),
+export const termsInitalValues = (startDate: any, endDate: any) => {
+    return {
+    class_startdate: format(new Date(startDate), "yyyy-MM-dd"),
+    class_enddate: format(new Date(endDate), "yyyy-MM-dd"),
     // exam_startdate: format(new Date(), "yyyy-MM-dd"),
     // exam_enddate: format(new Date(), "yyyy-MM-dd"),
     // break_startdate: format(new Date(), "yyyy-MM-dd"),
     // break_enddate: format(new Date(), "yyyy-MM-dd"),
+}
 }
