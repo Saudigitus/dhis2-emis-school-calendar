@@ -1,6 +1,6 @@
 const config = {
     type: 'app',
-    name: 'SEMIS',
+    name: 'SEMIS-School-Calendar',
     description: 'SEMIS',
 
     entryPoints: {
