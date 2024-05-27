@@ -3,8 +3,8 @@ import { Label } from "@dhis2/ui";
 import classNames from "classnames";
 import styles from "./groupform.module.css";
 import { WithPadding, GenericFields, Subtitle } from "../index";
-import {type GroupFormProps } from "../../types/form/GroupFormProps";
-import {Attribute} from "../../types/generated/models";
+import { type GroupFormProps } from "../../types/form/GroupFormProps";
+import { Attribute } from "../../types/generated/models";
 
 function GroupForm(props: GroupFormProps) {
     const { name, fields, description } = props
@@ -44,8 +44,7 @@ function GroupForm(props: GroupFormProps) {
                             </div>
                         </div>
                     )
-                }
-                )}
+                })}
             </WithPadding>
         </WithPadding>
     )
