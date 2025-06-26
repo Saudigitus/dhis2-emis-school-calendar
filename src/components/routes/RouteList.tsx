@@ -1,7 +1,8 @@
 import { Navigate } from "react-router-dom";
 import React from "react";
 import { SideBarLayout, SimpleLayout } from "../../layout"
-import { GeneralDetails, NonSchoolDays,Terms} from "../../pages";
+import { GeneralDetails, NonSchoolDays, Terms } from "../../pages";
+import HomePage from "../../pages/home/HomePage";
 
 export default function RouteList() {
     return [
@@ -14,6 +15,11 @@ export default function RouteList() {
             path: "/generalDetails",
             layout: SideBarLayout,
             component: GeneralDetails
+        },
+        {
+            path: "/home",
+            layout: SideBarLayout,
+            component: HomePage
         },
         {
             path: "/non-school-days",
