@@ -5,6 +5,70 @@ import { type CustomAttributeProps, VariablesTypes } from "../../types/variables
 export function generalDetailsFormData(): FormSectionProps[] {
     return [
         {
+            section: "General Details",
+            description: "",
+            disabled: false,
+            fields: [
+                {
+                    id: `startDate`,
+                    displayName: "Academic year",
+                    header: "",
+                    required: false,
+                    name: `startDate`,
+                    labelName: "Academic year",
+                    valueType: Attribute.valueType.TEXT as unknown as CustomAttributeProps["valueType"],
+                    visible: true,
+                    disabled: false,
+                    pattern: '',
+                    searchable: false,
+                    error: false,
+                    content: '',
+                    key: "",
+                    unique: true,
+                    displayInFilters: true,
+                    type: VariablesTypes.Attribute
+                },
+                {
+                    id: `endDate`,
+                    displayName: "Type",
+                    header: "",
+                    required: false,
+                    name: `endDate`,
+                    labelName: "Type",
+                    valueType: Attribute.valueType.TEXT as unknown as CustomAttributeProps["valueType"],
+                    visible: true,
+                    disabled: false,
+                    pattern: '',
+                    searchable: false,
+                    error: false,
+                    content: '',
+                    key: "",
+                    unique: true,
+                    displayInFilters: true,
+                    type: VariablesTypes.Attribute
+                },
+                {
+                    id: `endDate`,
+                    displayName: "Description",
+                    header: "",
+                    required: false,
+                    name: `endDate`,
+                    labelName: "Description",
+                    valueType: Attribute.valueType.TEXT as unknown as CustomAttributeProps["valueType"],
+                    visible: true,
+                    disabled: false,
+                    pattern: '',
+                    searchable: false,
+                    error: false,
+                    content: '',
+                    key: "",
+                    unique: true,
+                    displayInFilters: true,
+                    type: VariablesTypes.Attribute
+                }
+            ]
+        },
+        {
             section: "Period",
             description: "",
             disabled: false,

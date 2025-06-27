@@ -3,6 +3,7 @@ import React from "react";
 import { SideBarLayout, SimpleLayout } from "../../layout"
 import { GeneralDetails, NonSchoolDays, Terms } from "../../pages";
 import HomePage from "../../pages/home/HomePage";
+import MainPage from "../../pages/main/MainPage";
 
 export default function RouteList() {
     return [
@@ -20,6 +21,11 @@ export default function RouteList() {
             path: "/home",
             layout: SideBarLayout,
             component: HomePage
+        },
+        {
+            path: "/main",
+            layout: SideBarLayout,
+            component: MainPage
         },
         {
             path: "/non-school-days",

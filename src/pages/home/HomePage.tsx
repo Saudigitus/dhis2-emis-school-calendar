@@ -3,6 +3,7 @@ import { DataTable, TableHead, DataTableRow, DataTableColumnHeader, TableBody, D
 import { Container } from 'react-bootstrap';
 import { More, MoreVert, AddCircleOutline } from '@material-ui/icons';
 import { IconButton, Button } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
     return (
@@ -14,6 +15,9 @@ function HomePage() {
                     variant="outlined"
                     startIcon={<AddCircleOutline />}
                     className="mb-2"
+                    // onClick={() => {
+                    //     navigate('/main')
+                    // }}
                 >
                     New School Calendar
                 </Button>
