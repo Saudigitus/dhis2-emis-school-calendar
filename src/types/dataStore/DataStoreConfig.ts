@@ -16,11 +16,16 @@ interface HolidayType {
 }
 
 interface dataStoreRecord {
+    id: string
     key: string
     defaults: defaults
-academicYear: {
+    academicYear: {
         "endDate": Date
         "startDate": Date
+        "code": string
+        "label": string
+        "description": string
+        "type": string
     }
     classPeriods: ClassPeriodType[]
     holidays: HolidayType[]

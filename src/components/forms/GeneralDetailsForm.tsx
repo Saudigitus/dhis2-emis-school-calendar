@@ -8,11 +8,13 @@ import { useRecoilValue } from "recoil";
 import { DataStoreState } from "../../schema/dataStoreSchema";
 import { dataStoreManagement } from "../../hooks/dataStore/useDSManagement";
 import { type dataStoreRecord } from "../../types/dataStore/DataStoreConfig";
+import { useParams } from "react-router-dom";
 
 function GeneralDetailsForm(): React.ReactElement {
     const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> = useRef(null);
     const dataStoreData = useRecoilValue(DataStoreState)
     const { postData } = dataStoreManagement()
+    const { id } = useParams();
 
     function getValues(formValues: dataStoreRecord['weekDays'] | dataStoreRecord['academicYear'], dataStoreKey: any) {
         const updatedValues: any = {}
@@ -29,15 +31,15 @@ function GeneralDetailsForm(): React.ReactElement {
 
     function onChange(e: any) {
         void postData({
-            ...dataStoreData,
-            weekDays: getValues(e, dataStoreData.weekDays),
-            academicYear: getValues(e, dataStoreData.academicYear)
+            ...dataStoreData.find((x) => x.id === id),
+            weekDays: getValues(e, dataStoreData?.find((x) => x.id === id)?.weekDays || {}),
+            academicYear: getValues(e, dataStoreData?.find((x) => x.id === id)?.academicYear)
         }, 'Data updated successfuly')
     }
 
     return (
         <WithPadding padding="5px">
-            <Form initialValues={{ ...dataStoreData.weekDays, ...dataStoreData.academicYear }} onSubmit={() => {
+            <Form initialValues={{ ...dataStoreData?.find((x) => x.id === id)?.weekDays, ...dataStoreData?.find((x) => x.id === id)?.academicYear }} onSubmit={() => {
             }}>
                 {({ handleSubmit, values, form, initialValues }) => {
                     formRef.current = form;

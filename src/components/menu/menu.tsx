@@ -1,23 +1,23 @@
 import React from 'react';
 import Item from './menuItem';
 import styles from './menu.module.css'
-import {Delete, Edit, MoreHoriz} from '@material-ui/icons';
-import {CircularLoader} from "@dhis2/ui";
+import { Delete, Edit, MoreHoriz } from '@material-ui/icons';
+import { CircularLoader } from "@dhis2/ui";
 import AlertDialog from '../confirm/confirm';
-import {IconButton, MenuList, Popover} from "@material-ui/core";
-import {useSetRecoilState} from "recoil";
-import {editState} from "../../schema/editDataSchema";
+import { IconButton, MenuList, Popover } from "@material-ui/core";
+import { useSetRecoilState } from "recoil";
+import { editState } from "../../schema/editDataSchema";
 
 const options = [
     {
-        icon: <Edit/>,
+        icon: <Edit />,
         label: "Edit",
         link: "/edit",
         className: styles.edit_option,
         type: "edit"
     },
     {
-        icon: <Delete/>,
+        icon: <Delete />,
         label: "Delete",
         link: "/delete",
         className: styles.delete_option,
@@ -26,9 +26,9 @@ const options = [
 ]
 
 export default function MenuComponent({
-                                          row,
-                                          setOpen
-                                      }: { row: any, setOpen: (value: boolean) => void }) {
+    row,
+    setOpen
+}: { row: any, setOpen: (value: boolean) => void }) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [confirm, setConfirm] = React.useState<boolean>(false);
     const open = Boolean(anchorEl);
@@ -59,10 +59,10 @@ export default function MenuComponent({
         <div>
             <IconButton
                 onClick={handleClick}
-                style={{marginTop: '-10px'}}
+                style={{ marginTop: '-10px' }}
             >
                 {/* <CircularLoader small /> : */}
-                <MoreHoriz/>
+                <MoreHoriz />
             </IconButton>
 
             <Popover
@@ -78,7 +78,7 @@ export default function MenuComponent({
                     horizontal: 'left'
                 }}
             >
-                <MenuList style={{maxWidth: '100%'}}>
+                <MenuList style={{ maxWidth: '100%' }}>
                     {options.map((option) =>
                         <Item
                             row={row}
@@ -88,7 +88,7 @@ export default function MenuComponent({
                     )}
                 </MenuList>
             </Popover>
-            <AlertDialog row={row} open={confirm} setOpen={setConfirm}/>
+            <AlertDialog row={row} open={confirm} setOpen={setConfirm} />
         </div>
     );
 }

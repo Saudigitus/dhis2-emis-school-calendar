@@ -1,0 +1,87 @@
+[
+
+  {
+    "required": true,
+    "name": "type",
+    "labelName": "Type",
+    "header": "Type",
+    "Placeholder": "Select type of configuration",
+    "valueType": "LIST",
+    "disabled": false,
+    "pattern": "",
+    "visible": true,
+    "description": "Type",
+    "id": "type",
+    "options": {
+      "optionSet": {
+        "options": [
+          {
+            "value": "student",
+            "label": "Student"
+          },
+          {
+            "value": "staff",
+            "label": "Staff"
+          }
+        ]
+      }
+    },
+    "displayName": "Type"
+  },
+    {
+    "required": true,
+    "name": "academicYear",
+    "labelName": "Select academic year",
+    "header": "Academic year",
+    "Placeholder": "Academic year",
+    "valueType": "LIST",
+    "disabled": true,
+    "pattern": "",
+    "visible": true,
+    "description": "Academic year",
+    "id": "academicYear",
+    "displayName": "Academic year"
+  },
+  {
+    "required": false,
+    "name": "description",
+    "labelName": "Description",
+    "header": "Description",
+    "Placeholder": "Description you configuration",
+    "valueType": "TEXT",
+    "disabled": false,
+    "pattern": "",
+    "visible": true,
+    "description": "Description",
+    "id": "description",
+    "displayName": "Description"
+  },
+  {
+    "required": true,
+    "name": "startDate",
+    "labelName": "Start date",
+    "header": "Start date",
+    "Placeholder": "Start date",
+    "valueType": "DATE",
+    "disabled": false,
+    "pattern": "",
+    "visible": true,
+    "description": "Start date",
+    "id": "startDate",
+    "displayName": "Start date"
+  },
+  {
+    "required": true,
+    "name": "endDate",
+    "labelName": "End date",
+    "header": "End date",
+    "Placeholder": "End date",
+    "valueType": "DATE",
+    "disabled": false,
+    "pattern": "",
+    "visible": true,
+    "description": "End date",
+    "id": "endDate",
+    "displayName": "End date"
+  }
+]

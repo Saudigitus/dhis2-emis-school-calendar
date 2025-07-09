@@ -1,8 +1,8 @@
 import { Navigate } from "react-router-dom";
 import React from "react";
-import { SideBarLayout, SimpleLayout } from "../../layout"
+import { SideBarLayout, SimpleLayout } from "../../layout";
 import { GeneralDetails, NonSchoolDays, Terms } from "../../pages";
-import HomePage from "../../pages/home/HomePage";
+import HomePage from "../../pages/home/Home";
 import MainPage from "../../pages/main/MainPage";
 
 export default function RouteList() {
@@ -10,7 +10,7 @@ export default function RouteList() {
         {
             path: "/",
             layout: SimpleLayout,
-            component: () => <Navigate to="/generalDetails" replace />
+            component: () => <Navigate to="/home" replace />
         },
         {
             path: "/generalDetails",
@@ -19,12 +19,12 @@ export default function RouteList() {
         },
         {
             path: "/home",
-            layout: SideBarLayout,
+            layout: SimpleLayout,
             component: HomePage
         },
         {
-            path: "/main",
-            layout: SideBarLayout,
+            path: "/main/:id",
+            layout: SimpleLayout,
             component: MainPage
         },
         {

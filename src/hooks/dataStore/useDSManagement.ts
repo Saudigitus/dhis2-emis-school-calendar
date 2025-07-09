@@ -4,7 +4,7 @@ import useShowAlerts from "../commons/useShowAlert";
 import {useDataStore} from "../appwarapper/useDataStore";
 
 const DATASTOREQUERY: any = {
-    resource: "dataStore/semis/schoolCalendar",
+    resource: "dataStore/edson/schoolCalendar",
     data: ({data}: any) => data,
     type: 'update'
 }

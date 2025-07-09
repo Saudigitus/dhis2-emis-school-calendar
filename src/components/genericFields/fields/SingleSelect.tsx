@@ -35,6 +35,8 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
           <TextField
             {...params}
             variant="outlined"
+            placeholder={props?.Placeholder ?? "Select an option"}
+            label={props?.labelName ?? "Select an option"}
             error={cliked && input.value === "" && props?.required}
             helperText={(cliked && input.value === "" && (Boolean(props?.required))) && "Please provide a value"}
             size="small"
