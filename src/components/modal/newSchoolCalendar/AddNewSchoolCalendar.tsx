@@ -26,7 +26,7 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch }: Con
     const modalActions = [
         {
             id: "cancel",
-            type: "Cancel",
+            type: "button",
             label: i18n.t("Cancel"),
             white: true
         },
@@ -49,7 +49,9 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch }: Con
                     const currentData = dataStoreData?.find((item: any) => item.id == selected) as unknown as SchoolConfig
 
                     if (currentData) {
-                        const updatedData = updateSchoolConfig(currentData, { academicYear: { ...values, label: data?.find((x) => x.value === values["code"])?.label } });
+                        const updatedData = updateSchoolConfig(currentData, {
+                            academicYear: { ...values, label: data?.find((x) => x.value === values["code"])?.label }
+                        });
                         postData([{ ...updatedData }, ...dataStoreData.filter((x) => {
                             if (x.id !== selected) {
                                 return x;
@@ -57,7 +59,19 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch }: Con
                         })], i18n.t("School calendar updated successfully"));
                     }
                 } else {
-                    const currentData = updateSchoolConfig({}, { academicYear: { ...values, label: data?.find((x) => x.value === values["code"])?.label }, id: generateId() })
+                    const currentData = updateSchoolConfig({}, {
+                        academicYear: { ...values, label: data?.find((x) => x.value === values["code"])?.label },
+                        id: generateId(),
+                        weekDays: {
+                            "friday": false,
+                            "monday": false,
+                            "saturday": false,
+                            "sunday": false,
+                            "thursday": false,
+                            "tuesday": false,
+                            "wednesday": false
+                        }
+                    })
                     postData([{ ...currentData }, ...dataStoreData], i18n.t("School calendar updated successfully"));
                 }
                 break
@@ -120,9 +134,11 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch }: Con
                             <ModalActions>
                                 <ButtonStrip end>
                                     {modalActions.map((action, i) => (
-                                        <Button key={i} disabled={(loading || pristine)} {...action} onClick={(e: any) => {
+                                        <Button key={i} disabled={action.id == "cancel" ? loading : (loading || pristine)} {...action} onClick={(e: any) => {
                                             if (valid) {
                                                 actions(action.id, values)
+                                            } else if (action.id === "cancel") {
+                                                setOpen(false);
                                             }
                                         }}>
                                             {action.label}

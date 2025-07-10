@@ -1,67 +1,84 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { WithPadding } from "../template";
 import { generalDetailsFormData } from "../../utils/constants/generalDetailsFormData";
-import { type FormSectionProps } from "../../types/form/FormSectionProps";
-import GroupForm from "../groupForm/GroupForm";
 import { Form } from "react-final-form"
 import { useRecoilValue } from "recoil";
 import { DataStoreState } from "../../schema/dataStoreSchema";
 import { dataStoreManagement } from "../../hooks/dataStore/useDSManagement";
-import { type dataStoreRecord } from "../../types/dataStore/DataStoreConfig";
 import { useParams } from "react-router-dom";
+import { type FormSectionProps } from "../../types/form/FormSectionProps";
+import { type dataStoreRecord } from "../../types/dataStore/DataStoreConfig";
+import GroupForm from "../groupForm/GroupForm";
 
 function GeneralDetailsForm(): React.ReactElement {
-    const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> = useRef(null);
-    const dataStoreData = useRecoilValue(DataStoreState)
+    const formRef = useRef<any>(null);
+    const dataStoreData = useRecoilValue(DataStoreState) || []
     const { postData } = dataStoreManagement()
     const { id } = useParams();
 
-    function getValues(formValues: dataStoreRecord['weekDays'] | dataStoreRecord['academicYear'], dataStoreKey: any) {
-        const updatedValues: any = {}
+    const [debouncedValues, setDebouncedValues] = useState<any>(null);
 
+    function getValues(
+        formValues: dataStoreRecord['weekDays'] | dataStoreRecord['academicYear'],
+        dataStoreKey: any
+    ) {
+        const updatedValues: any = {};
         Object.keys(dataStoreKey).forEach((key: any) => {
-            // eslint-disable-next-line no-prototype-builtins
             if (formValues?.hasOwnProperty(key)) {
                 updatedValues[key] = formValues[key];
             }
         });
-
-        return updatedValues
+        return updatedValues;
     }
 
-    function onChange(e: any) {
-        void postData({
-            ...dataStoreData.find((x) => x.id === id),
-            weekDays: getValues(e, dataStoreData?.find((x) => x.id === id)?.weekDays || {}),
-            academicYear: getValues(e, dataStoreData?.find((x) => x.id === id)?.academicYear)
-        }, 'Data updated successfuly')
-    }
+    // Debounced save
+    useEffect(() => {
+        if (!debouncedValues) return;
+
+        const timeout = setTimeout(() => {
+            const current = dataStoreData.find((x) => x.id === id);
+            const updated = {
+                ...current,
+                weekDays: getValues(debouncedValues, current?.weekDays || {}),
+                academicYear: getValues(debouncedValues, current?.academicYear)
+            };
+
+            postData(
+                [updated, ...dataStoreData.filter((x) => x.id !== id)],
+                'Data updated successfully'
+            );
+        }, 1000); // 1 segundo de espera
+
+        return () => clearTimeout(timeout);
+    }, [debouncedValues]);
 
     return (
         <WithPadding padding="5px">
-            <Form initialValues={{ ...dataStoreData?.find((x) => x.id === id)?.weekDays, ...dataStoreData?.find((x) => x.id === id)?.academicYear }} onSubmit={() => {
-            }}>
-                {({ handleSubmit, values, form, initialValues }) => {
+            <Form
+                initialValues={{
+                    ...(dataStoreData.find((x) => x.id === id)?.weekDays ?? {}),
+                    ...(dataStoreData.find((x) => x.id === id)?.academicYear ?? {})
+                }}
+                onSubmit={() => {}}
+            >
+                {({ handleSubmit, values, form }) => {
                     formRef.current = form;
 
-                    useEffect(() => {
-                        if (JSON.stringify(initialValues) !== JSON.stringify(values)) onChange(values)
-                    }, [values])
-
-                    return <form
-                        onSubmit={handleSubmit}
-                    >
-                        {generalDetailsFormData()?.map((section: FormSectionProps, index: number) => {
-                            return (
+                    return (
+                        <form
+                            onSubmit={handleSubmit}
+                            onBlur={() => setDebouncedValues(values)} // só atualiza o estado (não salva ainda)
+                        >
+                            {generalDetailsFormData()?.map((section: FormSectionProps, index: number) => (
                                 <GroupForm
                                     key={index}
                                     name={section.section}
                                     fields={section.fields}
                                     disabled={section.disabled}
                                 />
-                            )
-                        })}
-                    </form>
+                            ))}
+                        </form>
+                    );
                 }}
             </Form>
         </WithPadding>
