@@ -1,8 +1,8 @@
 import { useState } from "react";
-import useShowAlerts from "../commons/useShowAlert";
 import { useRecoilValue } from "recoil";
-import { ValuesDataStoreState } from "../../schema/valuesDataStoreSchema";
 import { useDataEngine } from "@dhis2/app-runtime";
+import useShowAlerts from "../commons/useShowAlert";
+import { ValuesDataStoreState } from "../../schema/valuesDataStoreSchema";
 
 const DATAELEMENT_QUERY: any = ({
     dataElement: {
@@ -25,6 +25,17 @@ export const useGetAcademicYears = () => {
         setLoading(true);
 
         const academic = valuesDataStore.find((item: any) => item.key === type)?.registration?.academicYear || [];
+
+        if (academic.length === 0) {
+            show({
+                message: `No academic year found for type: ${type}. Please ensure the data element is configured correctly.`,
+                type: { critical: true }
+            });
+            setTimeout(hide, 5000);
+            setLoading(false);
+            setdata([])
+            return;
+        }
 
         let options: any[] = []
         await engine.query(DATAELEMENT_QUERY, { variables: { id: academic } })

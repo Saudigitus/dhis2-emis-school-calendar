@@ -30,7 +30,7 @@
   },
     {
     "required": true,
-    "name": "academicYear",
+    "name": "code",
     "labelName": "Select academic year",
     "header": "Academic year",
     "Placeholder": "Academic year",
@@ -39,7 +39,7 @@
     "pattern": "",
     "visible": true,
     "description": "Academic year",
-    "id": "academicYear",
+    "id": "code",
     "displayName": "Academic year"
   },
   {

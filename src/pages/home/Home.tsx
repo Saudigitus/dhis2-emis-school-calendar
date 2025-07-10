@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { DataTable, TableHead, DataTableRow, DataTableColumnHeader, TableBody, DataTableCell, TableFoot } from "@dhis2/ui";
 import { Container } from 'react-bootstrap';
-import { MoreVert, AddCircleOutline } from '@material-ui/icons';
+import { MoreVert, AddCircleOutline, Edit } from '@material-ui/icons';
 import { IconButton, Button } from '@material-ui/core';
 import { CenteredContent, CircularLoader } from "@dhis2/ui";
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,8 @@ function HomePage() {
     const navigate = useNavigate()
     const data = useRecoilValue(DataStoreState)
     const [open, setOpen] = useState(false)
-    const { loading } = useDataStore()
+    const { loading, refetch } = useDataStore()
+    const [selected, setselected] = useState("")
 
     if (loading) {
         return (
@@ -29,10 +30,10 @@ function HomePage() {
     const handleRowClick = (id: string) => {
         navigate(`/main/${id}`)
     }
-    console.log(data)
+    
     return (
         <Container className="mt-5">
-            <ModalComponent setOpen={setOpen} open={open} title={'Add new school calendar'} children={<AddNewSchoolCalendar setOpen={setOpen} />} />
+            <ModalComponent setOpen={setOpen} open={open} title={'Add new school calendar'} children={<AddNewSchoolCalendar selected={selected} setOpen={setOpen} />} />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h4 className="mb-2">School Calendar</h4>
 
@@ -41,6 +42,7 @@ function HomePage() {
                     startIcon={<AddCircleOutline />}
                     className="mb-2"
                     onClick={() => {
+                        setselected("")
                         setOpen(true)
                     }}
                 >
@@ -62,14 +64,14 @@ function HomePage() {
                 <TableBody>
                     {
                         data.map((item, index) => (
-                            <DataTableRow onClick={() => handleRowClick(item.id)} key={index}>
+                            <DataTableRow key={index}>
                                 <DataTableCell onClick={() => handleRowClick(item.id)}>{item.academicYear?.type}</DataTableCell>
                                 <DataTableCell onClick={() => handleRowClick(item.id)}>{item.academicYear?.code}</DataTableCell>
                                 <DataTableCell onClick={() => handleRowClick(item.id)}>{item.academicYear?.description}</DataTableCell>
                                 <DataTableCell onClick={() => handleRowClick(item.id)}>{item.academicYear?.label}</DataTableCell>
                                 <DataTableCell onClick={() => handleRowClick(item.id)}>{item.academicYear?.startDate}</DataTableCell>
                                 <DataTableCell onClick={() => handleRowClick(item.id)}>{item.academicYear?.endDate}</DataTableCell>
-                                <DataTableCell onClick={() => handleRowClick(item.id)}><IconButton><MoreVert /></IconButton></DataTableCell>
+                                <DataTableCell onClick={() => {setselected(item.id); setOpen(true)}}><IconButton><Edit /></IconButton></DataTableCell>
                             </DataTableRow>
                         ))
                     }

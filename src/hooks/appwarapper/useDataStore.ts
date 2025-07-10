@@ -12,7 +12,7 @@ const DATASTORE_QUERY = ({
         }
     },
     values: {
-        resource: "dataStore/edson/values",
+        resource: "dataStore/semis/values",
         params: {
             fields: "*"
         }

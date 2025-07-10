@@ -1,33 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import { Form } from "react-final-form";
 import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent } from "@dhis2/ui";
 import WithPadding from "../../template/WithPadding";
-import { Form } from "react-final-form";
 import GroupForm from "../../form/GroupForm";
 import fieldsSchoolDetails from "../../../utils/constants/fieldsSchoolDetails.json";
 import i18n from "../../../locales";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
-import { useRecoilState, useRecoilValue } from "recoil";
 import { DataStoreState } from "../../../schema/dataStoreSchema";
-import { editState } from "../../../schema/editDataSchema";
 import { useGetAcademicYears } from "../../../hooks/dataElements/useGetAcademicYears";
+import { generateId } from "../../../utils/common/generateId";
+import { updateSchoolConfig } from "../../../utils/common/updateSchoolConfig";
 
 interface ContentProps {
     setOpen: (value: boolean) => void
+    selected?: string
+    refetch?: () => void
 }
 
-export default function AddNewSchoolCalendar({ setOpen }: ContentProps): React.ReactElement {
+export default function AddNewSchoolCalendar({ setOpen, selected, refetch }: ContentProps) {
     const { postData, loading } = dataStoreManagement()
     const dataStoreData = useRecoilValue(DataStoreState)
-    const [selectedCard, setSelectedCard] = useRecoilState(editState)
     const { loading: loadingAC, data, getAcademicYear } = useGetAcademicYears()
-    const [typechanged, settypechanged] = useState("")
-
-    useEffect(() => {
-        if (typechanged) {
-            getAcademicYear({ type: typechanged })
-        }
-    }, [typechanged])
-
 
     const modalActions = [
         {
@@ -51,7 +45,21 @@ export default function AddNewSchoolCalendar({ setOpen }: ContentProps): React.R
                 setOpen(false)
                 break
             case "save":
-               console.log(values)
+                if (selected) {
+                    const currentData = dataStoreData?.find((item: any) => item.id == selected) as unknown as SchoolConfig
+
+                    if (currentData) {
+                        const updatedData = updateSchoolConfig(currentData, { academicYear: { ...values, label: data?.find((x) => x.value === values["code"])?.label } });
+                        postData([{ ...updatedData }, ...dataStoreData.filter((x) => {
+                            if (x.id !== selected) {
+                                return x;
+                            }
+                        })], i18n.t("School calendar updated successfully"));
+                    }
+                } else {
+                    const currentData = updateSchoolConfig({}, { academicYear: { ...values, label: data?.find((x) => x.value === values["code"])?.label }, id: generateId() })
+                    postData([{ ...currentData }, ...dataStoreData], i18n.t("School calendar updated successfully"));
+                }
                 break
         }
     }
@@ -64,7 +72,7 @@ export default function AddNewSchoolCalendar({ setOpen }: ContentProps): React.R
         })) || [];
 
         return fieldsSchoolDetails.map((field: any) => {
-            if (field.name === "academicYear" && academicYearOptions.length > 0) {
+            if (field.name === "code" && academicYearOptions.length > 0) {
                 return {
                     ...field,
                     disabled: false,
@@ -79,19 +87,18 @@ export default function AddNewSchoolCalendar({ setOpen }: ContentProps): React.R
         });
     }
 
-
     return (
         <WithPadding padding="0px">
             <span>
                 {i18n.t("To register new school calendar, please fill out the form")}
             </span>
-            <Form initialValues={selectedCard.edit ? { date: selectedCard.data.date, type: selectedCard.data.type, event: selectedCard.data.title } : {}} onSubmit={() => {
-            }}
-            >
-                {({ values, pristine }) => {
-                    if (values["type"]) {
-                        settypechanged(values["type"])
-                    }
+            <Form initialValues={dataStoreData?.find((item: any) => item.id == selected)?.academicYear} onSubmit={() => { }}>
+                {({ values, pristine, valid }) => {
+                    useEffect(() => {
+                        if (values["type"]) {
+                            getAcademicYear({ type: values["type"] })
+                        }
+                    }, [values["type"]]);
                     return (
                         <form>
                             <br />
@@ -113,8 +120,10 @@ export default function AddNewSchoolCalendar({ setOpen }: ContentProps): React.R
                             <ModalActions>
                                 <ButtonStrip end>
                                     {modalActions.map((action, i) => (
-                                        <Button key={i} disabled={loading || pristine} {...action} onClick={(e: any) => {
-                                            actions(action.id, values)
+                                        <Button key={i} disabled={(loading || pristine)} {...action} onClick={(e: any) => {
+                                            if (valid) {
+                                                actions(action.id, values)
+                                            }
                                         }}>
                                             {action.label}
                                         </Button>
@@ -125,6 +134,6 @@ export default function AddNewSchoolCalendar({ setOpen }: ContentProps): React.R
                     );
                 }}
             </Form>
-        </WithPadding>
+        </WithPadding >
     );
 }
