@@ -9,7 +9,7 @@ export enum VariablesTypes {
 export interface CustomAttributeProps {
     id: string
     displayName: string
-    header: string
+    header?: string
     required: boolean
     name: string
     programStage?: string
@@ -31,7 +31,7 @@ export interface CustomAttributeProps {
     key?: any
     description?: string
     displayInFilters?: boolean
-    type: VariablesTypes
+    type?: VariablesTypes
     trackedEntity?: string
     placeholder?: string
     unique?: boolean

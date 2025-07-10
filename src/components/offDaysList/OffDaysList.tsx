@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { CenteredContent, CircularLoader } from "@dhis2/ui";
 import { makeStyles } from '@material-ui/core/styles';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import GridViewComponent from '../table/gridView/GridViewComponent';
 import { WithPadding } from "../template";
 import Button from '@material-ui/core/Button';
@@ -11,11 +11,11 @@ import ModalComponent from "../modal/modal";
 import { DataStoreState } from "../../schema/dataStoreSchema";
 import { useDataStore } from "../../hooks/appwarapper/useDataStore";
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { editState } from '../../schema/editDataSchema';
 
-// @ts-expect-error
 const useStyles = makeStyles((theme) => ({
     button: {
-        textTransform: "Capitalize"
+        textTransform: "capitalize"
     },
     tableContainer: {
         overflowX: 'auto'
@@ -34,11 +34,16 @@ function OffDaysList() {
     const { loading } = useDataStore()
     const { id } = useParams();
     const navigate = useNavigate();
+    const setSelected = useSetRecoilState(editState)
+
+    function onClose() {
+        setOpen(false);
+        setSelected({ edit: false, data: Object() });
+    }
 
     return (
         <div style={{ overflow: "hidden" }}>
-            {/* eslint-disable-next-line react/no-children-prop */}
-            <ModalComponent setOpen={setOpen} open={open} title={'Non School Day Register'} children={<NewOdffDay setOpen={setOpen} />} />
+            <ModalComponent onClose={onClose} open={open} title={'Non School Day Register'} children={<NewOdffDay setOpen={setOpen} />} />
             <WithPadding padding='10px'>
                 <div className={classes.topOfTheTable}>
 

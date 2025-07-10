@@ -22,16 +22,16 @@ export default function AlertDialog(props: props) {
     };
 
     const handleAgree = () => {
-        let copy = [...dataStoreData.holidays]
-        copy.splice(row.index, 1)
+        // let copy = [...dataStoreData.holidays]
+        // copy.splice(row.index, 1)
 
-        void postData({
-            ...dataStoreData,
-            holidays: [...copy]
-        }).then(() => {
-            setOpen(false);
-            setOpen(false)
-        })
+        // void postData({
+        //     ...dataStoreData,
+        //     holidays: [...copy]
+        // }).then(() => {
+        //     setOpen(false);
+        //     setOpen(false)
+        // })
     }
 
     return (

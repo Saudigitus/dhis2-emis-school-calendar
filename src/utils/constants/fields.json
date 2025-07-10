@@ -10,7 +10,8 @@
     "visible": true,
     "description": "Date",
     "id": "date",
-    "displayName": "Date"
+    "displayName": "Date",
+    "type": "attribute"
   },
   {
     "required": true,
@@ -39,7 +40,8 @@
     "content": "",
     "id": "Type",
     "displayName": "Type",
-    "header": "Type"
+    "header": "Type",
+    "type": "attribute"
   },
   {
     "required": true,
@@ -56,6 +58,7 @@
     "content": "",
     "id": "Event",
     "displayName": "Event",
-    "header": "Event"
+    "header": "Event",
+    "type": "attribute"
   }
 ]
