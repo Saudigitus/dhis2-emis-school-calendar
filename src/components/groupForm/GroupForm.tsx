@@ -26,7 +26,7 @@ function GroupForm(props: GroupFormProps) {
                             <div className={
                                 classNames(
                                     'd-flex',
-                                    Attribute.valueType.BOOLEAN !== x.valueType && 'flex-column'
+                                    String(x.valueType) !== "BOOLEAN" && 'flex-column'
                                 )
                             }>
                                 <Label className={styles.label}>

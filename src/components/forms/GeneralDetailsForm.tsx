@@ -12,7 +12,7 @@ import GroupForm from "../groupForm/GroupForm";
 
 function GeneralDetailsForm(): React.ReactElement {
     const formRef = useRef<any>(null);
-    const dataStoreData = useRecoilValue(DataStoreState) || []
+    const dataStoreData = useRecoilValue(DataStoreState);
     const { postData } = dataStoreManagement()
     const { id } = useParams();
 

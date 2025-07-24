@@ -1,7 +1,5 @@
 import React from 'react'
 import { WithPadding } from '../../components'
-import TermForm from '../../components/forms/TermForm'
-import OffDaysList from '../../components/offDaysList/OffDaysList'
 import TermsList from '../../components/termsList/TermsList'
 
 function Terms() {

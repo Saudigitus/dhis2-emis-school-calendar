@@ -20,7 +20,7 @@ function TermsList() {
 
     return (
         <div>
-            <ModalComponent setOpen={setOpen} open={open} title={'Non School Day Register'} children={<NewSchoolTerm setOpen={setOpen} />} />
+            <ModalComponent onClose={setOpen} open={open} title={'Non School Day Register'} children={<NewSchoolTerm setOpen={setOpen} />} />
             <WithPadding padding='10px'>
                 <Button
                     variant="outlined"

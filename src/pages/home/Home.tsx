@@ -22,7 +22,7 @@ function HomePage() {
     const [openDialogOption, setOpenDialogOption] = useState(false)
     const [openSaveOption, setOpenSaveOption] = useState(false)
     const [selected, setSelected] = useState("")
-    const [values, setValues] = useState<schoolCalendar['academicYear']>({})
+    const [values, setValues] = useState<schoolCalendar['academicYear']>()
     const [defaultYear, setDefaultYear] = useState(() => {
         return data?.defaults?.academicYear || ""
     })

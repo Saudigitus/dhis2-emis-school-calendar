@@ -1,6 +1,6 @@
 import { atom } from "recoil"
 
-interface academicYearRecord {
+export interface academicYearRecord {
     value: string
     label: string
 }

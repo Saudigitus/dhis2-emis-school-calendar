@@ -8,7 +8,7 @@ import { useRecoilState } from "recoil";
 import { onSubmitClicked } from "../../../schema/formOnSubmitClicked";
 import { AutoCompleteProps } from "../../../types/form/GenericFieldsTypes";
 
-const OptionSetAutocomplete = (props: AutoCompleteProps) => {
+const OptionSetAutocomplete = (props: any) => {
   const { input }: FieldRenderProps<any, HTMLElement> = useField(props.name);
   const [cliked] = useRecoilState<boolean>(onSubmitClicked);
 
@@ -28,7 +28,7 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
         closeIcon={null}
         className={styles["auto-complete__component"]}
         disabled={props.disabled}
-        getOptionLabel={(option) => option.label}
+        getOptionLabel={(option: any) => option.label}
         getOptionSelected={(option, value) => option.value === value.value}
         value={options.find((element: { value: string }) => element.value === input.value) ?? null}
         renderInput={(params) => (
@@ -37,7 +37,7 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
             variant="outlined"
             placeholder={props?.Placeholder ?? "Select an option"}
             label={props?.labelName ?? "Select an option"}
-            error={cliked && input.value === "" && props?.required}
+            error={(cliked && (input.value === "") && props?.required) || false}
             helperText={(cliked && input.value === "" && (Boolean(props?.required))) && "Please provide a value"}
             size="small"
             InputProps={{
@@ -49,7 +49,7 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
           />
 
         )}
-        onChange={(_, value) => {
+        onChange={(_, value: any) => {
           input.onChange(value?.value);
         }}
       />
