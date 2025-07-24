@@ -1,37 +1,8 @@
 [
-
   {
     "required": true,
-    "name": "type",
-    "labelName": "Type",
-    "header": "Type",
-    "Placeholder": "Select type of configuration",
-    "valueType": "LIST",
-    "disabled": false,
-    "pattern": "",
-    "visible": true,
-    "description": "Type",
-    "id": "type",
-    "options": {
-      "optionSet": {
-        "options": [
-          {
-            "value": "student",
-            "label": "Student"
-          },
-          {
-            "value": "staff",
-            "label": "Staff"
-          }
-        ]
-      }
-    },
-    "displayName": "Type"
-  },
-    {
-    "required": true,
     "name": "code",
-    "labelName": "Select academic year",
+    "labelName": "Academic year",
     "header": "Academic year",
     "Placeholder": "Academic year",
     "valueType": "LIST",

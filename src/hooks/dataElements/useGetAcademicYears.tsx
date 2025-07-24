@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useDataEngine } from "@dhis2/app-runtime";
 import useShowAlerts from "../commons/useShowAlert";
 import { ValuesDataStoreState } from "../../schema/valuesDataStoreSchema";
+import { AcademicYearState } from "../../schema/academicYearSchema";
 
 const DATAELEMENT_QUERY: any = ({
     dataElement: {
@@ -15,25 +16,28 @@ const DATAELEMENT_QUERY: any = ({
 })
 
 export const useGetAcademicYears = () => {
-    const valuesDataStore = useRecoilValue(ValuesDataStoreState)
+    const valuesDataStore = useRecoilValue(ValuesDataStoreState);
+    const [academicYearState, setAcademicYearState] = useRecoilState(AcademicYearState)
     const { hide, show } = useShowAlerts()
     const engine = useDataEngine()
     const [loading, setLoading] = useState(false);
-    const [data, setdata] = useState<{ value: any; label: any }[]>([])
 
-    async function getAcademicYear({ type }: { type: string }) {
+    async function getAcademicYear() {
+        if (academicYearState.length> 0) {
+            return
+        }
         setLoading(true);
 
-        const academic = valuesDataStore.find((item: any) => item.key === type)?.registration?.academicYear || [];
+        const academic = valuesDataStore || "";
 
         if (academic.length === 0) {
             show({
-                message: `No academic year found for type: ${type}. Please ensure the data element is configured correctly.`,
+                message: `No academic year found. Please ensure the data element is configured correctly.`,
                 type: { critical: true }
             });
             setTimeout(hide, 5000);
             setLoading(false);
-            setdata([])
+            setAcademicYearState([])
             return;
         }
 
@@ -50,7 +54,7 @@ export const useGetAcademicYears = () => {
                 setTimeout(hide, 5000);
             })
 
-        setdata(options)
+        setAcademicYearState(options.sort((a, b) => b.value - a.value))
         setLoading(false);
 
     }
@@ -58,6 +62,6 @@ export const useGetAcademicYears = () => {
     return {
         getAcademicYear,
         loading,
-        data
+        data: academicYearState
     };
 }

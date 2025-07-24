@@ -5,7 +5,7 @@ import { FormSectionProps } from "../../types/form/FormSectionProps";
 import GroupForm from "../groupForm/GroupForm";
 import { Form } from "react-final-form"
 import { ButtonStrip, Button } from '@dhis2/ui'
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { DataStoreState } from "../../schema/dataStoreSchema";
 import { ClassPeriodType } from "../../types/dataStore/DataStoreConfig";
@@ -14,8 +14,9 @@ import { dataStoreManagement } from "../../hooks/dataStore/useDSManagement";
 
 function TermForm(): React.ReactElement {
     const location = useLocation()
+        const { id } = useParams();
     const dataStoreRecord = useRecoilValue(DataStoreState)
-    const classPeriod = dataStoreRecord?.classPeriods?.find((x: ClassPeriodType) => x.key === location.pathname.slice(1))
+    const classPeriods = dataStoreRecord?.schoolCalendar?.find((x) => x.id === id)
     const [initialValues, setInitailValues] = useState<object>({ ...termsInitalValues(classPeriod?.startDate, classPeriod?.endDate) })
     const { postData, loading, } = dataStoreManagement()
     const [disabled, setDisabled] = useState<boolean>(true)
@@ -59,7 +60,7 @@ function TermForm(): React.ReactElement {
     function onSubmit() {
         void postData({
             ...dataStoreRecord,
-            classPeriods: formatClassPeriods(dataStoreRecord.classPeriods, values, classPeriod?.key)
+            classPeriods: formatClassPeriods(dataStoreRecord.schoolCalendar, values, classPeriod?.key)
         }, 'Data updated successfully')
     }
 

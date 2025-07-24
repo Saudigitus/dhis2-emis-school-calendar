@@ -1,12 +1,9 @@
 import React from 'react';
 import Item from './menuItem';
 import styles from './menu.module.css'
-import { Delete, Edit, MoreHoriz } from '@material-ui/icons';
-import { CircularLoader } from "@dhis2/ui";
+import { Delete, Edit, MoreHoriz } from '@mui/icons-material';
 import AlertDialog from '../confirm/confirm';
-import { IconButton, MenuList, Popover } from "@material-ui/core";
-import { useSetRecoilState } from "recoil";
-import { editState } from "../../schema/editDataSchema";
+import { IconButton, MenuList, Popover } from "@mui/material";
 
 const options = [
     {
@@ -27,12 +24,14 @@ const options = [
 
 export default function MenuComponent({
     row,
-    setOpen
-}: { row: any, setOpen: (value: boolean) => void }) {
+    setOpen,
+    setSelected,
+    setDeleted
+}: { row: any, setOpen: (value: boolean) => void, setSelected: (e: any) => void, setDeleted: (e: any) => void }) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [confirm, setConfirm] = React.useState<boolean>(false);
     const open = Boolean(anchorEl);
-    const setSelected = useSetRecoilState(editState)
+
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -88,7 +87,7 @@ export default function MenuComponent({
                     )}
                 </MenuList>
             </Popover>
-            <AlertDialog row={row} open={confirm} setOpen={setConfirm} />
+            <AlertDialog setDeleted={setDeleted} row={row} open={confirm} setOpen={setConfirm} />
         </div>
     );
 }

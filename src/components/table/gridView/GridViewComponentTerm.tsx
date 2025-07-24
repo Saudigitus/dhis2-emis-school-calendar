@@ -3,29 +3,27 @@ import OffDaysCard from "../../card/CardComponent";
 import style from './GridView.module.css'
 import { schoolCalendar } from "../../../types/dataStore/DataStoreConfig";
 import { getDisplayName } from "../../../utils/common/getTypeName";
+import ClassPeriodsCard from "../../card/ClassPeriodsCard";
 
 interface GridViewProps {
-    offDays: schoolCalendar['holidays']
+    classPeriods: schoolCalendar['classPeriods']
     setOpen: (value: boolean) => void
 }
 
-const GridViewComponent = (props: GridViewProps): React.ReactElement => {
+const GridViewComponentTerm = (props: GridViewProps): React.ReactElement => {
     const {
-        offDays,
+        classPeriods,
         setOpen
     } = props;
 
     return (
         <div className={style.list}>
-            {offDays.map((offDay, index) => (
+            {classPeriods.map((classPeriod, index) => (
                 <div>
-                    <OffDaysCard
-                        index={index}
+                    <ClassPeriodsCard
+                        classPeriods={classPeriod}
                         setOpen={setOpen}
-                        type={offDay.type}
-                        title={offDay.event}
-                        date={offDay.date as unknown as string}
-                        offDayType={getDisplayName(offDay.type)}
+                        index={index}
                     />
                 </div>
             ))}
@@ -33,4 +31,4 @@ const GridViewComponent = (props: GridViewProps): React.ReactElement => {
     );
 };
 
-export default GridViewComponent;
+export default GridViewComponentTerm;

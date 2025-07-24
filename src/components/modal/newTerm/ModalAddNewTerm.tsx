@@ -3,7 +3,7 @@ import { ModalActions, Button, ButtonStrip, CircularLoader } from "@dhis2/ui";
 import WithPadding from "../../template/WithPadding";
 import { Form } from "react-final-form";
 import GroupForm from "../../form/GroupForm";
-import fields from "../../../utils/constants/fields.json";
+import fields from "../../../utils/constants/fieldsTerm.json";
 import i18n from "../../../locales";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -18,7 +18,7 @@ interface ContentProps {
     refetch?: () => void
 }
 
-export default function NewOdffDay({ setOpen, selected }: ContentProps): React.ReactElement {
+export default function NewSchoolTerm({ setOpen, selected }: ContentProps): React.ReactElement {
     const { postData, loading } = dataStoreManagement()
     const dataStoreData = useRecoilValue(DataStoreState)
     const [selectedCard, setSelectedCard] = useRecoilState(editState)
@@ -56,7 +56,7 @@ export default function NewOdffDay({ setOpen, selected }: ContentProps): React.R
                         }
                     })]
 
-                }, i18n.t("Off day registered successfully")).then(() => {
+                }, i18n.t(" registered successfully")).then(() => {
                     setOpen(false);
                     if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
                 })

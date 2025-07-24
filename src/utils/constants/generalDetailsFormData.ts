@@ -29,25 +29,6 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     type: VariablesTypes.Attribute
                 },
                 {
-                    id: `type`,
-                    displayName: "Type",
-                    header: "",
-                    required: false,
-                    name: `type`,
-                    labelName: "Type",
-                    valueType: Attribute.valueType.TEXT as unknown as CustomAttributeProps["valueType"],
-                    visible: true,
-                    disabled: true,
-                    pattern: '',
-                    searchable: false,
-                    error: false,
-                    content: '',
-                    key: "",
-                    unique: true,
-                    displayInFilters: true,
-                    type: VariablesTypes.Attribute
-                },
-                {
                     id: `description`,
                     displayName: "Description",
                     header: "",

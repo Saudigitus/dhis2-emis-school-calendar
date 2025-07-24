@@ -10,12 +10,6 @@ const DATASTORE_QUERY = ({
         params: {
             fields: "*"
         }
-    },
-    values: {
-        resource: "dataStore/semis/values",
-        params: {
-            fields: "*"
-        }
     }
 })
 
@@ -34,7 +28,7 @@ export function useDataStore() {
         },
         onComplete(data) {
             setDataStoreState(data?.config)
-            setValuesDataStoreState(data?.values)
+            setValuesDataStoreState(data?.config?.academicYear)
         }
     })
 

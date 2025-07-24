@@ -19,7 +19,7 @@ function GeneralDetailsForm(): React.ReactElement {
     const [debouncedValues, setDebouncedValues] = useState<any>(null);
 
     function getValues(
-        formValues: dataStoreRecord['weekDays'] | dataStoreRecord['academicYear'],
+        formValues: dataStoreRecord['schoolCalendar'] | dataStoreRecord['academicYear'],
         dataStoreKey: any
     ) {
         const updatedValues: any = {};
@@ -36,7 +36,7 @@ function GeneralDetailsForm(): React.ReactElement {
         if (!debouncedValues) return;
 
         const timeout = setTimeout(() => {
-            const current = dataStoreData.find((x) => x.id === id);
+            const current = dataStoreData.schoolCalendar.find((x) => x.id === id);
             const updated = {
                 ...current,
                 weekDays: getValues(debouncedValues, current?.weekDays || {}),
@@ -44,7 +44,12 @@ function GeneralDetailsForm(): React.ReactElement {
             };
 
             postData(
-                [updated, ...dataStoreData.filter((x) => x.id !== id)],
+                {
+                    ...dataStoreData,
+                    schoolCalendar: dataStoreData.schoolCalendar.map((x) =>
+                        x.id === id ? updated : x
+                    )
+                },
                 'Data updated successfully'
             );
         }, 1000); // 1 segundo de espera
@@ -53,34 +58,37 @@ function GeneralDetailsForm(): React.ReactElement {
     }, [debouncedValues]);
 
     return (
-        <WithPadding padding="5px">
-            <Form
-                initialValues={{
-                    ...(dataStoreData.find((x) => x.id === id)?.weekDays ?? {}),
-                    ...(dataStoreData.find((x) => x.id === id)?.academicYear ?? {})
-                }}
-                onSubmit={() => {}}
-            >
-                {({ handleSubmit, values, form }) => {
-                    formRef.current = form;
+        <WithPadding padding="5px 15px">
+            <div className="col-6">
+                <Form
+                    initialValues={{
+                        ...(dataStoreData.schoolCalendar.find((x) => x.id === id)?.weekDays ?? {}),
+                        ...(dataStoreData.schoolCalendar.find((x) => x.id === id)?.academicYear ?? {})
+                    }}
+                    onSubmit={() => { }}
+                >
+                    {({ handleSubmit, values, form }) => {
+                        formRef.current = form;
+                        
 
-                    return (
-                        <form
-                            onSubmit={handleSubmit}
-                            onBlur={() => setDebouncedValues(values)} // só atualiza o estado (não salva ainda)
-                        >
-                            {generalDetailsFormData()?.map((section: FormSectionProps, index: number) => (
-                                <GroupForm
-                                    key={index}
-                                    name={section.section}
-                                    fields={section.fields}
-                                    disabled={section.disabled}
-                                />
-                            ))}
-                        </form>
-                    );
-                }}
-            </Form>
+                        return (
+                            <form
+                                onSubmit={handleSubmit}
+                                onBlur={() => setDebouncedValues(values)} // só atualiza o estado (não salva ainda)
+                            >
+                                {generalDetailsFormData()?.map((section: FormSectionProps, index: number) => (
+                                    <GroupForm
+                                        key={index}
+                                        name={section.section}
+                                        fields={section.fields}
+                                        disabled={section.disabled}
+                                    />
+                                ))}
+                            </form>
+                        );
+                    }}
+                </Form>
+            </div>
         </WithPadding>
     );
 }

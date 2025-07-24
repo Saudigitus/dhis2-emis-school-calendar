@@ -1,14 +1,18 @@
 /* eslint-disable react/prop-types */
 import { Box, Card } from "@dhis2/ui";
-import React from "react";
+import React, { useState } from "react";
 import style from "./Card.module.css";
-import { MoreHoriz } from "@material-ui/icons";
+import { MoreHoriz } from "@mui/icons-material";
 import classNames from "classnames";
 import { type CardSubItemProps } from "../../types/card/CardTypes";
 import MenuComponent from "../menu/menu";
 
 export default function OffDaysCard(props: CardSubItemProps): React.ReactElement {
   const { title, date, disabled, offDayType, setOpen } = props;
+  const [selected, setSelected] = useState({})
+  const [delected, setDelected] = useState(false)
+
+  console.log(selected, delected)
 
   return (
     <Box>
@@ -18,17 +22,22 @@ export default function OffDaysCard(props: CardSubItemProps): React.ReactElement
           disabled === true && style.disabledCard
         )}
       >
-          <div className={style.infoSection}>
-              <span className={style.title} >{title}</span>
-              <MenuComponent setOpen={setOpen} row={props} />
-          </div>
-          <div className={classNames(
-              style.infoSection,
-              style.lastSection
-          )}>
-              <span className={style.typenDate} >{offDayType}</span>
-             <span className={style.typenDate} >{date}</span>
-          </div>
+        <div className={style.infoSection}>
+          <span className={style.title} >{title}</span>
+          <MenuComponent
+            setDeleted={setDelected}
+            setSelected={setSelected}
+            setOpen={setOpen}
+            row={props}
+          />
+        </div>
+        <div className={classNames(
+          style.infoSection,
+          style.lastSection
+        )}>
+          <span className={style.typenDate} >{offDayType}</span>
+          <span className={style.typenDate} >{date}</span>
+        </div>
       </Card>
     </Box>
   );

@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import React from "react";
-import { SideBarLayout, SimpleLayout } from "../../layout";
+import { SimpleLayout } from "../../layout";
 import { GeneralDetails, NonSchoolDays, Terms } from "../../pages";
 import HomePage from "../../pages/home/Home";
 import MainPage from "../../pages/main/MainPage";
@@ -14,7 +14,7 @@ export default function RouteList() {
         },
         {
             path: "/generalDetails",
-            layout: SideBarLayout,
+            layout: SimpleLayout,
             component: GeneralDetails
         },
         {
@@ -29,22 +29,22 @@ export default function RouteList() {
         },
         {
             path: "/non-school-days",
-            layout: SideBarLayout,
+            layout: SimpleLayout,
             component: NonSchoolDays
         },
         {
             path: "/term1",
-            layout: SideBarLayout,
+            layout: SimpleLayout,
             component: Terms
         },
         {
             path: "/term2",
-            layout: SideBarLayout,
+            layout: SimpleLayout,
             component: Terms
         },
         {
             path: "/term3",
-            layout: SideBarLayout,
+            layout: SimpleLayout,
             component: Terms
         }
     ]

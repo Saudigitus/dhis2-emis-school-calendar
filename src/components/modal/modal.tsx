@@ -4,7 +4,7 @@ import styles from './modal.module.css'
 
 interface ModalProps {
   open: boolean
-  onClose?: () => void,
+  onClose: any,
   title: string
   children: React.ReactNode
 }

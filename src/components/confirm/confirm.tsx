@@ -1,20 +1,20 @@
 import * as React from 'react';
 import { Button, CircularLoader } from "@dhis2/ui";
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import {dataStoreManagement} from "../../hooks/dataStore/useDSManagement";
 import {useRecoilValue} from "recoil";
 import {DataStoreState} from "../../schema/dataStoreSchema";
 import {type CardSubItemProps} from "../../types/card/CardTypes";
 
-interface props {
+interface AlertDialogProps {
     open: boolean
     setOpen: (arg: boolean) => void
     row: CardSubItemProps
+    setDeleted: (arg: boolean) => void
 }
 
-export default function AlertDialog(props: props) {
-    const { open, setOpen, row } = props
-    const { postData, loading} = dataStoreManagement()
+export default function AlertDialog(props: AlertDialogProps) {
+    const { open, setOpen, row, setDeleted } = props
     const dataStoreData = useRecoilValue(DataStoreState)
 
     const handleClose = () => {
@@ -22,16 +22,7 @@ export default function AlertDialog(props: props) {
     };
 
     const handleAgree = () => {
-        // let copy = [...dataStoreData.holidays]
-        // copy.splice(row.index, 1)
-
-        // void postData({
-        //     ...dataStoreData,
-        //     holidays: [...copy]
-        // }).then(() => {
-        //     setOpen(false);
-        //     setOpen(false)
-        // })
+       setDeleted(true)
     }
 
     return (
@@ -53,7 +44,7 @@ export default function AlertDialog(props: props) {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose} primary>Disagree</Button>
-                        <Button onClick={handleAgree} destructive icon={loading && <CircularLoader small />}>Agree</Button>
+                        <Button onClick={handleAgree} destructive>Agree</Button>
                     </DialogActions>
                 </div>
             </Dialog>

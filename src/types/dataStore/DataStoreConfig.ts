@@ -15,13 +15,13 @@ interface HolidayType {
     type: string
 }
 
-interface dataStoreRecord {
+interface schoolCalendar {
     id: string
     key: string
     defaults: defaults
     academicYear: {
-        "endDate": Date
-        "startDate": Date
+        "endDate": string
+        "startDate": string
         "code": string
         "label": string
         "description": string
@@ -40,4 +40,12 @@ interface dataStoreRecord {
     }
 }
 
-export type { dataStoreRecord, ClassPeriodType, HolidayType }
+interface dataStoreRecord {
+    academicYear: string
+    defaults: {
+        "academicYear": string
+    },
+    schoolCalendar: schoolCalendar[]
+}
+
+export type { dataStoreRecord, ClassPeriodType, HolidayType, schoolCalendar }

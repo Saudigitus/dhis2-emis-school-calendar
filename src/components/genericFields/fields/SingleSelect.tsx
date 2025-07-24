@@ -1,8 +1,8 @@
-import { TextField } from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
+import { TextField } from "@mui/material";
+import { Autocomplete } from "@mui/material";
 import React from "react";
 import { useField, type FieldRenderProps } from "react-final-form";
-import ErrorIcon from '@material-ui/icons/Error';
+import ErrorIcon from '@mui/icons-material/Error';
 import styles from "./fields.module.css"
 import { useRecoilState } from "recoil";
 import { onSubmitClicked } from "../../../schema/formOnSubmitClicked";
