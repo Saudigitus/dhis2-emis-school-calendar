@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { CenteredContent, CircularLoader } from "@dhis2/ui";
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { WithPadding } from "../template";
-import {Button} from '@mui/material';
-import { ArrowBack, AddCircleOutline } from '@mui/icons-material';
-import NewOdffDay from "../modal/newOffDay/ModalAddNewOffDay";
-import ModalComponent from "../modal/Modal";
+import { Button } from '@mui/material';
+import { AddCircleOutline } from '@mui/icons-material';
+import ModalComponent from "../modal/modal";
 import { DataStoreState } from "../../schema/dataStoreSchema";
 import { useDataStore } from "../../hooks/appwarapper/useDataStore";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import GridViewComponentTerm from '../table/gridView/GridViewComponentTerm';
 import NewSchoolTerm from '../modal/newTerm/ModalAddNewTerm';
 

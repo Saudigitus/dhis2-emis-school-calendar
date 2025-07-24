@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { CenteredContent, CircularLoader } from "@dhis2/ui";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import GridViewComponent from '../table/gridView/GridViewComponent';
 import { WithPadding } from "../template";
-import {Button} from '@mui/material';
-import { ArrowBack, AddCircleOutline } from '@mui/icons-material';
-import NewOdffDay from "../modal/newOffDay/ModalAddNewOffDay";
-import ModalComponent from "../modal/Modal";
+import { Button } from '@mui/material';
+import { AddCircleOutline } from '@mui/icons-material';
 import { DataStoreState } from "../../schema/dataStoreSchema";
 import { useDataStore } from "../../hooks/appwarapper/useDataStore";
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { editState } from '../../schema/editDataSchema';
+import ModalComponent from "../modal/modal";
+import NewOdffDay from '../modal/newOffDay/modalAddNewOffDay';
 
 function OffDaysList() {
     const [open, setOpen] = useState(false)

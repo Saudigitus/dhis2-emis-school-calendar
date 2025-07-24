@@ -5,11 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-07-23T12:10:42.691Z\n"
-"PO-Revision-Date: 2025-07-23T12:10:42.692Z\n"
-
-msgid "Column"
-msgstr "Column"
+"POT-Creation-Date: 2025-07-24T11:36:10.620Z\n"
+"PO-Revision-Date: 2025-07-24T11:36:10.621Z\n"
 
 msgid "Cancel"
 msgstr "Cancel"
@@ -26,11 +23,11 @@ msgstr "To register new off day, please fill out the form"
 msgid "Off Day Details"
 msgstr "Off Day Details"
 
-msgid "School calendar updated successfully"
-msgstr "School calendar updated successfully"
-
 msgid "To register new option, please fill out the form"
 msgstr "To register new option, please fill out the form"
+
+msgid "School calendar updated successfully"
+msgstr "School calendar updated successfully"
 
 msgid "To register new school calendar, please fill out the form"
 msgstr "To register new school calendar, please fill out the form"
