@@ -10,40 +10,40 @@ export default function RouteList() {
         {
             path: "/",
             layout: SimpleLayout,
-            component: () => <Navigate to="/home" replace />
+            component: () => <Navigate to="/semis/callendars" replace />
         },
         {
-            path: "/generalDetails",
+            path: "/semis/generalDetails",
             layout: SimpleLayout,
             component: GeneralDetails
         },
         {
-            path: "/home",
+            path: "/semis/callendars",
             layout: SimpleLayout,
             component: HomePage
         },
         {
-            path: "/main/:id",
+            path: "/semis/main/:id",
             layout: SimpleLayout,
             component: MainPage
         },
         {
-            path: "/non-school-days",
+            path: "/semis/non-school-days",
             layout: SimpleLayout,
             component: NonSchoolDays
         },
         {
-            path: "/term1",
+            path: "/semis/term1",
             layout: SimpleLayout,
             component: Terms
         },
         {
-            path: "/term2",
+            path: "/semis/term2",
             layout: SimpleLayout,
             component: Terms
         },
         {
-            path: "/term3",
+            path: "/semis/term3",
             layout: SimpleLayout,
             component: Terms
         }

@@ -62,7 +62,7 @@ function HomePage() {
     }
 
     const handleNavigate = (id: string) => {
-        navigate(`/main/${id}`)
+        navigate(`/semis/main/${id}`)
     }
 
     const configuredYearsMap = new Map(
