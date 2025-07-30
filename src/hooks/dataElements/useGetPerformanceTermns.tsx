@@ -24,7 +24,7 @@ export const useGetAcademicYears = () => {
     async function getTerms({ type }: { type: string }) {
         setLoading(true);
 
-        const terms = valuesDataStore.find((item: any) => item.key === type)?.performance?.programStages || [];
+        const terms = valuesDataStore?.find((item: any) => item.key === type)?.performance?.programStages || [];
 
         const dataElements: any[] = []
         for (const element of terms) {

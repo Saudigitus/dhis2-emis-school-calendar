@@ -46,7 +46,7 @@ export default function NewOdffDay({ setOpen, selected }: ContentProps): React.R
                 setOpen(false)
                 break
             case "save":
-                const localData = dataStoreData.schoolCalendar.find((x) => x.id === id) as unknown as SchoolConfig;
+                const localData = dataStoreData.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
 
                 postData({
                     ...dataStoreData,

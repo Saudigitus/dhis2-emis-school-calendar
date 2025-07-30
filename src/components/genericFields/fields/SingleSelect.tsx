@@ -30,7 +30,7 @@ const OptionSetAutocomplete = (props: any) => {
         disabled={props.disabled}
         getOptionLabel={(option: any) => option.label}
         getOptionSelected={(option, value) => option.value === value.value}
-        value={options.find((element: { value: string }) => element.value === input.value) ?? null}
+        value={options?.find((element: { value: string }) => element.value === input.value) ?? null}
         renderInput={(params) => (
           <TextField
             {...params}

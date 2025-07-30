@@ -46,7 +46,7 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
                 setOpen(false)
                 break
             case "save":
-                const localData = dataStoreData.schoolCalendar.find((x) => x.id === id) as unknown as SchoolConfig;
+                const localData = dataStoreData.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
 
                 postData({
                     ...dataStoreData,
@@ -56,7 +56,7 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
                         }
                     })]
 
-                }, i18n.t(" registered successfully")).then(() => {
+                }, i18n.t("Data registered successfully")).then(() => {
                     setOpen(false);
                     if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
                 })

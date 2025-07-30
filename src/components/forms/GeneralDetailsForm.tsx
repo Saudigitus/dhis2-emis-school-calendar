@@ -36,7 +36,7 @@ function GeneralDetailsForm(): React.ReactElement {
         if (!debouncedValues) return;
 
         const timeout = setTimeout(() => {
-            const current = dataStoreData.schoolCalendar.find((x) => x.id === id);
+            const current = dataStoreData.schoolCalendar?.find((x) => x.id === id);
             const updated = {
                 ...current,
                 weekDays: getValues(debouncedValues, current?.weekDays || {}),
@@ -62,8 +62,8 @@ function GeneralDetailsForm(): React.ReactElement {
             <div className="col-6">
                 <Form
                     initialValues={{
-                        ...(dataStoreData.schoolCalendar.find((x) => x.id === id)?.weekDays ?? {}),
-                        ...(dataStoreData.schoolCalendar.find((x) => x.id === id)?.academicYear ?? {})
+                        ...(dataStoreData.schoolCalendar?.find((x) => x.id === id)?.weekDays ?? {}),
+                        ...(dataStoreData.schoolCalendar?.find((x) => x.id === id)?.academicYear ?? {})
                     }}
                     onSubmit={() => { }}
                 >
