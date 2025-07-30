@@ -12,6 +12,8 @@ import { useGetAcademicYears } from '../../hooks/dataElements/useGetAcademicYear
 import { schoolCalendar } from '../../types/dataStore/DataStoreConfig'
 import AddNewOption from '../../components/modal/newOption/AddNewOption'
 import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement'
+import styles from "./Home.module.css"
+import classNames from 'classnames'
 
 function HomePage() {
     const navigate = useNavigate()
@@ -72,7 +74,7 @@ function HomePage() {
     return (
         <div className="container mt-3">
             <ModalComponent
-                onClose={setOpen}
+                onClose={() => setOpen(false)}
                 open={open}
                 title="Add new school calendar"
                 children={
@@ -85,7 +87,7 @@ function HomePage() {
             />
 
             <ModalComponent
-                onClose={setOpenDialogOption}
+                onClose={() => setOpenDialogOption(false)}
                 open={openDialogOption}
                 title="Add new option"
                 children={
@@ -96,7 +98,7 @@ function HomePage() {
                 }
             />
 
-            <div className="mb-2" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className={classNames("mb-2", styles.topContainer)}>
                 <h4 style={{ color: '#1e293b' }}>School Calendar</h4>
 
                 <Button
@@ -106,22 +108,13 @@ function HomePage() {
                         setSelected("")
                         setOpenDialogOption(true)
                     }}
-                    style={{
-                        borderColor: '#1e40af',
-                        color: '#1e40af',
-                        fontWeight: 500,
-                        textTransform: 'none'
-                    }}
+                    className={styles.topButton}
                 >
                     New School Calendar
                 </Button>
             </div>
 
-            <div style={{
-                display: 'flex',
-                gap: '.5rem',
-                flexWrap: 'wrap'
-            }}>
+            <div className={styles.containerCards}>
                 {academicYears.length > 0 && academicYears?.map((yearOption) => {
                     const configuredItem = configuredYearsMap.get(yearOption.value) || {} as schoolCalendar
                     const isConfigured = !!configuredItem.id
@@ -131,19 +124,10 @@ function HomePage() {
                         <Card
                             key={yearOption.value}
                             elevation={(isDefault && !loadingStore) ? 4 : 1}
-                            style={{
-                                border: (isDefault && !loadingStore) ? '1.5px solid #1e6194' : '1px solid #e5e7eb',
-                                borderRadius: '5px',
-                                backgroundColor: '#ffffff',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                height: '100%',
-                                justifyContent: 'space-between',
-                                width: "350px"
-                            }}
+                            className={classNames(styles.card, (isDefault && !loadingStore) && styles.dafaultCard)}
                         >
-                            <CardContent style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <CardContent className={styles.cardContent}>
+                                <div className={styles.cardHead}>
                                     <Typography
                                         variant="h5"
                                         onClick={() => isConfigured && handleNavigate(configuredItem.id)}
@@ -182,7 +166,7 @@ function HomePage() {
                                         </div>
                                     </div>
 
-                                    <div style={{ marginTop: 'auto', paddingTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                    <div className={styles.cardActions}>
                                         <Button
                                             size="small"
                                             onClick={() => handleSetDefault(configuredItem.id)}
@@ -232,7 +216,7 @@ function HomePage() {
                     )
                 })}
             </div>
-        </div>
+        </div >
     )
 }
 

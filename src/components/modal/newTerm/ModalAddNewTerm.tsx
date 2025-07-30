@@ -56,7 +56,7 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
                         }
                     })]
 
-                }, i18n.t(" registered successfully")).then(() => {
+                }, i18n.t("Data registered successfully")).then(() => {
                     setOpen(false);
                     if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
                 })
