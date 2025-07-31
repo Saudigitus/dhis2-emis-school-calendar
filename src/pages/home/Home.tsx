@@ -99,6 +99,7 @@ function SchoolCalendarHomePage() {
                         setOpenDialogOption(true)
                     }}
                     className={styles.topButton}
+                    disabled={loadingStore || (loadingAcademicYear && !open && !openDialogOption)}
                 >
                     New Academc Year Option
                 </Button>
