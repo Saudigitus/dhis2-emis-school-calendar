@@ -8,6 +8,7 @@ import fieldsOptions from "../../../utils/constants/fieldsOptions.json";
 import i18n from "../../../locales";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
 import { useGetAcademicYears } from "../../../hooks/dataElements/useGetAcademicYears";
+import { DataStoreState } from "dhis2-semis-components";
 
 interface ContentProps {
     setOpen: (value: boolean) => void
@@ -16,12 +17,11 @@ interface ContentProps {
 }
 
 export default function AddNewOption({ setOpen, selected, refetch }: ContentProps) {
-    const { postData, loading } = dataStoreManagement()
+    const { postData, posting } = dataStoreManagement()
     const { loading: loadingAC, data, getAcademicYear } = useGetAcademicYears()
 
-
     useEffect(() => {
-        getAcademicYear()
+        // getAcademicYear()
     }, [])
 
     const modalActions = [
@@ -36,7 +36,7 @@ export default function AddNewOption({ setOpen, selected, refetch }: ContentProp
             type: "button",
             label: i18n.t("Save"),
             primary: true,
-            icon: loading && <CircularLoader small />
+            icon: posting && <CircularLoader small />
         }
     ];
 
@@ -82,7 +82,7 @@ export default function AddNewOption({ setOpen, selected, refetch }: ContentProp
                             <ModalActions>
                                 <ButtonStrip end>
                                     {modalActions.map((action, i) => (
-                                        <Button key={i} disabled={action.id == "cancel" ? loading : (loading || pristine)} {...action} onClick={(e: any) => {
+                                        <Button key={i} disabled={action.id == "cancel" ? posting : (posting || pristine)} {...action} onClick={(e: any) => {
                                             if (valid) {
                                                 actions(action.id, values)
                                             } else if (action.id === "cancel") {

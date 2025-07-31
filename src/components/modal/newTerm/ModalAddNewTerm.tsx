@@ -9,8 +9,8 @@ import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { editState } from "../../../schema/editDataSchema";
 import { useParams } from "react-router-dom";
-import { mergeHoliday } from "../../../utils/common/mergeHoliday";
 import { SchoolCalendarData } from "dhis2-semis-components";
+import { mergeTerm } from "../../../utils/common/mergeTerm";
 
 
 interface ContentProps {
@@ -20,7 +20,7 @@ interface ContentProps {
 }
 
 export default function NewSchoolTerm({ setOpen, selected }: ContentProps): React.ReactElement {
-    const { postData, loading } = dataStoreManagement()
+    const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const [selectedCard, setSelectedCard] = useRecoilState(editState)
     const { id } = useParams();
@@ -37,7 +37,7 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
             type: "button",
             label: i18n.t("Save"),
             primary: true,
-            icon: loading && <CircularLoader small />
+            icon: posting && <CircularLoader small />
         }
     ];
 
@@ -48,10 +48,9 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
                 break
             case "save":
                 const localData = dataStoreData.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
-
                 postData({
                     ...dataStoreData,
-                    schoolCalendar: [{ ...mergeHoliday(localData, values) }, ...dataStoreData.schoolCalendar.filter((x) => {
+                    schoolCalendar: [{ ...mergeTerm(localData, {...values, key: values?.description?.replace(/\s+/g, '')?.toLowerCase()}) }, ...dataStoreData.schoolCalendar.filter((x) => {
                         if (x.id !== id) {
                             return x;
                         }
@@ -66,13 +65,16 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
         }
     }
 
+    console.log(selectedCard)
     return (
         <WithPadding padding="0px">
             <span>
                 {i18n.t("To register new off day, please fill out the form")}
             </span>
-            <Form initialValues={selectedCard.edit ? { date: selectedCard.data.date, type: selectedCard.data.type, event: selectedCard.data.title } : {}} onSubmit={() => {
-            }}
+            <Form
+                initialValues={selectedCard.edit ? { date: selectedCard.data.date, type: selectedCard.data.type, event: selectedCard.data.title } : {}}
+                onSubmit={() => {
+                }}
             >
                 {({ values, pristine }) => {
                     return (
@@ -91,7 +93,7 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
                             <ModalActions>
                                 <ButtonStrip end>
                                     {modalActions.map((action, i) => (
-                                        <Button key={i} disabled={action.id === "cancel" ? loading : loading || pristine} {...action} onClick={(e: any) => {
+                                        <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine} {...action} onClick={(e: any) => {
                                             actions(action.id, values)
                                         }}>
                                             {action.label}

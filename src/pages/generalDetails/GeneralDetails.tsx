@@ -4,7 +4,7 @@ import GeneralDetailsForm from '../../components/forms/GeneralDetailsForm'
 
 function GeneralDetails() {
   return (
-    <WithPadding padding="10px 0px">
+    <WithPadding padding="10px">
         <GeneralDetailsForm/>
     </WithPadding>
   )

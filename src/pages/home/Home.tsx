@@ -19,7 +19,7 @@ function HomePage() {
     const navigate = useNavigate()
     const data = useRecoilValue(SchoolCalendarData)
     const valuesDataStore = useRecoilValue(ValuesDataStoreState)
-    const { postData, loading: loadingStore } = dataStoreManagement()
+    const { postData, posting: loadingStore } = dataStoreManagement()
     const { data: academicYears, loading: loadingAcademicYear, getAcademicYear } = useGetAcademicYears()
     const [open, setOpen] = useState(false)
     const [openDialogOption, setOpenDialogOption] = useState(false)

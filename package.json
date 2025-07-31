@@ -1,9 +1,18 @@
 {
   "name": "dhis2-semis-school-callendar",
-  "version": "1.2.0",
+  "version": "1.2.7",
   "description": "",
   "license": "BSD-3-Clause",
   "private": false,
+  "main": "dist/index.js",
+  "types": "dist/declarations/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.js",
+      "types": "./dist/declarations/index.d.ts"
+    }
+  },
   "scripts": {
     "build": "d2-app-scripts build",
     "start": "d2-app-scripts start --proxy https://emis.dhis2.org/startracker",

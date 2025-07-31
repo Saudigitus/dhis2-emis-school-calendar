@@ -12,7 +12,7 @@ function Repeatable() {
 
     const types = [
         { name: 'General Details', id: 'general' },
-        { name: 'Academic Year', id: 'terms' },
+        { name: 'School Terms', id: 'terms' },
         { name: 'Non School Days', id: 'nonschool' }
     ]
     return (

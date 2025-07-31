@@ -19,7 +19,7 @@ interface ContentProps {
 }
 
 export default function NewOdffDay({ setOpen, selected }: ContentProps): React.ReactElement {
-    const { postData, loading } = dataStoreManagement()
+    const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const [selectedCard, setSelectedCard] = useRecoilState(editState)
     const { id } = useParams();
@@ -36,7 +36,7 @@ export default function NewOdffDay({ setOpen, selected }: ContentProps): React.R
             type: "button",
             label: i18n.t("Save"),
             primary: true,
-            icon: loading && <CircularLoader small />
+            icon: posting && <CircularLoader small />
         }
     ];
 
@@ -90,7 +90,7 @@ export default function NewOdffDay({ setOpen, selected }: ContentProps): React.R
                             <ModalActions>
                                 <ButtonStrip end>
                                     {modalActions.map((action, i) => (
-                                        <Button key={i} disabled={action.id === "cancel" ? loading : loading || pristine} {...action} onClick={(e: any) => {
+                                        <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine} {...action} onClick={(e: any) => {
                                             actions(action.id, values)
                                         }}>
                                             {action.label}

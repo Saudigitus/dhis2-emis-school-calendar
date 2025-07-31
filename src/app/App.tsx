@@ -8,19 +8,19 @@ import { AppWrapper } from 'dhis2-semis-components';
 import { useConfig } from '@dhis2/app-runtime';
 import CustomAppWrapper from './AppWrapper';
 
-export default function App() {
+export default function SchoolCalendar() {
     const { baseUrl } = useConfig()
 
     return (
-        <AppWrapper
-            baseUrl={baseUrl}
-            dataStoreKey="dataStore/semis/values"
-        >
-            <HashRouter>
+         <AppWrapper
+             baseUrl={baseUrl}
+             dataStoreKey="dataStore/semis/values"
+         >
+             <HashRouter>
                 <CustomAppWrapper>
                     <Router />
                 </CustomAppWrapper>
-            </HashRouter>
-        </AppWrapper>
+             </HashRouter>
+         </AppWrapper>
     )
 }

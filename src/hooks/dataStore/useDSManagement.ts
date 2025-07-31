@@ -4,26 +4,21 @@ import useShowAlerts from "../commons/useShowAlert";
 import { useDataStore } from "../appwarapper/useDataStore";
 
 const DATASTOREQUERY: any = {
-    resource: "dataStore/edson/schoolCalendar",
+    resource: "dataStore/semis/schoolCalendar",
     data: ({ data }: any) => data,
     type: 'update'
 }
 
 export const dataStoreManagement = () => {
     const engine = useDataEngine()
-    const {
-        hide,
-        show
-    } = useShowAlerts()
-    const [loading, setloading] = useState(false)
     const { refetch } = useDataStore()
+    const { hide, show } = useShowAlerts()
+    const [loading, setloading] = useState(false)
 
     async function postData(data: any, msg: string | null): Promise<void> {
         setloading(true)
         await engine.mutate(DATASTOREQUERY, {
-            variables: {
-                data: data
-            },
+            variables: { data: data },
             onComplete() {
                 if (msg !== null) {
                     show({
@@ -45,8 +40,5 @@ export const dataStoreManagement = () => {
         setloading(false)
     }
 
-    return {
-        loading,
-        postData
-    }
+    return { posting: loading, postData }
 }

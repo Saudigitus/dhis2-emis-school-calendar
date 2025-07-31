@@ -10,7 +10,7 @@ export default function RouteList() {
         {
             path: "/",
             layout: SimpleLayout,
-            component: () => <Navigate to="/semis/callendars" replace />
+            component: () => <Navigate to="/semis/calendar" replace />
         },
         {
             path: "/semis/generalDetails",
@@ -18,7 +18,7 @@ export default function RouteList() {
             component: GeneralDetails
         },
         {
-            path: "/semis/callendars",
+            path: "/semis/calendar",
             layout: SimpleLayout,
             component: HomePage
         },

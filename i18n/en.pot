@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-07-30T10:21:25.971Z\n"
-"PO-Revision-Date: 2025-07-30T10:21:25.972Z\n"
+"POT-Creation-Date: 2025-07-31T11:20:58.087Z\n"
+"PO-Revision-Date: 2025-07-31T11:20:58.088Z\n"
 
 msgid "Cancel"
 msgstr "Cancel"
@@ -34,3 +34,11 @@ msgstr "To register new school calendar, please fill out the form"
 
 msgid "Data registered successfully"
 msgstr "Data registered successfully"
+
+msgctxt "Application title"
+msgid "__MANIFEST_APP_TITLE"
+msgstr "SEMIS-School-Calendar"
+
+msgctxt "Application description"
+msgid "__MANIFEST_APP_DESCRIPTION"
+msgstr "SEMIS"

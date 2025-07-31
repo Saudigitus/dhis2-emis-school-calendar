@@ -21,7 +21,7 @@ interface ContentProps {
 }
 
 export default function AddNewSchoolCalendar({ setOpen, selected, refetch, academicYearValues }: ContentProps) {
-    const { postData, loading } = dataStoreManagement()
+    const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const { loading: loadingAC, data, getAcademicYear } = useGetAcademicYears()
     const valuesDataStore = useRecoilValue(ValuesDataStoreState)
@@ -44,7 +44,7 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
             type: "button",
             label: i18n.t("Save"),
             primary: true,
-            icon: loading && <CircularLoader small />
+            icon: posting && <CircularLoader small />
         }
     ];
 
@@ -140,7 +140,7 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
                             <ModalActions>
                                 <ButtonStrip end>
                                     {modalActions.map((action, i) => (
-                                        <Button key={i} disabled={action.id == "cancel" ? loading : (loading || pristine)} {...action} onClick={(e: any) => {
+                                        <Button key={i} disabled={action.id == "cancel" ? posting : (posting || pristine)} {...action} onClick={(e: any) => {
                                             if (valid) {
                                                 actions(action.id, values)
                                             } else if (action.id === "cancel") {

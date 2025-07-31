@@ -9,13 +9,15 @@ import { type FormSectionProps } from "../../types/form/FormSectionProps";
 import { type dataStoreRecord } from "../../types/dataStore/DataStoreConfig";
 import GroupForm from "../groupForm/GroupForm";
 import { SchoolCalendarData } from "dhis2-semis-components";
+import { useDataStore } from "../../hooks/appwarapper/useDataStore";
+import { LinearProgress } from "@mui/material";
 
 function GeneralDetailsForm(): React.ReactElement {
-    const formRef = useRef<any>(null);
-    const dataStoreData = useRecoilValue(SchoolCalendarData);
-    const { postData } = dataStoreManagement()
     const { id } = useParams();
-
+    const formRef = useRef<any>(null);
+    const { loading } = useDataStore()
+    const { postData, posting } = dataStoreManagement()
+    const dataStoreData = useRecoilValue(SchoolCalendarData);
     const [debouncedValues, setDebouncedValues] = useState<any>(null);
 
     function getValues(
@@ -59,6 +61,7 @@ function GeneralDetailsForm(): React.ReactElement {
 
     return (
         <WithPadding padding="5px 15px">
+            {(loading || posting) && <LinearProgress />}
             <div className="col-6">
                 <Form
                     initialValues={{

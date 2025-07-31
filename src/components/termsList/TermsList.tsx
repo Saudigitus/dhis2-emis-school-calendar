@@ -1,18 +1,22 @@
 import React, { useState } from 'react'
 import { useRecoilValue } from 'recoil';
 import { WithPadding } from "../template";
-import { Button } from '@mui/material';
+import { Button, LinearProgress } from '@mui/material';
 import { AddCircleOutline } from '@mui/icons-material';
 import ModalComponent from "../modal/modal";
 import { useParams } from 'react-router-dom';
 import GridViewComponentTerm from '../table/gridView/GridViewComponentTerm';
 import NewSchoolTerm from '../modal/newTerm/ModalAddNewTerm';
 import { SchoolCalendarData } from 'dhis2-semis-components';
+import { useDataStore } from '../../hooks/appwarapper/useDataStore';
+import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement';
 
 function TermsList() {
+    const { id } = useParams();
+    const { loading } = useDataStore()
+    const { posting } = dataStoreManagement()
     const [open, setOpen] = useState(false)
     const data = useRecoilValue(SchoolCalendarData)
-    const { id } = useParams();
 
     return (
         <div>
@@ -25,22 +29,24 @@ function TermsList() {
                         setOpen(true);
                     }}
                 >
-                    Add Academic Year
+                    Add School Term
                 </Button>
             </WithPadding>
             <WithPadding>
                 <div>
-                    {/* {loading ? <CenteredContent className="p-4">
-                        <CircularLoader />
-                    </CenteredContent>
-                        : */}
-                         <WithPadding>
-                            <GridViewComponentTerm
-                                setOpen={setOpen}
-                                classPeriods={data?.schoolCalendar?.find((x) => x.id === id)?.classPeriods || []}
-                            />
-                        </WithPadding>
-                    {/* } */}
+                    {(loading || posting) && <LinearProgress />}
+                    <WithPadding>
+                        {
+                            data?.schoolCalendar?.find((x) => x.id === id)?.classPeriods?.length ?
+
+                                <GridViewComponentTerm
+                                    setOpen={setOpen}
+                                    classPeriods={data?.schoolCalendar?.find((x) => x.id === id)?.classPeriods || []}
+                                />
+                                :
+                                <>No school terms registered yet.</>
+                        }
+                    </WithPadding>
                 </div>
             </WithPadding>
         </div>
