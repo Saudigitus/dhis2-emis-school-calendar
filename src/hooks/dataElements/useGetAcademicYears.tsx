@@ -4,6 +4,7 @@ import { useDataEngine } from "@dhis2/app-runtime";
 import useShowAlerts from "../commons/useShowAlert";
 import { AcademicYearState } from "../../schema/academicYearSchema";
 import { SchoolCalendarData } from "dhis2-semis-components";
+import { GeneralLoadingState } from "../../schema/loadingSchema";
 
 const DATAELEMENT_QUERY: any = ({
     dataElement: {
@@ -18,14 +19,11 @@ const DATAELEMENT_QUERY: any = ({
 export const useGetAcademicYears = () => {
     const engine = useDataEngine()
     const { hide, show } = useShowAlerts()
-    const [loading, setLoading] = useState(false);
     const schoolCalendar = useRecoilValue(SchoolCalendarData)
+    const [loading, setLoading] = useRecoilState(GeneralLoadingState);
     const [academicYearState, setAcademicYearState] = useRecoilState(AcademicYearState)
 
     async function getAcademicYear(valuesDataStore: any) {
-        // if (academicYearState?.options.length > 0) {
-        //     return
-        // }
         setLoading(true);
 
         const academic = schoolCalendar?.academicYear || "";
