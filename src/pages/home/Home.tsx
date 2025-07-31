@@ -84,9 +84,9 @@ function SchoolCalendarHomePage() {
             />
 
             <ModalComponent
-                onClose={() => setOpenDialogOption(false)}
-                open={openDialogOption}
                 title="Add new option"
+                open={openDialogOption}
+                onClose={() => setOpenDialogOption(false)}
                 children={
                     <AddNewOption
                         selected={selected}
@@ -107,12 +107,12 @@ function SchoolCalendarHomePage() {
                     }}
                     className={styles.topButton}
                 >
-                    New School Calendar
+                    New Academc Year Option
                 </Button>
             </div>
 
             <div className={styles.containerCards}>
-                {academicYears.length > 0 && academicYears?.map((yearOption) => {
+                {academicYears?.options?.length > 0 && academicYears?.options?.map((yearOption) => {
                     const configuredItem = configuredYearsMap.get(yearOption.value) || {} as schoolCalendar
                     const isConfigured = !!configuredItem.id
                     const isDefault = configuredItem?.id === defaultYear

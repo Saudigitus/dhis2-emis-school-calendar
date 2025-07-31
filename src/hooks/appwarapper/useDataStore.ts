@@ -1,9 +1,10 @@
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useDataEngine } from "@dhis2/app-runtime"
 import useShowAlerts from '../commons/useShowAlert';
 import { SchoolCalendarData } from "dhis2-semis-components";
 import { ValuesDataStoreState } from "../../schema/valuesDataStoreSchema";
 import { useState } from 'react';
+import { GeneralLoadingState } from '../../schema/loadingSchema';
 
 const DATASTORE_QUERY = ({
     config: {
@@ -18,11 +19,10 @@ export function useDataStore() {
     const engine = useDataEngine()
     const { hide, show } = useShowAlerts()
     const [error, setError] = useState(false)
-    const [loading, setLoading] = useState(false)
     const setDataStoreState = useSetRecoilState(SchoolCalendarData);
+    const [loading, setLoading] = useRecoilState(GeneralLoadingState)
     const setValuesDataStoreState = useSetRecoilState(ValuesDataStoreState)
-
-
+  
     const getDataStore = async () => {
         setLoading(true)
         await engine.query(DATASTORE_QUERY, {

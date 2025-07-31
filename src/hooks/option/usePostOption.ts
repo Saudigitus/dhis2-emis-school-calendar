@@ -1,23 +1,23 @@
 import { useState } from 'react';
 import { useDataEngine } from "@dhis2/app-runtime";
 import useShowAlerts from "../commons/useShowAlert";
-import { useDataStore } from "../appwarapper/useDataStore";
 
-const DATASTOREQUERY: any = {
-    resource: "dataStore/semis/schoolCalendar",
+const OPTIONQUERY: any = {
+    type: 'create',
+    resource: "options",
     data: ({ data }: any) => data,
-    type: 'update'
 }
 
-export const dataStoreManagement = () => {
+export const usePostOption = () => {
     const engine = useDataEngine()
-    const { refetch } = useDataStore()
+    // const { refetch } = useDataStore()
     const { hide, show } = useShowAlerts()
     const [loading, setloading] = useState(false)
 
-    async function postData(data: any, msg: string | null): Promise<void> {
+
+    async function postOption(data: any, msg: string | null): Promise<void> {
         setloading(true)
-        await engine.mutate(DATASTOREQUERY, {
+        await engine.mutate(OPTIONQUERY, {
             variables: { data: data },
             onComplete() {
                 setloading(false)
@@ -28,7 +28,7 @@ export const dataStoreManagement = () => {
                     });
                     setTimeout(hide, 5000);
                 }
-                void refetch()
+                // void refetch()
             },
             onError(error) {
                 setloading(false)
@@ -41,5 +41,5 @@ export const dataStoreManagement = () => {
         });
     }
 
-    return { posting: loading, postData }
+    return { loading, postOption }
 }

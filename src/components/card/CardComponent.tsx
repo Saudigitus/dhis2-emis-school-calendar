@@ -12,8 +12,6 @@ export default function OffDaysCard(props: CardSubItemProps): React.ReactElement
   const [selected, setSelected] = useState({})
   const [delected, setDelected] = useState(false)
 
-  console.log(selected, delected)
-
   return (
     <Box>
       <Card

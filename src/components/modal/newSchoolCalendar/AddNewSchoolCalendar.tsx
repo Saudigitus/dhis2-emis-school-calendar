@@ -12,6 +12,7 @@ import { generateId } from "../../../utils/common/generateId";
 import { updateSchoolConfig } from "../../../utils/common/updateSchoolConfig";
 import { schoolCalendar } from "../../../types/dataStore/DataStoreConfig";
 import { SchoolCalendarData } from "dhis2-semis-components";
+import { ValuesDataStoreState } from "../../../schema/valuesDataStoreSchema";
 interface ContentProps {
     setOpen: (value: boolean) => void
     selected?: string
@@ -22,11 +23,12 @@ interface ContentProps {
 export default function AddNewSchoolCalendar({ setOpen, selected, refetch, academicYearValues }: ContentProps) {
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
+    const valuesDataStore = useRecoilValue(ValuesDataStoreState)
     const { loading: loadingAC, data, getAcademicYear } = useGetAcademicYears()
 
 
     useEffect(() => {
-        getAcademicYear()
+        getAcademicYear(valuesDataStore)
     }, [])
 
     const modalActions = [
@@ -53,10 +55,9 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
             case "save":
                 if (selected) {
                     const currentData = dataStoreData?.schoolCalendar?.find((item: any) => item.id == selected) as unknown as SchoolConfig
-                    console.log(dataStoreData)
                     if (currentData) {
                         const updatedData = updateSchoolConfig(currentData, {
-                            academicYear: { ...values, label: data?.find((x) => x.value === values["code"])?.label }
+                            academicYear: { ...values, label: data?.options?.find((x) => x.value === values["code"])?.label }
                         });
                         postData({
                             ...dataStoreData, schoolCalendar: [updatedData, ...dataStoreData.schoolCalendar.filter((x) => {
@@ -64,11 +65,12 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
                                     return x;
                                 }
                             })]
-                        }, i18n.t("School calendar updated successfully"));
+                        }, i18n.t("School calendar updated successfully"))
+                            .then(() => { setOpen(false) });
                     }
                 } else {
                     const currentData = updateSchoolConfig({}, {
-                        academicYear: { ...values, label: data?.find((x) => x.value === values["code"])?.label },
+                        academicYear: { ...values, label: data?.options?.find((x) => x.value === values["code"])?.label },
                         id: generateId(),
                         weekDays: {
                             "friday": false,
@@ -80,7 +82,8 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
                             "wednesday": false
                         }
                     })
-                    postData({ ...dataStoreData, schoolCalendar: [...dataStoreData.schoolCalendar, currentData] }, i18n.t("School calendar updated successfully"));
+                    postData({ ...dataStoreData, schoolCalendar: [...dataStoreData.schoolCalendar, currentData] }, i18n.t("School calendar updated successfully"))
+                        .then(() => { setOpen(false) });
                 }
                 break
         }
@@ -88,7 +91,7 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
 
     // addAcademicYearOptions as options to fieldsSchoolDetails and return the updated fieldsSchoolDetails
     function addAcademicYearOptions() {
-        const academicYearOptions = data?.map((item: any) => ({
+        const academicYearOptions = data?.options?.map((item: any) => ({
             value: item.value,
             label: item.label
         })) || [];

@@ -9,6 +9,9 @@ import i18n from "../../../locales";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
 import { useGetAcademicYears } from "../../../hooks/dataElements/useGetAcademicYears";
 import { DataStoreState } from "dhis2-semis-components";
+import { ValuesDataStoreState } from "../../../schema/valuesDataStoreSchema";
+import { usePostOption } from "../../../hooks/option/usePostOption";
+import useShowAlerts from "../../../hooks/commons/useShowAlert";
 
 interface ContentProps {
     setOpen: (value: boolean) => void
@@ -16,12 +19,15 @@ interface ContentProps {
     refetch?: () => void,
 }
 
-export default function AddNewOption({ setOpen, selected, refetch }: ContentProps) {
-    const { postData, posting } = dataStoreManagement()
-    const { loading: loadingAC, data, getAcademicYear } = useGetAcademicYears()
+export default function AddNewOption({ setOpen, selected }: ContentProps) {
+    // const { postData, posting } = dataStoreManagement()
+    const { show, hide } = useShowAlerts()
+    const { postOption, loading: posting } = usePostOption()
+    const valuesDataStore = useRecoilValue(ValuesDataStoreState)
+    const { loading: loadingAC, data, getAcademicYear, refetch } = useGetAcademicYears()
 
     useEffect(() => {
-        // getAcademicYear()
+        getAcademicYear(valuesDataStore)
     }, [])
 
     const modalActions = [
@@ -46,7 +52,26 @@ export default function AddNewOption({ setOpen, selected, refetch }: ContentProp
                 setOpen(false)
                 break
             case "save":
-                setOpen(false)
+                if (data?.options?.some((opt) => opt.value === values?.code)) {
+                    show({
+                        message: `${("Could not get data")}: typed code already exist.`,
+                        type: { critical: true }
+                    });
+                    setTimeout(hide, 1000);
+                }
+                else {
+                    refetch(valuesDataStore)
+                    getAcademicYear(valuesDataStore)
+                    postOption({
+                        ...values,
+                        optionSet: { id: data?.id }
+                    },
+                        "")
+                        .then(() => {
+                            refetch(valuesDataStore)
+                            setOpen(false)
+                        })
+                }
                 break
         }
     }
@@ -73,7 +98,7 @@ export default function AddNewOption({ setOpen, selected, refetch }: ContentProp
                                     description={""}
                                     disabled={false}
                                     fields={fieldsOptions.map((field: any) => ({
-                                        type: field.type ?? "text", // or the appropriate default type
+                                        type: field.type ?? "text",
                                         ...field
                                     }))}
                                 />

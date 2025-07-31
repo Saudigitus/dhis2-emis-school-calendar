@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { WithPadding } from "../template";
 import { Button, LinearProgress } from '@mui/material';
 import { AddCircleOutline } from '@mui/icons-material';
@@ -10,13 +10,16 @@ import NewSchoolTerm from '../modal/newTerm/ModalAddNewTerm';
 import { SchoolCalendarData } from 'dhis2-semis-components';
 import { useDataStore } from '../../hooks/appwarapper/useDataStore';
 import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement';
+import { GeneralLoadingState } from '../../schema/loadingSchema';
 
 function TermsList() {
     const { id } = useParams();
-    const { loading } = useDataStore()
+    // const { loading } = useDataStore()
     const { posting } = dataStoreManagement()
     const [open, setOpen] = useState(false)
     const data = useRecoilValue(SchoolCalendarData)
+
+    const [loading, setLoading] = useRecoilState(GeneralLoadingState)
 
     return (
         <div>

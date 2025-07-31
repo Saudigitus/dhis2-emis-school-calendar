@@ -10,22 +10,22 @@ const DATAELEMENT_QUERY: any = ({
         resource: "dataElements",
         id: ({ id }: { id: string }) => id,
         params: {
-            fields: "optionSet[options[code~rename(value),name~rename(label)]]"
+            fields: "optionSet[id, options[code~rename(value),name~rename(label)]]"
         }
     }
 })
 
 export const useGetAcademicYears = () => {
-    const [academicYearState, setAcademicYearState] = useRecoilState(AcademicYearState)
-    const schoolCalendar = useRecoilValue(SchoolCalendarData)
-    const { hide, show } = useShowAlerts()
     const engine = useDataEngine()
+    const { hide, show } = useShowAlerts()
     const [loading, setLoading] = useState(false);
+    const schoolCalendar = useRecoilValue(SchoolCalendarData)
+    const [academicYearState, setAcademicYearState] = useRecoilState(AcademicYearState)
 
-    async function getAcademicYear() {
-        if (academicYearState.length > 0) {
-            return
-        }
+    async function getAcademicYear(valuesDataStore: any) {
+        // if (academicYearState?.options.length > 0) {
+        //     return
+        // }
         setLoading(true);
 
         const academic = schoolCalendar?.academicYear || "";
@@ -36,14 +36,16 @@ export const useGetAcademicYears = () => {
             });
             setTimeout(hide, 5000);
             setLoading(false);
-            setAcademicYearState([])
+            setAcademicYearState({ options: [], id: "" })
             return;
         }
 
         let options: any[] = []
+        let optionSetId: string = ""
         await engine.query(DATAELEMENT_QUERY, { variables: { id: academic } })
             .then((response: any) => {
-                options = response.dataElement.optionSet.options
+                options = response?.dataElement?.optionSet?.options
+                optionSetId = response?.dataElement?.optionSet?.id
 
             }).catch((error: any) => {
                 show({
@@ -53,14 +55,19 @@ export const useGetAcademicYears = () => {
                 setTimeout(hide, 5000);
             })
 
-        setAcademicYearState(options.sort((a, b) => b.value - a.value))
+        setAcademicYearState({ options: options.sort((a, b) => b.value - a.value), id: optionSetId })
         setLoading(false);
 
     }
 
+    const refetch = async (valuesDataStore: any) => {
+        await getAcademicYear(valuesDataStore);
+    };
+
     return {
         getAcademicYear,
         loading,
+        refetch,
         data: academicYearState
     };
 }

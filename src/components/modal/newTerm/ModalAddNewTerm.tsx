@@ -65,7 +65,6 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
         }
     }
 
-    console.log(selectedCard)
     return (
         <WithPadding padding="0px">
             <span>
