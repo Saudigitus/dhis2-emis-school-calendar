@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { Button, CircularLoader } from "@dhis2/ui";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
-import {dataStoreManagement} from "../../hooks/dataStore/useDSManagement";
-import {useRecoilValue} from "recoil";
-import {DataStoreState} from "../../schema/dataStoreSchema";
 import {type CardSubItemProps} from "../../types/card/CardTypes";
 
 interface AlertDialogProps {
@@ -15,7 +12,6 @@ interface AlertDialogProps {
 
 export default function AlertDialog(props: AlertDialogProps) {
     const { open, setOpen, row, setDeleted } = props
-    const dataStoreData = useRecoilValue(DataStoreState)
 
     const handleClose = () => {
         setOpen(false);

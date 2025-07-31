@@ -4,8 +4,6 @@ import { IconButton, Button, Card, CardContent, Typography, Divider } from '@mui
 import { CenteredContent, CircularLoader } from "@dhis2/ui"
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
-import { DataStoreState } from '../../schema/dataStoreSchema'
-import { useDataStore } from '../../hooks/appwarapper/useDataStore'
 import AddNewSchoolCalendar from '../../components/modal/newSchoolCalendar/AddNewSchoolCalendar'
 import ModalComponent from '../../components/modal/modal'
 import { useGetAcademicYears } from '../../hooks/dataElements/useGetAcademicYears'
@@ -14,10 +12,11 @@ import AddNewOption from '../../components/modal/newOption/AddNewOption'
 import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement'
 import styles from "./Home.module.css"
 import classNames from 'classnames'
+import { SchoolCalendarData } from 'dhis2-semis-components'
 
 function HomePage() {
     const navigate = useNavigate()
-    const data = useRecoilValue(DataStoreState)
+    const data = useRecoilValue(SchoolCalendarData)
     const { postData, loading: loadingStore } = dataStoreManagement()
     const { data: academicYears, loading: loadingAcademicYear, getAcademicYear } = useGetAcademicYears()
     const [open, setOpen] = useState(false)
@@ -30,12 +29,12 @@ function HomePage() {
     })
 
     useEffect(() => {
-        getAcademicYear()
-    }, [])
+        console.log(data,'no useEffect')
+        if (data)
+            getAcademicYear()
+    }, [data])
 
-    const { loading } = useDataStore()
-
-    if (loading || loadingAcademicYear) {
+    if (loadingAcademicYear) {
         return (
             <CenteredContent className="p-4">
                 <CircularLoader />

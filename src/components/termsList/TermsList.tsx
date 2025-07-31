@@ -1,20 +1,17 @@
 import React, { useState } from 'react'
-import { CenteredContent, CircularLoader } from "@dhis2/ui";
 import { useRecoilValue } from 'recoil';
 import { WithPadding } from "../template";
 import { Button } from '@mui/material';
 import { AddCircleOutline } from '@mui/icons-material';
 import ModalComponent from "../modal/modal";
-import { DataStoreState } from "../../schema/dataStoreSchema";
-import { useDataStore } from "../../hooks/appwarapper/useDataStore";
 import { useParams } from 'react-router-dom';
 import GridViewComponentTerm from '../table/gridView/GridViewComponentTerm';
 import NewSchoolTerm from '../modal/newTerm/ModalAddNewTerm';
+import { SchoolCalendarData } from 'dhis2-semis-components';
 
 function TermsList() {
     const [open, setOpen] = useState(false)
-    const data = useRecoilValue(DataStoreState)
-    const { loading } = useDataStore()
+    const data = useRecoilValue(SchoolCalendarData)
     const { id } = useParams();
 
     return (
@@ -33,16 +30,17 @@ function TermsList() {
             </WithPadding>
             <WithPadding>
                 <div>
-                    {loading ? <CenteredContent className="p-4">
+                    {/* {loading ? <CenteredContent className="p-4">
                         <CircularLoader />
                     </CenteredContent>
-                        : <WithPadding>
+                        : */}
+                         <WithPadding>
                             <GridViewComponentTerm
                                 setOpen={setOpen}
                                 classPeriods={data?.schoolCalendar?.find((x) => x.id === id)?.classPeriods || []}
                             />
                         </WithPadding>
-                    }
+                    {/* } */}
                 </div>
             </WithPadding>
         </div>

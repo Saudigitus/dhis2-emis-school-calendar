@@ -7,10 +7,7 @@ import GroupForm from "../../form/GroupForm";
 import fieldsOptions from "../../../utils/constants/fieldsOptions.json";
 import i18n from "../../../locales";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
-import { DataStoreState } from "../../../schema/dataStoreSchema";
 import { useGetAcademicYears } from "../../../hooks/dataElements/useGetAcademicYears";
-import { generateId } from "../../../utils/common/generateId";
-import { updateSchoolConfig } from "../../../utils/common/updateSchoolConfig";
 
 interface ContentProps {
     setOpen: (value: boolean) => void
@@ -20,7 +17,6 @@ interface ContentProps {
 
 export default function AddNewOption({ setOpen, selected, refetch }: ContentProps) {
     const { postData, loading } = dataStoreManagement()
-    const dataStoreData = useRecoilValue(DataStoreState)
     const { loading: loadingAC, data, getAcademicYear } = useGetAcademicYears()
 
 

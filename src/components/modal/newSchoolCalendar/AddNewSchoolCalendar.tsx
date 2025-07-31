@@ -7,12 +7,11 @@ import GroupForm from "../../form/GroupForm";
 import fieldsSchoolDetails from "../../../utils/constants/fieldsSchoolDetails.json";
 import i18n from "../../../locales";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
-import { DataStoreState } from "../../../schema/dataStoreSchema";
 import { useGetAcademicYears } from "../../../hooks/dataElements/useGetAcademicYears";
 import { generateId } from "../../../utils/common/generateId";
 import { updateSchoolConfig } from "../../../utils/common/updateSchoolConfig";
 import { schoolCalendar } from "../../../types/dataStore/DataStoreConfig";
-
+import { SchoolCalendarData } from "dhis2-semis-components";
 interface ContentProps {
     setOpen: (value: boolean) => void
     selected?: string
@@ -22,7 +21,7 @@ interface ContentProps {
 
 export default function AddNewSchoolCalendar({ setOpen, selected, refetch, academicYearValues }: ContentProps) {
     const { postData, loading } = dataStoreManagement()
-    const dataStoreData = useRecoilValue(DataStoreState)
+    const dataStoreData = useRecoilValue(SchoolCalendarData)
     const { loading: loadingAC, data, getAcademicYear } = useGetAcademicYears()
 
 

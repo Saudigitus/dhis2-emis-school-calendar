@@ -1,11 +1,11 @@
-import {useState} from 'react';
-import {useDataEngine} from "@dhis2/app-runtime";
+import { useState } from 'react';
+import { useDataEngine } from "@dhis2/app-runtime";
 import useShowAlerts from "../commons/useShowAlert";
-import {useDataStore} from "../appwarapper/useDataStore";
+import { useDataStore } from "../appwarapper/useDataStore";
 
 const DATASTOREQUERY: any = {
     resource: "dataStore/edson/schoolCalendar",
-    data: ({data}: any) => data,
+    data: ({ data }: any) => data,
     type: 'update'
 }
 
@@ -16,7 +16,7 @@ export const dataStoreManagement = () => {
         show
     } = useShowAlerts()
     const [loading, setloading] = useState(false)
-    const {refetch} = useDataStore()
+    const { refetch } = useDataStore()
 
     async function postData(data: any, msg: string | null): Promise<void> {
         setloading(true)
@@ -28,7 +28,7 @@ export const dataStoreManagement = () => {
                 if (msg !== null) {
                     show({
                         message: msg,
-                        type: {success: true}
+                        type: { success: true }
                     });
                     setTimeout(hide, 5000);
                 }
@@ -37,7 +37,7 @@ export const dataStoreManagement = () => {
             onError(error) {
                 show({
                     message: `Could not update data: ${error.message}`,
-                    type: {critical: true}
+                    type: { critical: true }
                 });
                 setTimeout(hide, 5000);
             }

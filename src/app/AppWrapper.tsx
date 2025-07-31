@@ -1,26 +1,17 @@
-import React from 'react'
-import { CenteredContent, CircularLoader } from "@dhis2/ui";
-import { useDataStore } from '../hooks/appwarapper/useDataStore';
+import React, { useEffect } from 'react'
 import { type AppConfigurationsProps } from '../types/app/AppConfigurationsProps';
+import { ValuesDataStoreState } from 'src/schema/valuesDataStoreSchema';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { DataStoreState, SchoolCalendarData } from 'dhis2-semis-components';
 
 export default function AppWrapper(props: AppConfigurationsProps) {
-    const { error, loading } = useDataStore()
+    const schoolCalendar = useRecoilValue(SchoolCalendarData)
+    const setValuesDataStoreState = useSetRecoilState(ValuesDataStoreState)
 
-    if (loading) {
-        return (
-            <CenteredContent>
-                <CircularLoader />
-            </CenteredContent>
-        )
-    }
-
-    if (error != null) {
-        return (
-            <CenteredContent>
-                Something went wrong wen loading the app, please check if you app is already configured
-            </CenteredContent>
-        )
-    }
+    useEffect(() => {
+        //TODO rever isso com base no que foi feito no useDataStore
+        setValuesDataStoreState(schoolCalendar.academicYear ?? 'iDSrFrrVgmX' as unknown as any)
+    }, [schoolCalendar])
 
     return (
         <>{props.children}</>

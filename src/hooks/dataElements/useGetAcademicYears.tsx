@@ -23,13 +23,13 @@ export const useGetAcademicYears = () => {
     const [loading, setLoading] = useState(false);
 
     async function getAcademicYear() {
-        if (academicYearState.length> 0) {
+        if (academicYearState.length > 0) {
             return
         }
         setLoading(true);
 
         const academic = valuesDataStore || "";
-
+        console.log(academic, valuesDataStore)
         if (academic.length === 0) {
             show({
                 message: `No academic year found. Please ensure the data element is configured correctly.`,

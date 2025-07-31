@@ -3,16 +3,16 @@ import { WithPadding } from "../template";
 import { generalDetailsFormData } from "../../utils/constants/generalDetailsFormData";
 import { Form } from "react-final-form"
 import { useRecoilValue } from "recoil";
-import { DataStoreState } from "../../schema/dataStoreSchema";
 import { dataStoreManagement } from "../../hooks/dataStore/useDSManagement";
 import { useParams } from "react-router-dom";
 import { type FormSectionProps } from "../../types/form/FormSectionProps";
 import { type dataStoreRecord } from "../../types/dataStore/DataStoreConfig";
 import GroupForm from "../groupForm/GroupForm";
+import { SchoolCalendarData } from "dhis2-semis-components";
 
 function GeneralDetailsForm(): React.ReactElement {
     const formRef = useRef<any>(null);
-    const dataStoreData = useRecoilValue(DataStoreState);
+    const dataStoreData = useRecoilValue(SchoolCalendarData);
     const { postData } = dataStoreManagement()
     const { id } = useParams();
 
@@ -69,7 +69,7 @@ function GeneralDetailsForm(): React.ReactElement {
                 >
                     {({ handleSubmit, values, form }) => {
                         formRef.current = form;
-                        
+
 
                         return (
                             <form

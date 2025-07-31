@@ -7,10 +7,11 @@ import fields from "../../../utils/constants/fieldsTerm.json";
 import i18n from "../../../locales";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { DataStoreState } from "../../../schema/dataStoreSchema";
 import { editState } from "../../../schema/editDataSchema";
 import { useParams } from "react-router-dom";
 import { mergeHoliday } from "../../../utils/common/mergeHoliday";
+import { SchoolCalendarData } from "dhis2-semis-components";
+
 
 interface ContentProps {
     setOpen: (value: boolean) => void
@@ -20,7 +21,7 @@ interface ContentProps {
 
 export default function NewSchoolTerm({ setOpen, selected }: ContentProps): React.ReactElement {
     const { postData, loading } = dataStoreManagement()
-    const dataStoreData = useRecoilValue(DataStoreState)
+    const dataStoreData = useRecoilValue(SchoolCalendarData)
     const [selectedCard, setSelectedCard] = useRecoilState(editState)
     const { id } = useParams();
 
