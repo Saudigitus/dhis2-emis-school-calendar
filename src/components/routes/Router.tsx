@@ -1,23 +1,13 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import RouteList from './RouteList';
+import { Outlet, Route, Routes } from 'react-router-dom';
+import SchoolCalendarHomePage from '../../pages/home/Home';
 
 export default function Router() {
     return (
         <Routes>
-            {
-                RouteList().map((route, index) => (
-                    <Route
-                        key={index}
-                        path={route.path}
-                        element={
-                            <route.layout>
-                                <route.component />
-                            </route.layout>
-                        }
-                    />
-                ))
-            }
+            <Route path='/' element={<Outlet />} >
+                <Route key={'school-calendar'} path={'/'} element={<SchoolCalendarHomePage />} />
+            </Route>
         </Routes>
     )
 }

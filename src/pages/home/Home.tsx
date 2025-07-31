@@ -13,12 +13,10 @@ import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement'
 import styles from "./Home.module.css"
 import classNames from 'classnames'
 import { SchoolCalendarData } from 'dhis2-semis-components'
-import { ValuesDataStoreState } from '../../schema/valuesDataStoreSchema'
 
-function HomePage() {
+function SchoolCalendarHomePage() {
     const navigate = useNavigate()
     const data = useRecoilValue(SchoolCalendarData)
-    const valuesDataStore = useRecoilValue(ValuesDataStoreState)
     const { postData, posting: loadingStore } = dataStoreManagement()
     const { data: academicYears, loading: loadingAcademicYear, getAcademicYear } = useGetAcademicYears()
     const [open, setOpen] = useState(false)
@@ -31,9 +29,8 @@ function HomePage() {
     })
 
     useEffect(() => {
-        if (data && valuesDataStore)
-            getAcademicYear(valuesDataStore)
-    }, [data, valuesDataStore])
+        if (data) getAcademicYear()
+    }, [data])
 
     if (loadingAcademicYear) {
         return (
@@ -220,4 +217,4 @@ function HomePage() {
     )
 }
 
-export default HomePage
+export default SchoolCalendarHomePage

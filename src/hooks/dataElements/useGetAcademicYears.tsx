@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useDataEngine } from "@dhis2/app-runtime";
 import useShowAlerts from "../commons/useShowAlert";
 import { AcademicYearState } from "../../schema/academicYearSchema";
+import { SchoolCalendarData } from "dhis2-semis-components";
 
 const DATAELEMENT_QUERY: any = ({
     dataElement: {
@@ -16,17 +17,18 @@ const DATAELEMENT_QUERY: any = ({
 
 export const useGetAcademicYears = () => {
     const [academicYearState, setAcademicYearState] = useRecoilState(AcademicYearState)
+    const schoolCalendar = useRecoilValue(SchoolCalendarData)
     const { hide, show } = useShowAlerts()
     const engine = useDataEngine()
     const [loading, setLoading] = useState(false);
 
-    async function getAcademicYear(valuesDataStore: any) {
+    async function getAcademicYear() {
         if (academicYearState.length > 0) {
             return
         }
         setLoading(true);
 
-        const academic = valuesDataStore || "";
+        const academic = schoolCalendar?.academicYear || "";
         if (academic.length === 0) {
             show({
                 message: `No academic year found. Please ensure the data element is configured correctly.`,
