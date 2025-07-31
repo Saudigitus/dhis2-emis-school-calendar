@@ -12,6 +12,7 @@ import { generateId } from "../../../utils/common/generateId";
 import { updateSchoolConfig } from "../../../utils/common/updateSchoolConfig";
 import { schoolCalendar } from "../../../types/dataStore/DataStoreConfig";
 import { SchoolCalendarData } from "dhis2-semis-components";
+import { ValuesDataStoreState } from "../../../schema/valuesDataStoreSchema";
 interface ContentProps {
     setOpen: (value: boolean) => void
     selected?: string
@@ -23,10 +24,12 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
     const { postData, loading } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const { loading: loadingAC, data, getAcademicYear } = useGetAcademicYears()
+    const valuesDataStore = useRecoilValue(ValuesDataStoreState)
 
 
     useEffect(() => {
-        getAcademicYear()
+        if (valuesDataStore)
+            getAcademicYear(valuesDataStore)
     }, [])
 
     const modalActions = [

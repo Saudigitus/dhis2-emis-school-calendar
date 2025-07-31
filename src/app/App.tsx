@@ -6,6 +6,7 @@ import { Router } from '../components';
 import { HashRouter } from 'react-router-dom';
 import { AppWrapper } from 'dhis2-semis-components';
 import { useConfig } from '@dhis2/app-runtime';
+import CustomAppWrapper from './AppWrapper';
 
 export default function App() {
     const { baseUrl } = useConfig()
@@ -16,7 +17,9 @@ export default function App() {
             dataStoreKey="dataStore/semis/values"
         >
             <HashRouter>
-                <Router />
+                <CustomAppWrapper>
+                    <Router />
+                </CustomAppWrapper>
             </HashRouter>
         </AppWrapper>
     )
