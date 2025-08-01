@@ -48,20 +48,18 @@ export default function NewOdffDay({ setOpen, selected }: ContentProps): React.R
             case "save":
                 const localData = dataStoreData.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
 
-                mergeHoliday(localData, values)
+                postData({
+                    ...dataStoreData,
+                    schoolCalendar: [{ ...mergeHoliday(localData, values) }, ...dataStoreData.schoolCalendar.filter((x) => {
+                        if (x.id !== id) {
+                            return x;
+                        }
+                    })]
 
-                // postData({
-                //     ...dataStoreData,
-                //     schoolCalendar: [{ ...mergeHoliday(localData, values) }, ...dataStoreData.schoolCalendar.filter((x) => {
-                //         if (x.id !== id) {
-                //             return x;
-                //         }
-                //     })]
-
-                // }, i18n.t("Off day registered successfully")).then(() => {
-                //     setOpen(false);
-                //     if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
-                // })
+                }, i18n.t("Off day registered successfully")).then(() => {
+                    setOpen(false);
+                    if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
+                })
 
                 break
         }
