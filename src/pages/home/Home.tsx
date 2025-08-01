@@ -28,10 +28,9 @@ function SchoolCalendarHomePage() {
     const [defaultYear, setDefaultYear] = useState(() => {
         return data?.defaults?.academicYear || ""
     })
-    const valuesDataStore = useRecoilValue(ValuesDataStoreState)
 
     useEffect(() => {
-        if (data) getAcademicYear(valuesDataStore)
+        if (data) getAcademicYear()
     }, [data])
 
     const handleSetDefault = (id: string) => {
