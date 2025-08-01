@@ -23,12 +23,11 @@ interface ContentProps {
 export default function AddNewSchoolCalendar({ setOpen, selected, refetch, academicYearValues }: ContentProps) {
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
-    const valuesDataStore = useRecoilValue(ValuesDataStoreState)
     const { loading: loadingAC, data, getAcademicYear } = useGetAcademicYears()
 
 
     useEffect(() => {
-        getAcademicYear(valuesDataStore)
+        getAcademicYear()
     }, [])
 
     const modalActions = [

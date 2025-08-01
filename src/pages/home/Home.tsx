@@ -61,7 +61,7 @@ function SchoolCalendarHomePage() {
     }
 
     const handleNavigate = (id: string) => {
-        navigate(`/semis/main/${id}`)
+        navigate(`main/${id}`)
     }
 
     const configuredYearsMap = new Map(

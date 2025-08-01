@@ -22,7 +22,7 @@ export const useGetAcademicYears = () => {
     const schoolCalendar = useRecoilValue(SchoolCalendarData)
     const [academicYearState, setAcademicYearState] = useRecoilState(AcademicYearState)
 
-    async function getAcademicYear(valuesDataStore: any) {
+    async function getAcademicYear() {
         // if (academicYearState?.options.length > 0) {
         //     return
         // }
@@ -60,8 +60,8 @@ export const useGetAcademicYears = () => {
 
     }
 
-    const refetch = async (valuesDataStore: any) => {
-        await getAcademicYear(valuesDataStore);
+    const refetch = async () => {
+        await getAcademicYear();
     };
 
     return {

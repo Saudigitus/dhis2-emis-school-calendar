@@ -1,15 +1,11 @@
 import React, { useEffect } from "react";
-import { useRecoilValue } from "recoil";
 import { Form } from "react-final-form";
 import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent } from "@dhis2/ui";
 import WithPadding from "../../template/WithPadding";
 import GroupForm from "../../form/GroupForm";
 import fieldsOptions from "../../../utils/constants/fieldsOptions.json";
 import i18n from "../../../locales";
-import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
 import { useGetAcademicYears } from "../../../hooks/dataElements/useGetAcademicYears";
-import { DataStoreState } from "dhis2-semis-components";
-import { ValuesDataStoreState } from "../../../schema/valuesDataStoreSchema";
 import { usePostOption } from "../../../hooks/option/usePostOption";
 import useShowAlerts from "../../../hooks/commons/useShowAlert";
 
@@ -23,11 +19,10 @@ export default function AddNewOption({ setOpen, selected }: ContentProps) {
     // const { postData, posting } = dataStoreManagement()
     const { show, hide } = useShowAlerts()
     const { postOption, loading: posting } = usePostOption()
-    const valuesDataStore = useRecoilValue(ValuesDataStoreState)
     const { loading: loadingAC, data, getAcademicYear, refetch } = useGetAcademicYears()
 
     useEffect(() => {
-        getAcademicYear(valuesDataStore)
+        getAcademicYear()
     }, [])
 
     const modalActions = [
@@ -60,15 +55,15 @@ export default function AddNewOption({ setOpen, selected }: ContentProps) {
                     setTimeout(hide, 1000);
                 }
                 else {
-                    refetch(valuesDataStore)
-                    getAcademicYear(valuesDataStore)
+                    refetch()
+                    getAcademicYear()
                     postOption({
                         ...values,
                         optionSet: { id: data?.id }
                     },
                         "")
                         .then(() => {
-                            refetch(valuesDataStore)
+                            refetch()
                             setOpen(false)
                         })
                 }
