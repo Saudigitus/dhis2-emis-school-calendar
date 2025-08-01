@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Form } from "react-final-form";
-import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent } from "@dhis2/ui";
+import { ModalActions, Button, ButtonStrip, CircularLoader } from "@dhis2/ui";
 import WithPadding from "../../template/WithPadding";
 import GroupForm from "../../form/GroupForm";
 import fieldsOptions from "../../../utils/constants/fieldsOptions.json";
@@ -8,6 +8,7 @@ import i18n from "../../../locales";
 import { useGetAcademicYears } from "../../../hooks/dataElements/useGetAcademicYears";
 import { usePostOption } from "../../../hooks/option/usePostOption";
 import useShowAlerts from "../../../hooks/commons/useShowAlert";
+import { LinearProgress } from "@mui/material";
 
 interface ContentProps {
     setOpen: (value: boolean) => void
@@ -16,7 +17,6 @@ interface ContentProps {
 }
 
 export default function AddNewOption({ setOpen, selected }: ContentProps) {
-    // const { postData, posting } = dataStoreManagement()
     const { show, hide } = useShowAlerts()
     const { postOption, loading: posting } = usePostOption()
     const { loading: loadingAC, data, getAcademicYear, refetch } = useGetAcademicYears()
@@ -47,9 +47,9 @@ export default function AddNewOption({ setOpen, selected }: ContentProps) {
                 setOpen(false)
                 break
             case "save":
-                if (data?.options?.some((opt) => opt.value === values?.code)) {
+                if (data?.options?.some((opt) => opt.value === values?.code || opt?.label === values?.name)) {
                     show({
-                        message: `${("Could not get data")}: typed code already exist.`,
+                        message: `${("Could not get data")}: typed code or name already exist.`,
                         type: { critical: true }
                     });
                     setTimeout(hide, 1000);
@@ -61,7 +61,7 @@ export default function AddNewOption({ setOpen, selected }: ContentProps) {
                         ...values,
                         optionSet: { id: data?.id }
                     },
-                        "")
+                        i18n.t("Option saved successfully."))
                         .then(() => {
                             refetch()
                             setOpen(false)
@@ -70,8 +70,6 @@ export default function AddNewOption({ setOpen, selected }: ContentProps) {
                 break
         }
     }
-
-    // addAcademicYearOptions as options to fieldsOptions and return the updated fieldsOptions
 
     return (
         <WithPadding padding="0px">
@@ -84,20 +82,16 @@ export default function AddNewOption({ setOpen, selected }: ContentProps) {
                     return (
                         <form>
                             <br />
-
-                            {loadingAC ?
-                                <CenteredContent><CircularLoader /></CenteredContent>
-                                :
-                                <GroupForm
-                                    name={i18n.t("Off Day Details")}
-                                    description={""}
-                                    disabled={false}
-                                    fields={fieldsOptions.map((field: any) => ({
-                                        type: field.type ?? "text",
-                                        ...field
-                                    }))}
-                                />
-                            }
+                            {loadingAC && <LinearProgress />}
+                            <GroupForm
+                                name={i18n.t("Off Day Details")}
+                                description={""}
+                                disabled={false}
+                                fields={fieldsOptions.map((field: any) => ({
+                                    type: field.type ?? "text",
+                                    ...field
+                                }))}
+                            />
                             <br />
                             <ModalActions>
                                 <ButtonStrip end>

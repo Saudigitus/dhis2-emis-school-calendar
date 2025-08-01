@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { AddCircleOutline, Edit, Star, StarBorder, Visibility } from '@mui/icons-material'
-import { IconButton, Button, Card, CardContent, Typography, Divider } from '@mui/material'
-import { CenteredContent, CircularLoader } from "@dhis2/ui"
+import { IconButton, Button, Card, CardContent, Typography, Divider, LinearProgress } from '@mui/material'
+import { CircularLoader } from "@dhis2/ui"
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import AddNewSchoolCalendar from '../../components/modal/newSchoolCalendar/AddNewSchoolCalendar'
@@ -13,6 +13,7 @@ import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement'
 import styles from "./Home.module.css"
 import classNames from 'classnames'
 import { SchoolCalendarData } from 'dhis2-semis-components'
+import { ValuesDataStoreState } from '../../schema/valuesDataStoreSchema'
 
 function SchoolCalendarHomePage() {
     const navigate = useNavigate()
@@ -27,18 +28,11 @@ function SchoolCalendarHomePage() {
     const [defaultYear, setDefaultYear] = useState(() => {
         return data?.defaults?.academicYear || ""
     })
+    const valuesDataStore = useRecoilValue(ValuesDataStoreState)
 
     useEffect(() => {
-        if (data) getAcademicYear()
+        if (data) getAcademicYear(valuesDataStore)
     }, [data])
-
-    if (loadingAcademicYear) {
-        return (
-            <CenteredContent className="p-4">
-                <CircularLoader />
-            </CenteredContent>
-        )
-    }
 
     const handleSetDefault = (id: string) => {
         setDefaultYear(id)
@@ -97,7 +91,6 @@ function SchoolCalendarHomePage() {
 
             <div className={classNames("mb-2", styles.topContainer)}>
                 <h4 style={{ color: '#1e293b' }}>School Calendar</h4>
-
                 <Button
                     variant="outlined"
                     startIcon={<AddCircleOutline />}
@@ -106,13 +99,18 @@ function SchoolCalendarHomePage() {
                         setOpenDialogOption(true)
                     }}
                     className={styles.topButton}
+                    disabled={loadingStore || (loadingAcademicYear && !open && !openDialogOption)}
                 >
                     New Academc Year Option
                 </Button>
             </div>
 
+            <div className="mb-2">
+                {(loadingStore || (loadingAcademicYear && !open && !openDialogOption)) && <LinearProgress />}
+            </div>
+
             <div className={styles.containerCards}>
-                {academicYears?.options?.length > 0 && academicYears?.options?.map((yearOption) => {
+                {academicYears?.options?.map((yearOption) => {
                     const configuredItem = configuredYearsMap.get(yearOption.value) || {} as schoolCalendar
                     const isConfigured = !!configuredItem.id
                     const isDefault = configuredItem?.id === defaultYear
