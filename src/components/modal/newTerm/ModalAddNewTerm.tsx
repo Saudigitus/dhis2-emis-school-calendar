@@ -20,10 +20,10 @@ interface ContentProps {
 }
 
 export default function NewSchoolTerm({ setOpen, selected }: ContentProps): React.ReactElement {
+    const { id } = useParams();
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const [selectedCard, setSelectedCard] = useRecoilState(editState)
-    const { id } = useParams();
 
     const modalActions = [
         {
@@ -50,7 +50,7 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
                 const localData = dataStoreData.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
                 postData({
                     ...dataStoreData,
-                    schoolCalendar: [{ ...mergeTerm(localData, {...values, key: values?.description?.replace(/\s+/g, '')?.toLowerCase()}) }, ...dataStoreData.schoolCalendar.filter((x) => {
+                    schoolCalendar: [{ ...mergeTerm(localData, { ...values, key: values?.description?.replace(/\s+/g, '')?.toLowerCase() }) }, ...dataStoreData.schoolCalendar.filter((x) => {
                         if (x.id !== id) {
                             return x;
                         }
@@ -60,7 +60,6 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
                     setOpen(false);
                     if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
                 })
-
                 break
         }
     }

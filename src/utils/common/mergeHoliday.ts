@@ -5,20 +5,11 @@ type NewHoliday = {
     index?: number;
 };
 
-export function mergeHoliday(
-    original: SchoolConfig,
-    newHolidayWrapper: NewHoliday
-): SchoolConfig {
+export function mergeHoliday(original: SchoolConfig, newHolidayWrapper: NewHoliday): SchoolConfig {
     const { date, type, event } = newHolidayWrapper;
 
-    const holidayIndex = original.holidays?.findIndex(h => h.date === date) || -1;
-
-    const updatedHoliday: Holiday = {
-        date,
-        type,
-        event,
-    };
-
+    const holidayIndex = original.holidays?.findIndex(h => h.date === date);
+    const updatedHoliday: Holiday = { date, type, event };
     let updatedHolidays: Holiday[];
 
     if (holidayIndex >= 0) {

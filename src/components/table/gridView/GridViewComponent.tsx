@@ -10,10 +10,7 @@ interface GridViewProps {
 }
 
 const GridViewComponent = (props: GridViewProps): React.ReactElement => {
-    const {
-        offDays,
-        setOpen
-    } = props;
+    const { offDays, setOpen } = props;
 
     return (
         <div className={style.list}>

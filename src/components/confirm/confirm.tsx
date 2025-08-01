@@ -1,24 +1,22 @@
 import * as React from 'react';
-import { Button, CircularLoader } from "@dhis2/ui";
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
-import {type CardSubItemProps} from "../../types/card/CardTypes";
+import { Button } from "@dhis2/ui";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
 interface AlertDialogProps {
     open: boolean
     setOpen: (arg: boolean) => void
-    row: CardSubItemProps
-    setDeleted: (arg: boolean) => void
+    setAgree: (arg: boolean) => void
 }
 
 export default function AlertDialog(props: AlertDialogProps) {
-    const { open, setOpen, row, setDeleted } = props
+    const { open, setOpen, setAgree } = props
 
     const handleClose = () => {
         setOpen(false);
     };
 
     const handleAgree = () => {
-       setDeleted(true)
+        setAgree(true)
     }
 
     return (

@@ -1,16 +1,50 @@
 /* eslint-disable react/prop-types */
-import { Box, Card } from "@dhis2/ui";
-import React, { useState } from "react";
-import style from "./Card.module.css";
-import { MoreHoriz } from "@mui/icons-material";
+import React from "react";
 import classNames from "classnames";
-import { type CardSubItemProps } from "../../types/card/CardTypes";
+import style from "./Card.module.css";
+import { Box, Card } from "@dhis2/ui";
 import MenuComponent from "../menu/menu";
+import { type CardSubItemProps } from "../../types/card/CardTypes";
+import { useParams } from "react-router-dom";
+import { dataStoreManagement } from "../../hooks/dataStore/useDSManagement";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { SchoolCalendarData } from "dhis2-semis-components";
+import { deleteState } from "../../schema/deleteDataSchema";
+import { removeHoliday } from "../../utils/common/removeHoliday";
 
-export default function OffDaysCard(props: CardSubItemProps): React.ReactElement {
-  const { title, date, disabled, offDayType, setOpen } = props;
-  const [selected, setSelected] = useState({})
-  const [delected, setDelected] = useState(false)
+export default function OffDaysCard(offDay: CardSubItemProps): React.ReactElement {
+  const { title, date, disabled, offDayType, setOpen } = offDay;
+  const { id } = useParams();
+  const { postData, posting } = dataStoreManagement()
+  const dataStoreData = useRecoilValue(SchoolCalendarData)
+  const deletedTerm = useSetRecoilState(deleteState)
+
+
+  const deletePeriod = () => {
+    const localData = dataStoreData.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
+
+    postData({
+      ...dataStoreData,
+      schoolCalendar: [
+        {
+          ...removeHoliday(localData, {
+            date: date,
+            type: offDayType,
+            event: title
+            // index?: number;
+          })
+        },
+        ...dataStoreData.schoolCalendar.filter((x) => {
+          if (x.id !== id) {
+            return x;
+          }
+        })
+      ]
+
+    }, "Data registered successfully").then(() => {
+      deletedTerm({ data: Object(), delete: false })
+    })
+  }
 
   return (
     <Box>
@@ -23,10 +57,9 @@ export default function OffDaysCard(props: CardSubItemProps): React.ReactElement
         <div className={style.infoSection}>
           <span className={style.title} >{title}</span>
           <MenuComponent
-            setDeleted={setDelected}
-            setSelected={setSelected}
+            row={offDay}
             setOpen={setOpen}
-            row={props}
+            onDelete={deletePeriod}
           />
         </div>
         <div className={classNames(

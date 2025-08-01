@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import GridViewComponent from '../table/gridView/GridViewComponent';
 import { WithPadding } from "../template";
 import { Button, LinearProgress } from '@mui/material';
@@ -18,7 +18,7 @@ function OffDaysList() {
     const [open, setOpen] = useState(false)
     const { posting } = dataStoreManagement()
     const data = useRecoilValue(SchoolCalendarData)
-    const setSelected = useSetRecoilState(editState)
+    const [selected, setSelected] = useRecoilState(editState)
 
     function onClose() {
         setOpen(false);

@@ -11,7 +11,7 @@ export function mergeTerm(
 ): SchoolConfig {
     const { key, endDate, startDate, description } = newTermWrapper;
 
-    const termIndex = original.classPeriods?.findIndex(h => h.key === key) || -1;
+    const termIndex = original.classPeriods?.findIndex(h => h.key === key);
 
     const updatedTerm: ClassPeriod = {
         key,

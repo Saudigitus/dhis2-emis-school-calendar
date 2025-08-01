@@ -4,11 +4,39 @@ import style from "./Card.module.css";
 import classNames from "classnames";
 import MenuComponent from "../menu/menu";
 import { schoolCalendar } from "../../types/dataStore/DataStoreConfig";
+import { dataStoreManagement } from "../../hooks/dataStore/useDSManagement";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { SchoolCalendarData } from "dhis2-semis-components";
+import { useParams } from "react-router-dom";
+import { removeTerm } from "../../utils/common/removeTerm";
+import { deleteState } from "../../schema/deleteDataSchema";
 
 export default function ClassPeriodsCard({ classPeriods, setOpen, index }: { classPeriods: schoolCalendar['classPeriods'][0], setOpen: any, index: number }): React.ReactElement {
   const { description, endDate, key, startDate, } = classPeriods
-  const [selected, setSelected] = useState({})
-  const [deleted, setDeleted] = useState(false)
+  const { id } = useParams();
+  const { postData, posting } = dataStoreManagement()
+  const dataStoreData = useRecoilValue(SchoolCalendarData)
+  const deletedTerm = useSetRecoilState(deleteState)
+
+
+  const deletePeriod = () => {
+    const localData = dataStoreData.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
+
+    postData({
+      ...dataStoreData,
+      schoolCalendar: [
+        { ...removeTerm(localData, classPeriods) },
+        ...dataStoreData.schoolCalendar.filter((x) => {
+          if (x.id !== id) {
+            return x;
+          }
+        })
+      ]
+
+    }, "Data registered successfully").then(() => {
+      deletedTerm({ data: Object(), delete: false })
+    })
+  }
 
   return (
     <>
@@ -23,8 +51,7 @@ export default function ClassPeriodsCard({ classPeriods, setOpen, index }: { cla
           <MenuComponent
             setOpen={setOpen}
             row={classPeriods}
-            setSelected={setSelected}
-            setDeleted={setDeleted}
+            onDelete={deletePeriod}
           />
         </div>
 

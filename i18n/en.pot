@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-07-31T12:18:49.186Z\n"
-"PO-Revision-Date: 2025-07-31T12:18:49.187Z\n"
+"POT-Creation-Date: 2025-08-01T07:16:55.090Z\n"
+"PO-Revision-Date: 2025-08-01T07:16:55.090Z\n"
 
 msgid "Cancel"
 msgstr "Cancel"
@@ -22,6 +22,9 @@ msgstr "To register new off day, please fill out the form"
 
 msgid "Off Day Details"
 msgstr "Off Day Details"
+
+msgid "Option saved successfully."
+msgstr "Option saved successfully."
 
 msgid "To register new option, please fill out the form"
 msgstr "To register new option, please fill out the form"
