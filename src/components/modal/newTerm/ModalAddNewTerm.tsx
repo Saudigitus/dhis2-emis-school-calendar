@@ -48,9 +48,11 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
                 break
             case "save":
                 const localData = dataStoreData.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
+                const updateValues = selectedCard?.edit ? values : { ...values, key: values?.description?.replace(/\s+/g, '')?.toLowerCase() }
+
                 postData({
                     ...dataStoreData,
-                    schoolCalendar: [{ ...mergeTerm(localData, { ...values, key: values?.description?.replace(/\s+/g, '')?.toLowerCase() }) }, ...dataStoreData.schoolCalendar.filter((x) => {
+                    schoolCalendar: [{ ...mergeTerm(localData, { ...updateValues }) }, ...dataStoreData.schoolCalendar.filter((x) => {
                         if (x.id !== id) {
                             return x;
                         }
@@ -70,7 +72,7 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
                 {i18n.t("To register new off day, please fill out the form")}
             </span>
             <Form
-                initialValues={selectedCard.edit ? { date: selectedCard.data.date, type: selectedCard.data.type, event: selectedCard.data.title } : {}}
+                initialValues={selectedCard.edit ? { key: selectedCard.data.key, startDate: selectedCard.data.startDate, description: selectedCard.data.description, endDate: selectedCard.data.endDate } : {}}
                 onSubmit={() => {
                 }}
             >
