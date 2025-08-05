@@ -112,7 +112,7 @@ function SchoolCalendarHomePage() {
                 {academicYears?.options?.map((yearOption) => {
                     const configuredItem = configuredYearsMap.get(yearOption.value) || {} as schoolCalendar
                     const isConfigured = !!configuredItem.id
-                    const isDefault = configuredItem?.id === defaultYear
+                    const isDefault = configuredItem?.academicYear?.code == defaultYear
 
                     return (
                         <Card
@@ -163,7 +163,7 @@ function SchoolCalendarHomePage() {
                                     <div className={styles.cardActions}>
                                         <Button
                                             size="small"
-                                            onClick={() => handleSetDefault(configuredItem.id)}
+                                            onClick={() => handleSetDefault(configuredItem?.academicYear?.code)}
                                             disabled={!isConfigured || (loadingStore)}
                                             endIcon={(loadingStore && isDefault) && <CircularLoader small />}
                                             startIcon={
