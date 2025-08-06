@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from "react";
-import { WithPadding } from "../template";
 import { generalDetailsFormData } from "../../utils/constants/generalDetailsFormData";
 import { Form } from "react-final-form"
 import { useRecoilValue } from "recoil";
@@ -8,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { type FormSectionProps } from "../../types/form/FormSectionProps";
 import { type dataStoreRecord } from "../../types/dataStore/DataStoreConfig";
 import GroupForm from "../groupForm/GroupForm";
-import { SchoolCalendarData } from "dhis2-semis-components";
+import { CustomForm, SchoolCalendarData, WithPadding } from "dhis2-semis-components";
 import { useDataStore } from "../../hooks/appwarapper/useDataStore";
 import { LinearProgress } from "@mui/material";
 
@@ -60,7 +59,8 @@ function GeneralDetailsForm(): React.ReactElement {
     }, [debouncedValues]);
 
     return (
-        <WithPadding padding="5px 15px">
+        <WithPadding p="5px 15px">
+            
             {(loading || posting) && <LinearProgress />}
             <div className="col-6">
                 <Form
@@ -91,6 +91,20 @@ function GeneralDetailsForm(): React.ReactElement {
                         );
                     }}
                 </Form>
+            </div> 
+           
+            {(loading || posting) && <LinearProgress />}
+            <div className="col-6">
+                <CustomForm
+                    Form={Form}
+                    
+                    formFields={generalDetailsFormData()}
+                    onFormBlur={(values) =>{ console.log(values);  setDebouncedValues(values)}}
+                    initialValues={{
+                        ...(dataStoreData.schoolCalendar?.find((x) => x.id === id)?.weekDays ?? {}),
+                        ...(dataStoreData.schoolCalendar?.find((x) => x.id === id)?.academicYear ?? {})
+                    }}
+                />
             </div>
         </WithPadding>
     );

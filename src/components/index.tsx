@@ -1,7 +1,4 @@
-export {Badge} from "./badge/index"
+
 export {DashboardCard} from "./card/index"
 export {Router} from "./routes/index"
-export {WithPadding} from "./template/index"
-export {Subtitle,Title} from "./text/index"
-export {WithBorder} from "./template/index"
 export {GenericFields} from "./genericFields/index"

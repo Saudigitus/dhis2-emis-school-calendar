@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { Tab, TabBar } from '@dhis2/ui'
 import { NonSchoolDays, Terms } from '../pages'
 import GeneralDetailsForm from '../components/forms/GeneralDetailsForm'
-import { WithPadding } from '../components'
 import styles from './repeatable.module.css'
 import { useNavigate } from 'react-router-dom'
+import { WithPadding } from 'dhis2-semis-components'
 
 function Repeatable() {
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ function Repeatable() {
     ]
     return (
         <div>
-            <WithPadding padding='0px 0px 0px 20px'>
+            <WithPadding p='0'>
                 <TabBar className={styles.global} >
                     <div>
                         {

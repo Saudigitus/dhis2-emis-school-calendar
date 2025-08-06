@@ -2,18 +2,18 @@ import React from "react";
 import { Label } from "@dhis2/ui";
 import classNames from "classnames";
 import styles from "./groupform.module.css";
-import { WithPadding, GenericFields, Subtitle } from "../index";
+import { GenericFields } from "../index";
 import { type GroupFormProps } from "../../types/form/GroupFormProps";
 import { Attribute } from "../../types/generated/models";
+import { WithPadding } from "dhis2-semis-components";
 
 function GroupForm(props: GroupFormProps) {
     const { name, fields, description } = props
 
     return (
-        <WithPadding padding={"16px 5px 0px 5px"}>
-            <Subtitle label={name ?? ""} />
+        <WithPadding p={"16px 5px 0px 5px"}>
             <Label>{description}</Label>
-            <WithPadding padding="5px">
+            <WithPadding p="5px">
                 {fields?.filter(x => x.visible)?.map((x, i) => {
                     return (
                         <div

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Form } from "react-final-form";
 import { ModalActions, Button, ButtonStrip, CircularLoader } from "@dhis2/ui";
-import WithPadding from "../../template/WithPadding";
 import GroupForm from "../../form/GroupForm";
 import fieldsOptions from "../../../utils/constants/fieldsOptions.json";
 import i18n from "../../../locales";
@@ -9,6 +8,7 @@ import { useGetAcademicYears } from "../../../hooks/dataElements/useGetAcademicY
 import { usePostOption } from "../../../hooks/option/usePostOption";
 import useShowAlerts from "../../../hooks/commons/useShowAlert";
 import { LinearProgress } from "@mui/material";
+import { WithPadding } from "dhis2-semis-components";
 
 interface ContentProps {
     setOpen: (value: boolean) => void
@@ -72,7 +72,7 @@ export default function AddNewOption({ setOpen, selected }: ContentProps) {
     }
 
     return (
-        <WithPadding padding="0px">
+        <WithPadding p="0px">
             <span>
                 {i18n.t("To register new option, please fill out the form")}
             </span>

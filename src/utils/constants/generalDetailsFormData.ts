@@ -1,11 +1,9 @@
-import { type FormSectionProps } from "../../types/form/FormSectionProps";
-import { Attribute } from "../../types/generated/models";
-import { type CustomAttributeProps, VariablesTypes } from "../../types/variables/AttributeColumns";
+import { Attribute, CustomAttributeProps, VariablesTypes } from "dhis2-semis-types";
 
-export function generalDetailsFormData(): FormSectionProps[] {
+export function generalDetailsFormData(): any[] {
     return [
         {
-            section: "General Details",
+            name: "General Details",
             description: "",
             disabled: false,
             fields: [
@@ -50,7 +48,7 @@ export function generalDetailsFormData(): FormSectionProps[] {
             ]
         },
         {
-            section: "Period",
+            name: "Period",
             description: "",
             disabled: false,
             fields: [
@@ -95,7 +93,7 @@ export function generalDetailsFormData(): FormSectionProps[] {
             ]
         },
         {
-            section: "School days",
+            name: "School days",
             description: "",
             disabled: false,
             fields: [
@@ -117,7 +115,7 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     unique: true,
                     displayInFilters: true,
                     type: VariablesTypes.Attribute,
-                    radio: false
+                    radio: true
                 },
                 {
                     id: `tuesday`,
@@ -137,7 +135,7 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     unique: true,
                     displayInFilters: true,
                     type: VariablesTypes.Attribute,
-                    radio: false
+                    radio: true
                 }, {
                     id: `wednesday`,
                     displayName: "Wednesday",
@@ -156,7 +154,7 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     unique: true,
                     displayInFilters: true,
                     type: VariablesTypes.Attribute,
-                    radio: false
+                    radio: true
                 }, {
                     id: `thursday`,
                     displayName: "Thursday",
@@ -175,7 +173,7 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     unique: true,
                     displayInFilters: true,
                     type: VariablesTypes.Attribute,
-                    radio: false
+                    radio: true
                 }, {
                     id: `friday`,
                     displayName: "Friday",
@@ -194,7 +192,7 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     unique: true,
                     displayInFilters: true,
                     type: VariablesTypes.Attribute,
-                    radio: false
+                    radio: true
                 }, {
                     id: `saturday`,
                     displayName: "Saturday",
@@ -213,7 +211,7 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     unique: true,
                     displayInFilters: true,
                     type: VariablesTypes.Attribute,
-                    radio: false
+                    radio: true
                 }, {
                     id: `sunday`,
                     displayName: "Sunday",
@@ -232,7 +230,7 @@ export function generalDetailsFormData(): FormSectionProps[] {
                     unique: true,
                     displayInFilters: true,
                     type: VariablesTypes.Attribute,
-                    radio: false
+                    radio: true
                 }
             ]
         }

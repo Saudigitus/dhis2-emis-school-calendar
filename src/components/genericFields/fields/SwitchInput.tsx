@@ -1,7 +1,7 @@
-import { ReactFinalForm, SwitchFieldFF, hasValue } from '@dhis2/ui'
 import React from 'react'
-import { SwitchFieldProps } from '../../../types/form/GenericFieldsTypes'
 const { Field } = ReactFinalForm
+import { ReactFinalForm, SwitchFieldFF, hasValue } from '@dhis2/ui'
+import { SwitchFieldProps } from '../../../types/form/GenericFieldsTypes'
 
 function SwitchInput(props: SwitchFieldProps) {
     return (

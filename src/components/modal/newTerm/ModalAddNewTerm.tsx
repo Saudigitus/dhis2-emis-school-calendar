@@ -1,6 +1,5 @@
 import React from "react";
 import { ModalActions, Button, ButtonStrip, CircularLoader } from "@dhis2/ui";
-import WithPadding from "../../template/WithPadding";
 import { Form } from "react-final-form";
 import GroupForm from "../../form/GroupForm";
 import fields from "../../../utils/constants/fieldsTerm.json";
@@ -9,7 +8,7 @@ import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { editState } from "../../../schema/editDataSchema";
 import { useParams } from "react-router-dom";
-import { SchoolCalendarData } from "dhis2-semis-components";
+import { SchoolCalendarData, WithPadding } from "dhis2-semis-components";
 import { mergeTerm } from "../../../utils/common/mergeTerm";
 
 
@@ -70,7 +69,7 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
     console.log(selectedCard)
 
     return (
-        <WithPadding padding="0px">
+        <WithPadding p="0px">
             <span>
                 {i18n.t("To register new off day, please fill out the form")}
             </span>

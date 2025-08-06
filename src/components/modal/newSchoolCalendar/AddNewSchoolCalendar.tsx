@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { Form } from "react-final-form";
 import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent } from "@dhis2/ui";
-import WithPadding from "../../template/WithPadding";
 import GroupForm from "../../form/GroupForm";
 import fieldsSchoolDetails from "../../../utils/constants/fieldsSchoolDetails.json";
 import i18n from "../../../locales";
@@ -11,7 +10,7 @@ import { useGetAcademicYears } from "../../../hooks/dataElements/useGetAcademicY
 import { generateId } from "../../../utils/common/generateId";
 import { updateSchoolConfig } from "../../../utils/common/updateSchoolConfig";
 import { schoolCalendar } from "../../../types/dataStore/DataStoreConfig";
-import { SchoolCalendarData } from "dhis2-semis-components";
+import { SchoolCalendarData, WithPadding } from "dhis2-semis-components";
 import { ValuesDataStoreState } from "../../../schema/valuesDataStoreSchema";
 interface ContentProps {
     setOpen: (value: boolean) => void
@@ -112,7 +111,7 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
     }
 
     return (
-        <WithPadding padding="0px">
+        <WithPadding p="0px">
             <span>
                 {i18n.t("To register new school calendar, please fill out the form")}
             </span>

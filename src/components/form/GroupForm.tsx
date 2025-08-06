@@ -1,18 +1,18 @@
 import { Label } from "@dhis2/ui";
 import React from "react";
-import WithPadding from "../template/WithPadding";
 import GenericFields from "../genericFields/GenericFields";
 import { type GroupFormProps } from "../../types/form/GroupFormProps";
 import styles from './groupform.module.css'
+import { WithPadding } from "dhis2-semis-components";
 
 function GroupForm(props: GroupFormProps) {
     const { fields, description } = props
 
     return (
-            <WithPadding padding={"16px 5px 0px 5px"}>
+            <WithPadding p={"16px 5px 0px 5px"}>
                 <Label>{description}</Label>
-                <WithPadding padding="0.2rem" />
-                <WithPadding padding={"10px"}>
+                <WithPadding p="0.2rem" />
+                <WithPadding p={"10px"}>
                     {fields?.filter(x => x.visible)?.map((x, i) => {
                         return (
                             <div className="" key={i}

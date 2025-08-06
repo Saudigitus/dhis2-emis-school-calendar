@@ -1,11 +1,11 @@
 import React from 'react'
-import {WithPadding} from '../../components'
 import OffDaysList from "../../components/offDaysList/OffDaysList";
+import { WithPadding } from 'dhis2-semis-components';
 
 const NonSchoolDays = () => {
     return (
-        <WithPadding padding="10px">
-            <OffDaysList/>
+        <WithPadding p="15px">
+            <OffDaysList />
         </WithPadding>
     )
 }
