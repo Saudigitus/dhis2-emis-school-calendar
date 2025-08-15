@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { AddCircleOutline, Edit, Star, StarBorder, Visibility } from '@mui/icons-material'
 import { IconButton, Button, Card, CardContent, Typography, Divider, LinearProgress } from '@mui/material'
 import { CircularLoader } from "@dhis2/ui"
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import AddNewSchoolCalendar from '../../components/modal/newSchoolCalendar/AddNewSchoolCalendar'
 import ModalComponent from '../../components/modal/modal'
