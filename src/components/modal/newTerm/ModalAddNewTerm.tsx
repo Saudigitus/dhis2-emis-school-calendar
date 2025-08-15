@@ -47,12 +47,12 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
                 setOpen(false)
                 break
             case "save":
-                const localData = dataStoreData.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
+                const localData = dataStoreData?.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
                 const updateValues = selectedCard?.edit ? values : { ...values, key: values?.description?.replace(/\s+/g, '')?.toLowerCase() }
 
                 postData({
                     ...dataStoreData,
-                    schoolCalendar: [{ ...mergeTerm(localData, { ...updateValues }) }, ...dataStoreData.schoolCalendar.filter((x) => {
+                    schoolCalendar: [{ ...mergeTerm(localData, { ...updateValues }) }, ...dataStoreData?.schoolCalendar.filter((x) => {
                         if (x.id !== id) {
                             return x;
                         }

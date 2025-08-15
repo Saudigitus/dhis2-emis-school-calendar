@@ -19,7 +19,7 @@ interface ContentProps {
 export default function AddNewOption({ setOpen, selected }: ContentProps) {
     const { show, hide } = useShowAlerts()
     const { postOption, loading: posting } = usePostOption()
-    const { loading: loadingAC, data, getAcademicYear, refetch } = useGetAcademicYears()
+    const { loading: loading, data, getAcademicYear, refetch } = useGetAcademicYears()
 
     useEffect(() => {
         getAcademicYear()
@@ -82,7 +82,7 @@ export default function AddNewOption({ setOpen, selected }: ContentProps) {
                     return (
                         <form>
                             <br />
-                            {loadingAC && <LinearProgress />}
+                            {loading && <LinearProgress />}
                             <GroupForm
                                 name={i18n.t("Off Day Details")}
                                 description={""}

@@ -17,7 +17,7 @@ function Repeatable() {
     ]
     return (
         <div>
-            <WithPadding padding='0px 0px 0px 20px'>
+            <WithPadding padding='0px 0px 0px 0px'>
                 <TabBar className={styles.global} >
                     <div>
                         {

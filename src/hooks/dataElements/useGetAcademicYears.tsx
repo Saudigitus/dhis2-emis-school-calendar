@@ -22,6 +22,7 @@ export const useGetAcademicYears = () => {
     const schoolCalendar = useRecoilValue(SchoolCalendarData)
     const [loading, setLoading] = useRecoilState(GeneralLoadingState);
     const [academicYearState, setAcademicYearState] = useRecoilState(AcademicYearState)
+    const [error, setError] = useState<{ error: boolean; type: "config" | "dataElement" } | null>(null);
 
     async function getAcademicYear() {
         setLoading(true);
@@ -32,6 +33,7 @@ export const useGetAcademicYears = () => {
                 message: `No academic year found. Please ensure the data element is configured correctly.`,
                 type: { critical: true }
             });
+            setError({error: true, type: "config"});
             setTimeout(hide, 5000);
             setLoading(false);
             setAcademicYearState({ options: [], id: "" })
@@ -46,6 +48,7 @@ export const useGetAcademicYears = () => {
                 optionSetId = response?.dataElement?.optionSet?.id
 
             }).catch((error: any) => {
+                setError({ error: true, type: "dataElement" });
                 show({
                     message: `Error fetching data element: ${error.message}`,
                     type: { critical: true }
@@ -66,6 +69,7 @@ export const useGetAcademicYears = () => {
         getAcademicYear,
         loading,
         refetch,
+        error,
         data: academicYearState
     };
 }

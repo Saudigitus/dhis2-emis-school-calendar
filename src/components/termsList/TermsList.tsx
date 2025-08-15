@@ -47,7 +47,7 @@ function TermsList() {
                                     classPeriods={data?.schoolCalendar?.find((x) => x.id === id)?.classPeriods || []}
                                 />
                                 :
-                                <>No school terms registered yet.</>
+                                <>No school term registered yet.</>
                         }
                     </WithPadding>
                 </div>

@@ -23,7 +23,7 @@ interface ContentProps {
 export default function AddNewSchoolCalendar({ setOpen, selected, refetch, academicYearValues }: ContentProps) {
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
-    const { loading: loadingAC, data, getAcademicYear } = useGetAcademicYears()
+    const { loading: loading, data, getAcademicYear } = useGetAcademicYears()
 
 
     useEffect(() => {
@@ -53,13 +53,13 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
                 break
             case "save":
                 if (selected) {
-                    const currentData = dataStoreData?.schoolCalendar?.find((item: any) => item.id == selected) as unknown as SchoolConfig
+                    const currentData = dataStoreData?.schoolCalendar?.find((item: any) => item?.id == selected) as unknown as SchoolConfig
                     if (currentData) {
                         const updatedData = updateSchoolConfig(currentData, {
-                            academicYear: { ...values, label: data?.options?.find((x) => x.value === values["code"])?.label }
+                            academicYear: { ...(values ? { ...values } : {}), label: data?.options?.find((x) => x?.value === values["code"])?.label }
                         });
                         postData({
-                            ...dataStoreData, schoolCalendar: [updatedData, ...dataStoreData.schoolCalendar.filter((x) => {
+                            ...dataStoreData, schoolCalendar: [updatedData, ...dataStoreData?.schoolCalendar.filter((x) => {
                                 if (x.id !== selected) {
                                     return x;
                                 }
@@ -68,20 +68,28 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
                             .then(() => { setOpen(false) });
                     }
                 } else {
+                    const safeValues = (values && typeof values === "object" && !Array.isArray(values))
+                        ? values
+                        : {};
+
                     const currentData = updateSchoolConfig({}, {
-                        academicYear: { ...values, label: data?.options?.find((x) => x.value === values["code"])?.label },
+                        academicYear: {
+                            ...safeValues,
+                            label: data?.options?.find((x) => x?.value === values?.code)?.label
+                        },
                         id: generateId(),
                         weekDays: {
-                            "friday": false,
-                            "monday": false,
-                            "saturday": false,
-                            "sunday": false,
-                            "thursday": false,
-                            "tuesday": false,
-                            "wednesday": false
+                            friday: false,
+                            monday: false,
+                            saturday: false,
+                            sunday: false,
+                            thursday: false,
+                            tuesday: false,
+                            wednesday: false
                         }
-                    })
-                    postData({ ...dataStoreData, schoolCalendar: [...dataStoreData.schoolCalendar, currentData] }, i18n.t("School calendar updated successfully"))
+                    });
+
+                    postData({ ...dataStoreData, schoolCalendar: [(dataStoreData?.schoolCalendar ? { ...dataStoreData?.schoolCalendar } : {}), currentData] }, i18n.t("School calendar updated successfully"))
                         .then(() => { setOpen(false) });
                 }
                 break
@@ -122,7 +130,7 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
                         <form>
                             <br />
 
-                            {loadingAC ?
+                            {loading ?
                                 <CenteredContent><CircularLoader /></CenteredContent>
                                 :
                                 <GroupForm

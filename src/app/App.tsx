@@ -11,13 +11,13 @@ export default function SchoolCalendar() {
     const { baseUrl } = useConfig()
 
     return (
-        // <AppWrapper
-        //     baseUrl={baseUrl}
-        //     dataStoreKey="dataStore/semis/values"
-        // >
-        //     <HashRouter>
+        <AppWrapper
+            baseUrl={baseUrl}
+            dataStoreKey="dataStore/semis/values"
+        >
+            <HashRouter>
                 <Router />
-        //     </HashRouter>
-        // </AppWrapper>
+            </HashRouter>
+        </AppWrapper>
     )
 }

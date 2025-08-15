@@ -20,13 +20,13 @@ export default function ClassPeriodsCard({ classPeriods, setOpen, index }: { cla
 
 
   const deletePeriod = () => {
-    const localData = dataStoreData.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
+    const localData = dataStoreData?.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
 
     postData({
       ...dataStoreData,
       schoolCalendar: [
         { ...removeTerm(localData, classPeriods) },
-        ...dataStoreData.schoolCalendar.filter((x) => {
+        ...dataStoreData?.schoolCalendar.filter((x) => {
           if (x.id !== id) {
             return x;
           }
