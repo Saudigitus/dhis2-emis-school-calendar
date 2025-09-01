@@ -12,7 +12,7 @@ import { generateId } from "../../../utils/common/generateId";
 import { updateSchoolConfig } from "../../../utils/common/updateSchoolConfig";
 import { schoolCalendar } from "../../../types/dataStore/DataStoreConfig";
 import { SchoolCalendarData } from "dhis2-semis-components";
-import { ValuesDataStoreState } from "../../../schema/valuesDataStoreSchema";
+
 interface ContentProps {
     setOpen: (value: boolean) => void
     selected?: string
@@ -89,7 +89,11 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
                         }
                     });
 
-                    postData({ ...dataStoreData, schoolCalendar: [(dataStoreData?.schoolCalendar ? { ...dataStoreData?.schoolCalendar } : {}), currentData] }, i18n.t("School calendar updated successfully"))
+                    postData({
+                        ...dataStoreData, schoolCalendar: [...(
+                            dataStoreData?.schoolCalendar ? dataStoreData?.schoolCalendar : []
+                        ), currentData]
+                    }, i18n.t("School calendar updated successfully"))
                         .then(() => { setOpen(false) });
                 }
                 break
