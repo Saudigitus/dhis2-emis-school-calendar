@@ -16,7 +16,7 @@ export default function SchoolCalendar() {
         //     dataStoreKey="dataStore/semis/values"
         // >
         //     <HashRouter>
-        <Router />
+                <Router />
         /* </HashRouter>
     </AppWrapper> */
     )

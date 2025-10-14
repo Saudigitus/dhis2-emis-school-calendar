@@ -59,7 +59,7 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
                             academicYear: { ...(values ? { ...values } : {}), label: data?.options?.find((x) => x?.value === values["code"])?.label }
                         });
                         postData({
-                            ...dataStoreData, schoolCalendar: [updatedData, ...dataStoreData?.schoolCalendar.filter((x) => {
+                            ...dataStoreData, schoolCalendar: [updatedData, ...dataStoreData?.schoolCalendar.filter((x: any) => {
                                 if (x.id !== selected) {
                                     return x;
                                 }

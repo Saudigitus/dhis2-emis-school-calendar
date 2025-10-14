@@ -10,23 +10,25 @@ import { SchoolCalendarData } from "dhis2-semis-components";
 import { useParams } from "react-router-dom";
 import { removeTerm } from "../../utils/common/removeTerm";
 import { deleteState } from "../../schema/deleteDataSchema";
+import { GeneralLoadingState } from "../../schema/loadingSchema";
 
 export default function ClassPeriodsCard({ classPeriods, setOpen, index }: { classPeriods: schoolCalendar['classPeriods'][0], setOpen: any, index: number }): React.ReactElement {
   const { description, endDate, key, startDate, } = classPeriods
   const { id } = useParams();
-  const { postData, posting } = dataStoreManagement()
+  const { postData } = dataStoreManagement()
   const dataStoreData = useRecoilValue(SchoolCalendarData)
   const deletedTerm = useSetRecoilState(deleteState)
-
+  const setLoading = useSetRecoilState(GeneralLoadingState)
 
   const deletePeriod = () => {
-    const localData = dataStoreData?.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
+    setLoading(true)
+    const localData = dataStoreData?.schoolCalendar?.find((x: any) => x.id === id) as unknown as SchoolConfig;
 
     postData({
       ...dataStoreData,
       schoolCalendar: [
         { ...removeTerm(localData, classPeriods) },
-        ...dataStoreData?.schoolCalendar.filter((x) => {
+        ...dataStoreData?.schoolCalendar.filter((x: any) => {
           if (x.id !== id) {
             return x;
           }
@@ -35,7 +37,7 @@ export default function ClassPeriodsCard({ classPeriods, setOpen, index }: { cla
 
     }, "Data registered successfully").then(() => {
       deletedTerm({ data: Object(), delete: false })
-    })
+    }).finally(() => setLoading(false))
   }
 
   return (
