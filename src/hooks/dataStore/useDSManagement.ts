@@ -11,7 +11,7 @@ const DATASTOREQUERY: any = {
 
 export const dataStoreManagement = () => {
     const engine = useDataEngine()
-    const { refetch } = useDataStore()
+    // const { refetch } = useDataStore()
     const { hide, show } = useShowAlerts()
     const [loading, setloading] = useState(false)
 
@@ -28,7 +28,7 @@ export const dataStoreManagement = () => {
                     });
                     setTimeout(hide, 5000);
                 }
-                void refetch()
+                // void refetch()
             },
             onError(error) {
                 setloading(false)

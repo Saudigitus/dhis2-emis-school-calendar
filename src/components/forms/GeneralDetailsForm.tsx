@@ -37,31 +37,26 @@ function GeneralDetailsForm(): React.ReactElement {
     useEffect(() => {
         if (!debouncedValues) return;
 
-        const timeout = setTimeout(() => {
-            const current = dataStoreData?.schoolCalendar?.find((x) => x.id === id);
-            const updated = {
-                ...current,
-                weekDays: getValues(debouncedValues, current?.weekDays || {}),
-                academicYear: getValues(debouncedValues, current?.academicYear)
-            };
+        const current = dataStoreData?.schoolCalendar?.find((x) => x.id === id);
+        const updated = {
+            ...current,
+            weekDays: getValues(debouncedValues, current?.weekDays || {}),
+            academicYear: getValues(debouncedValues, current?.academicYear)
+        };
 
-            console.log(debouncedValues,"debouncedValues")
+        postData(
+            {
+                ...dataStoreData,
+                schoolCalendar: dataStoreData?.schoolCalendar.map((x) =>
+                    x.id === id ? updated : x
+                )
+            },
+            'Data updated successfully'
+        );
 
-            // postData(
-            //     {
-            //         ...dataStoreData,
-            //         schoolCalendar: dataStoreData?.schoolCalendar.map((x) =>
-            //             x.id === id ? updated : x
-            //         )
-            //     },
-            //     'Data updated successfully'
-            // );
-        }, 0); // 1 segundo de espera
-
-        return () => clearTimeout(timeout);
     }, [debouncedValues]);
 
-    console.log(generalDetailsFormData(),"generalDetailsFormData")
+    console.log(dataStoreData?.schoolCalendar?.find((x) => x.id === id), "generalDetailsFormData")
 
     return (
         <WithPadding padding="5px 15px">
@@ -84,12 +79,14 @@ function GeneralDetailsForm(): React.ReactElement {
                                 onBlur={() => setDebouncedValues(values)} // só atualiza o estado (não salva ainda)
                             >
                                 {generalDetailsFormData()?.map((section: FormSectionProps, index: number) => (
-                                    <GroupForm
-                                        key={index}
-                                        name={section.section}
-                                        fields={section.fields}
-                                        disabled={section.disabled}
-                                    />
+                                    <>
+                                        <GroupForm
+                                            key={index}
+                                            name={section.section}
+                                            fields={section.fields}
+                                            disabled={section.disabled}
+                                        />
+                                    </>
                                 ))}
                             </form>
                         );

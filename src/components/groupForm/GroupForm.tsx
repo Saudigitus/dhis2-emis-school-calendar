@@ -9,6 +9,8 @@ import { Attribute } from "../../types/generated/models";
 function GroupForm(props: GroupFormProps) {
     const { name, fields, description } = props
 
+    console.log(fields,"fields")
+
     return (
         <WithPadding padding={"16px 5px 0px 5px"}>
             <Subtitle label={name ?? ""} />
