@@ -1,0 +1,30 @@
+[
+  {
+    "required": true,
+    "name": "name",
+    "labelName": "Name",
+    "header": "Name",
+    "Placeholder": "Name",
+    "valueType": "TEXT",
+    "disabled": false,
+    "pattern": "",
+    "visible": true,
+    "description": "Name",
+    "id": "code",
+    "displayName": "Name"
+  },
+  {
+    "required": true,
+    "name": "code",
+    "labelName": "Code",
+    "header": "Code",
+    "Placeholder": "Code you configuration",
+    "valueType": "TEXT",
+    "disabled": false,
+    "pattern": "",
+    "visible": true,
+    "description": "Code",
+    "id": "code",
+    "displayName": "Code"
+  }
+]

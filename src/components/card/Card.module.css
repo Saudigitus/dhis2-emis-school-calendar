@@ -33,3 +33,56 @@
     font-style: italic;
     font-size: 15px;
 }
+
+/* New css for classPeriods */
+.c_details label {
+    font-weight: 300 !important;
+    font-size: 13px !important;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    background-color: #eee;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.badge label {
+    color: #0055A3;
+    background-color: #B3DAFE;
+    width: 70px;
+    height: 25px;
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.badge label:hover {
+    background-color: #115FB8;
+    color: #FFF;
+    cursor: pointer;
+}
+
+.card_edit_action {
+    color: #115FB8;
+    margin-right: 10px;
+}
+
+.card_delete_action {
+    color: #E7422B;
+}
+
+.card_edit_action:hover, .card_delete_action:hover {
+    cursor: pointer;
+    text-decoration: underline !important;
+}
+
+.template_name {
+    min-height: 35px;
+}

@@ -1,39 +1,25 @@
 import { Navigate } from "react-router-dom";
 import React from "react";
-import { SideBarLayout, SimpleLayout } from "../../layout"
-import { GeneralDetails, NonSchoolDays,Terms} from "../../pages";
+import { SimpleLayout } from "../../layout";
+import HomePage from "../../pages/home/Home";
+import MainPage from "../../pages/main/MainPage";
 
 export default function RouteList() {
     return [
         {
             path: "/",
             layout: SimpleLayout,
-            component: () => <Navigate to="/generalDetails" replace />
+            component: () => <Navigate to="/semis/school-calendar" replace />
         },
         {
-            path: "/generalDetails",
-            layout: SideBarLayout,
-            component: GeneralDetails
+            path: "/semis/school-calendar",
+            layout: SimpleLayout,
+            component: HomePage
         },
         {
-            path: "/non-school-days",
-            layout: SideBarLayout,
-            component: NonSchoolDays
-        },
-        {
-            path: "/term1",
-            layout: SideBarLayout,
-            component: Terms
-        },
-        {
-            path: "/term2",
-            layout: SideBarLayout,
-            component: Terms
-        },
-        {
-            path: "/term3",
-            layout: SideBarLayout,
-            component: Terms
+            path: "/semis/main/:id",
+            layout: SimpleLayout,
+            component: MainPage
         }
     ]
 }

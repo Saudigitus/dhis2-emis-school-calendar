@@ -19,15 +19,14 @@ function GroupForm(props: GroupFormProps) {
                         <div
                             key={i}
                             className={
-                                classNames("row d-flex align-items-center mb-3",
+                                classNames("mb-3",
                                     x.error ? styles.errorFormField : styles.notErrorFormField,
                                     i % 2 === 0 ? styles.evenFormField : styles.oddFormField)}
                         >
                             <div className={
                                 classNames(
-                                    'col-12 col-md-6 d-flex',
-                                    Attribute.valueType.BOOLEAN !== x.valueType && 'justify-content-between',
-                                    Attribute.valueType.BOOLEAN !== x.valueType && 'flex-column'
+                                    'd-flex',
+                                    String(x.valueType) !== "BOOLEAN" && 'flex-column'
                                 )
                             }>
                                 <Label className={styles.label}>

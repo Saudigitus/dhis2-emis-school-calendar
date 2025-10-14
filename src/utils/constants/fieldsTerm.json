@@ -1,0 +1,44 @@
+[
+  {
+    "required": true,
+    "name": "description",
+    "labelName": "Description",
+    "Placeholder": "Description",
+    "valueType": "TEXT",
+    "disabled": false,
+    "pattern": "",
+    "visible": true,
+    "description": "Description",
+    "id": "description",
+    "displayName": "Description",
+    "type": "attribute"
+  },
+  {
+    "required": true,
+    "name": "startDate",
+    "labelName": "Start Date",
+    "Placeholder": "Start Date",
+    "valueType": "DATE",
+    "disabled": false,
+    "pattern": "",
+    "visible": true,
+    "description": "Start Date",
+    "id": "startDate",
+    "displayName": "Start Date",
+    "type": "attribute"
+  },
+  {
+    "required": true,
+    "name": "endDate",
+    "labelName": "End Date",
+    "Placeholder": "End Date",
+    "valueType": "DATE",
+    "disabled": false,
+    "pattern": "",
+    "visible": true,
+    "description": "End Date",
+    "id": "endDate",
+    "displayName": "End Date",
+    "type": "attribute"
+  }
+]

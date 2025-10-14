@@ -1,29 +1,23 @@
 import React from 'react'
 import "./App.module.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "react-select/dist/react-select.css";
 import "../assets/style/globalStyle.css"
 import { Router } from '../components';
-import { RecoilRoot } from 'recoil';
-import { DataStoreProvider } from "@dhis2/app-service-datastore";
-import { CircularLoader, CenteredContent } from "@dhis2/ui";
-import AppWrapper from './AppWrapper';
+import { HashRouter } from 'react-router-dom';
+import { AppWrapper } from 'dhis2-semis-components';
+import { useConfig } from '@dhis2/app-runtime';
 
-export default function App() {
+export default function SchoolCalendar() {
+    const { baseUrl } = useConfig()
+
     return (
-        <DataStoreProvider
-            namespace="emis-apps-configuration"
-            loadingComponent={
-                <CenteredContent>
-                    <CircularLoader />
-                </CenteredContent>
-            }
-        >
-            <RecoilRoot>
-                <AppWrapper>
-                    <Router />
-                </AppWrapper>
-            </RecoilRoot>
-        </DataStoreProvider>
+        // <AppWrapper
+        //     baseUrl={baseUrl}
+        //     dataStoreKey="dataStore/semis/values"
+        // >
+        //     <HashRouter>
+                <Router />
+        /* </HashRouter>
+    </AppWrapper> */
     )
 }

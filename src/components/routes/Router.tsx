@@ -1,25 +1,15 @@
 import React from 'react';
-import { HashRouter, Route, Routes } from 'react-router-dom';
-import RouteList from './RouteList';
+import { Outlet, Route, Routes } from 'react-router-dom';
+import SchoolCalendarHomePage from '../../pages/home/Home';
+import MainPage from '../../pages/main/MainPage';
 
 export default function Router() {
     return (
-        <HashRouter>
-            <Routes>
-                {
-                    RouteList().map((route, index) => (
-                        <Route
-                            key={index}
-                            path={route.path}
-                            element={
-                                <route.layout>
-                                    {route.component()}
-                                </route.layout>
-                            }
-                        />
-                    ))
-                }
-            </Routes>
-        </HashRouter>
+        <Routes>
+            <Route path='/' element={<Outlet />} >
+                <Route key={'school-calendar'} path={'/'} element={<SchoolCalendarHomePage />} />
+                <Route key={'school-calendar-main'} path={'main/:id'} element={<MainPage />} />
+            </Route>
+        </Routes>
     )
 }

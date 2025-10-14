@@ -5,6 +5,51 @@ import { type CustomAttributeProps, VariablesTypes } from "../../types/variables
 export function generalDetailsFormData(): FormSectionProps[] {
     return [
         {
+            section: "General Details",
+            description: "",
+            disabled: false,
+            fields: [
+                {
+                    id: `code`,
+                    displayName: "Academic year",
+                    header: "",
+                    required: false,
+                    name: `code`,
+                    labelName: "Academic year",
+                    valueType: Attribute.valueType.TEXT as unknown as CustomAttributeProps["valueType"],
+                    visible: true,
+                    disabled: true,
+                    pattern: '',
+                    searchable: false,
+                    error: false,
+                    content: '',
+                    key: "",
+                    unique: true,
+                    displayInFilters: true,
+                    type: VariablesTypes.Attribute
+                },
+                {
+                    id: `description`,
+                    displayName: "Description",
+                    header: "",
+                    required: false,
+                    name: `description`,
+                    labelName: "Description",
+                    valueType: Attribute.valueType.TEXT as unknown as CustomAttributeProps["valueType"],
+                    visible: true,
+                    disabled: false,
+                    pattern: '',
+                    searchable: false,
+                    error: false,
+                    content: '',
+                    key: "",
+                    unique: true,
+                    displayInFilters: true,
+                    type: VariablesTypes.Attribute
+                }
+            ]
+        },
+        {
             section: "Period",
             description: "",
             disabled: false,
