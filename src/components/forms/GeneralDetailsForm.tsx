@@ -45,19 +45,23 @@ function GeneralDetailsForm(): React.ReactElement {
                 academicYear: getValues(debouncedValues, current?.academicYear)
             };
 
-            postData(
-                {
-                    ...dataStoreData,
-                    schoolCalendar: dataStoreData?.schoolCalendar.map((x) =>
-                        x.id === id ? updated : x
-                    )
-                },
-                'Data updated successfully'
-            );
-        }, 1000); // 1 segundo de espera
+            console.log(debouncedValues,"debouncedValues")
+
+            // postData(
+            //     {
+            //         ...dataStoreData,
+            //         schoolCalendar: dataStoreData?.schoolCalendar.map((x) =>
+            //             x.id === id ? updated : x
+            //         )
+            //     },
+            //     'Data updated successfully'
+            // );
+        }, 0); // 1 segundo de espera
 
         return () => clearTimeout(timeout);
     }, [debouncedValues]);
+
+    console.log(generalDetailsFormData(),"generalDetailsFormData")
 
     return (
         <WithPadding padding="5px 15px">

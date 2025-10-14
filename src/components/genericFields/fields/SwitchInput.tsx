@@ -7,6 +7,7 @@ function SwitchInput(props: SwitchFieldProps) {
     return (
         <Field
             {...props}
+            className="switch-input"
             type="checkbox"
             component={SwitchFieldFF}
             validate={(Boolean(props.required)) && hasValue}
