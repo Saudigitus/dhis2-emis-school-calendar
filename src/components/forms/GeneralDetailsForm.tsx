@@ -11,6 +11,10 @@ import GroupForm from "../groupForm/GroupForm";
 import { SchoolCalendarData } from "dhis2-semis-components";
 import { useDataStore } from "../../hooks/appwarapper/useDataStore";
 import { LinearProgress } from "@mui/material";
+import { Button } from "@dhis2/ui";
+import { ButtonStrip } from "@dhis2/ui";
+import { CircularLoader } from "@dhis2/ui";
+import i18n from "../../locales";
 
 function GeneralDetailsForm(): React.ReactElement {
     const { id } = useParams();
@@ -33,10 +37,7 @@ function GeneralDetailsForm(): React.ReactElement {
         return updatedValues;
     }
 
-    // Debounced save
-    useEffect(() => {
-        if (!debouncedValues) return;
-
+    const onSubmit = () => {
         const current = dataStoreData?.schoolCalendar?.find((x) => x.id === id);
         const updated = {
             ...current,
@@ -54,9 +55,30 @@ function GeneralDetailsForm(): React.ReactElement {
             'Data updated successfully'
         );
 
-    }, [debouncedValues]);
+    }
 
-    console.log(dataStoreData?.schoolCalendar?.find((x) => x.id === id), "generalDetailsFormData")
+    // Debounced save
+    // useEffect(() => {
+    //     if (!debouncedValues) return;
+
+    //     const current = dataStoreData?.schoolCalendar?.find((x) => x.id === id);
+    //     const updated = {
+    //         ...current,
+    //         weekDays: getValues(debouncedValues, current?.weekDays || {}),
+    //         academicYear: getValues(debouncedValues, current?.academicYear)
+    //     };
+
+    //     postData(
+    //         {
+    //             ...dataStoreData,
+    //             schoolCalendar: dataStoreData?.schoolCalendar.map((x) =>
+    //                 x.id === id ? updated : x
+    //             )
+    //         },
+    //         'Data updated successfully'
+    //     );
+
+    // }, [debouncedValues]);
 
     return (
         <WithPadding padding="5px 15px">
@@ -69,7 +91,7 @@ function GeneralDetailsForm(): React.ReactElement {
                     }}
                     onSubmit={() => { }}
                 >
-                    {({ handleSubmit, values, form }) => {
+                    {({ handleSubmit, values, form, pristine }) => {
                         formRef.current = form;
 
 
@@ -79,15 +101,29 @@ function GeneralDetailsForm(): React.ReactElement {
                                 onBlur={() => setDebouncedValues(values)} // só atualiza o estado (não salva ainda)
                             >
                                 {generalDetailsFormData()?.map((section: FormSectionProps, index: number) => (
-                                    <>
-                                        <GroupForm
-                                            key={index}
-                                            name={section.section}
-                                            fields={section.fields}
-                                            disabled={section.disabled}
-                                        />
-                                    </>
+                                    <GroupForm
+                                        key={index}
+                                        name={section.section}
+                                        fields={section.fields}
+                                        disabled={section.disabled}
+                                    />
                                 ))}
+                                <ButtonStrip>
+                                    <Button
+                                        disabled={(posting || loading || pristine)}
+                                        onClick={() => form.reset()}
+                                    >
+                                        {i18n.t("Cancel")}
+                                    </Button>
+                                    <Button
+                                        icon={(posting || loading) && <CircularLoader small />}
+                                        primary
+                                        disabled={(posting || loading || pristine)}
+                                        onClick={onSubmit}
+                                    >
+                                        {i18n.t("Save")}
+                                    </Button>
+                                </ButtonStrip>
                             </form>
                         );
                     }}

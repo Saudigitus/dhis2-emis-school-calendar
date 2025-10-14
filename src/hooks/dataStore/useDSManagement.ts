@@ -11,7 +11,7 @@ const DATASTOREQUERY: any = {
 
 export const dataStoreManagement = () => {
     const engine = useDataEngine()
-    // const { refetch } = useDataStore()
+    const { refetch } = useDataStore()
     const { hide, show } = useShowAlerts()
     const [loading, setloading] = useState(false)
 
@@ -21,14 +21,15 @@ export const dataStoreManagement = () => {
             variables: { data: data },
             onComplete() {
                 setloading(false)
-                if (msg !== null) {
-                    show({
-                        message: msg,
-                        type: { success: true }
-                    });
-                    setTimeout(hide, 5000);
-                }
-                // void refetch()
+                void refetch().then(() => {
+                    if (msg !== null) {
+                        show({
+                            message: msg,
+                            type: { success: true }
+                        });
+                        setTimeout(hide, 5000);
+                    }
+                })
             },
             onError(error) {
                 setloading(false)
