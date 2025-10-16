@@ -117,7 +117,7 @@ function SchoolCalendarHomePage() {
 
                     <div className={styles.containerCards}>
                         {academicYears?.options?.map((yearOption) => {
-                            const configuredItem = configuredYearsMap.get(yearOption.value) || {} as schoolCalendar
+                            const configuredItem: any = configuredYearsMap.get(yearOption.value) || {} as schoolCalendar
                             const isConfigured = !!configuredItem.id
                             const isDefault = configuredItem?.academicYear?.code == defaultYear
 
