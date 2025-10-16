@@ -21,14 +21,15 @@ export const dataStoreManagement = () => {
             variables: { data: data },
             onComplete() {
                 setloading(false)
-                if (msg !== null) {
-                    show({
-                        message: msg,
-                        type: { success: true }
-                    });
-                    setTimeout(hide, 5000);
-                }
-                void refetch()
+                void refetch().then(() => {
+                    if (msg !== null) {
+                        show({
+                            message: msg,
+                            type: { success: true }
+                        });
+                        setTimeout(hide, 5000);
+                    }
+                })
             },
             onError(error) {
                 setloading(false)
