@@ -2,7 +2,7 @@
 
 .layoutContainer {
     width: 100vw;
-    height: inherit;
+    height: calc(100vh - 3rem);
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -22,7 +22,6 @@
 .mainContentContainer {
     flex: 1;
     overflow-y: auto;
-    padding: 20px;
 }
 
 .fullLayoutContainer {

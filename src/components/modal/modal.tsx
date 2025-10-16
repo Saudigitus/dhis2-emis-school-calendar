@@ -4,14 +4,14 @@ import styles from './modal.module.css'
 
 interface ModalProps {
   open: boolean
-  setOpen: (value: boolean) => void
+  onClose: any,
   title: string
   children: React.ReactNode
 }
 
 function ModalComponent({
   open,
-  setOpen,
+  onClose,
   title,
   children
 }: ModalProps): React.ReactElement {
@@ -22,9 +22,7 @@ function ModalComponent({
         className={styles.modal}
         open={open}
         position={"middle"}
-        onClose={() => {
-          setOpen(false);
-        }}
+        onClose={onClose}
       >
         <ModalTitle>{title}</ModalTitle>
         <ModalContent>{children}</ModalContent>

@@ -1,23 +1,23 @@
-import React from 'react';
 import Item from './menuItem';
 import styles from './menu.module.css'
-import {Delete, Edit, MoreHoriz} from '@material-ui/icons';
-import {CircularLoader} from "@dhis2/ui";
+import React, { useEffect, useState } from 'react';
 import AlertDialog from '../confirm/confirm';
-import {IconButton, MenuList, Popover} from "@material-ui/core";
-import {useSetRecoilState} from "recoil";
-import {editState} from "../../schema/editDataSchema";
+import { useSetRecoilState } from 'recoil';
+import { editState } from '../../schema/editDataSchema';
+import { deleteState } from '../../schema/deleteDataSchema';
+import { IconButton, MenuList, Popover } from "@mui/material";
+import { Delete, Edit, MoreHoriz } from '@mui/icons-material';
 
 const options = [
     {
-        icon: <Edit/>,
+        icon: <Edit />,
         label: "Edit",
         link: "/edit",
         className: styles.edit_option,
         type: "edit"
     },
     {
-        icon: <Delete/>,
+        icon: <Delete />,
         label: "Delete",
         link: "/delete",
         className: styles.delete_option,
@@ -25,14 +25,21 @@ const options = [
     }
 ]
 
-export default function MenuComponent({
-                                          row,
-                                          setOpen
-                                      }: { row: any, setOpen: (value: boolean) => void }) {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [confirm, setConfirm] = React.useState<boolean>(false);
-    const open = Boolean(anchorEl);
+export default function MenuComponent(props: { row: any, setOpen: (value: boolean) => void, onDelete: () => void }) {
+    const { row, setOpen, onDelete } = props;
     const setSelected = useSetRecoilState(editState)
+    const setDeleted = useSetRecoilState(deleteState)
+    const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
+    const [confirmDelete, setConfirmDelete] = React.useState<boolean>(false);
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    useEffect(() => {
+        if (confirmDelete) {
+            onDelete()
+            setOpenDeleteDialog(false)
+        }
+    }, [confirmDelete])
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -45,13 +52,11 @@ export default function MenuComponent({
     const Actions = async (type: string, row: any) => {
         handleClose()
         if (type === 'delete') {
-            setConfirm(true)
+            setOpenDeleteDialog(true)
+            setDeleted({ data: row, delete: true })
         } else if (type === 'edit') {
             setOpen(true)
-            setSelected({
-                data: row,
-                edit: true
-            })
+            setSelected({ data: row, edit: true })
         }
     }
 
@@ -59,10 +64,9 @@ export default function MenuComponent({
         <div>
             <IconButton
                 onClick={handleClick}
-                style={{marginTop: '-10px'}}
+                style={{ marginTop: '-10px' }}
             >
-                {/* <CircularLoader small /> : */}
-                <MoreHoriz/>
+                <MoreHoriz />
             </IconButton>
 
             <Popover
@@ -78,7 +82,7 @@ export default function MenuComponent({
                     horizontal: 'left'
                 }}
             >
-                <MenuList style={{maxWidth: '100%'}}>
+                <MenuList style={{ maxWidth: '100%' }}>
                     {options.map((option) =>
                         <Item
                             row={row}
@@ -88,7 +92,7 @@ export default function MenuComponent({
                     )}
                 </MenuList>
             </Popover>
-            <AlertDialog row={row} open={confirm} setOpen={setConfirm}/>
+            <AlertDialog open={openDeleteDialog} setOpen={setOpenDeleteDialog} setAgree={setConfirmDelete} />
         </div>
     );
 }

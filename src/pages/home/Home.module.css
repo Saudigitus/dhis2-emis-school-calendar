@@ -1,9 +1,61 @@
+/* Top */
+.topContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+.topButton {
+    border-color: '#1e40af';
+    color: '#1e40af';
+    font-weight: 500;
+    text-transform: 'none';
+}
+
+/* Main */
+.card {
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    /* width: "350px", */
+}
+
+.defaultCard {
+    border: 1.5px solid #1e6194 !important;
+}
+
+.cardContent {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cardHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cardActions {
+    margin-top: auto;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 .containerCards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 200px);
-    align-items: center;
-    gap: 17px;
-    flex: auto;
-    box-sizing: border-box !important;
-    margin: 0px 0px 20px 0px;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+}
+
+@media (max-width: 992px) and (min-width: 767px) {
+    .containerCards {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
 }
