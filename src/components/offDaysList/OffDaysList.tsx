@@ -47,9 +47,9 @@ function OffDaysList({ i18next }: { i18next: D2I18n }) {
                 <div>
                     {(loading || posting) && <LinearProgress />}
                     {
-                        data?.schoolCalendar?.find((x) => x.id === id)?.holidays?.length ?
+                        data?.schoolCalendar?.find((x: any) => x.id === id)?.holidays?.length ?
                             <WithPadding>
-                                <GridViewComponent i18n={i18nLocal} setOpen={setOpen} offDays={data?.schoolCalendar?.find((x) => x.id === id)?.holidays || []} />
+                                <GridViewComponent i18n={i18nLocal} setOpen={setOpen} offDays={data?.schoolCalendar?.find((x: any) => x.id === id)?.holidays || []} />
                             </WithPadding>
                             :
                             <>{i18nLocal.t("No off day registered yet")}.</>

@@ -21,7 +21,7 @@ export default function OffDaysCard(offDay: CardSubItemProps): React.ReactElemen
 
 
   const deletePeriod = () => {
-    const localData = dataStoreData?.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
+    const localData = dataStoreData?.schoolCalendar?.find((x: any) => x.id === id) as unknown as SchoolConfig;
 
     postData({
       ...dataStoreData,
@@ -34,7 +34,7 @@ export default function OffDaysCard(offDay: CardSubItemProps): React.ReactElemen
             // index?: number;
           })
         },
-        ...dataStoreData?.schoolCalendar.filter((x) => {
+        ...dataStoreData?.schoolCalendar.filter((x: any) => {
           if (x.id !== id) {
             return x;
           }

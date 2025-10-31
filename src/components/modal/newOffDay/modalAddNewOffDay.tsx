@@ -49,11 +49,11 @@ export default function NewOdffDay({ setOpen, selected, i18next }: ContentProps)
                 setOpen(false)
                 break
             case "save":
-                const localData = dataStoreData?.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
+                const localData = dataStoreData?.schoolCalendar?.find((x:any) => x.id === id) as unknown as SchoolConfig;
 
                 postData({
                     ...dataStoreData,
-                    schoolCalendar: [{ ...mergeHoliday(localData, values) }, ...dataStoreData?.schoolCalendar.filter((x) => {
+                    schoolCalendar: [{ ...mergeHoliday(localData, values) }, ...dataStoreData?.schoolCalendar.filter((x:any) => {
                         if (x.id !== id) {
                             return x;
                         }

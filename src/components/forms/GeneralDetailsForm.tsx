@@ -40,7 +40,7 @@ function GeneralDetailsForm({ i18next }: { i18next: D2I18n }): React.ReactElemen
     }
 
     const onSubmit = () => {
-        const current = dataStoreData?.schoolCalendar?.find((x) => x.id === id);
+        const current = dataStoreData?.schoolCalendar?.find((x:any) => x.id === id);
         const updated = {
             ...current,
             weekDays: getValues(debouncedValues, current?.weekDays || {}),
@@ -50,7 +50,7 @@ function GeneralDetailsForm({ i18next }: { i18next: D2I18n }): React.ReactElemen
         postData(
             {
                 ...dataStoreData,
-                schoolCalendar: dataStoreData?.schoolCalendar.map((x) =>
+                schoolCalendar: dataStoreData?.schoolCalendar.map((x:any) =>
                     x.id === id ? updated : x
                 )
             },
@@ -88,8 +88,8 @@ function GeneralDetailsForm({ i18next }: { i18next: D2I18n }): React.ReactElemen
             <div className="col-6">
                 <Form
                     initialValues={{
-                        ...(dataStoreData?.schoolCalendar?.find((x) => x.id === id)?.weekDays ?? {}),
-                        ...(dataStoreData?.schoolCalendar?.find((x) => x.id === id)?.academicYear ?? {})
+                        ...(dataStoreData?.schoolCalendar?.find((x:any) => x.id === id)?.weekDays ?? {}),
+                        ...(dataStoreData?.schoolCalendar?.find((x:any) => x.id === id)?.academicYear ?? {})
                     }}
                     onSubmit={() => { }}
                 >
