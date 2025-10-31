@@ -12,14 +12,14 @@ export default function SchoolCalendar({ i18n }: { i18n: D2I18n }) {
     const { baseUrl } = useConfig()
 
     return (
-        <AppWrapper
-            schoolCalendarKey='dataStore/semis/schoolCalendar'
-            baseUrl={baseUrl}
-            dataStoreKey="dataStore/semis/values"
-        >
-            <HashRouter>
+        // <AppWrapper
+        //     schoolCalendarKey='dataStore/semis/schoolCalendar'
+        //     baseUrl={baseUrl}
+        //     dataStoreKey="dataStore/semis/values"
+        // >
+        //     <HashRouter>
                 <Router i18n={i18n} />
-            </HashRouter>
-        </AppWrapper>
+        //     </HashRouter>
+        // </AppWrapper>
     )
 }
