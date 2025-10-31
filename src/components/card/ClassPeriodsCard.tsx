@@ -11,9 +11,10 @@ import { useParams } from "react-router-dom";
 import { removeTerm } from "../../utils/common/removeTerm";
 import { deleteState } from "../../schema/deleteDataSchema";
 import { GeneralLoadingState } from "../../schema/loadingSchema";
+import { D2I18n } from "dhis2-semis-types";
 
-export default function ClassPeriodsCard({ classPeriods, setOpen, index }: { classPeriods: schoolCalendar['classPeriods'][0], setOpen: any, index: number }): React.ReactElement {
-  const { description, endDate, key, startDate, } = classPeriods
+export default function ClassPeriodsCard({ classPeriods, setOpen, index, i18next }: { classPeriods: schoolCalendar['classPeriods'][0], setOpen: any, index: number, i18next: D2I18n }): React.ReactElement {
+  const { description, endDate, key, startDate } = classPeriods
   const { id } = useParams();
   const { postData } = dataStoreManagement()
   const dataStoreData = useRecoilValue(SchoolCalendarData)
@@ -35,7 +36,7 @@ export default function ClassPeriodsCard({ classPeriods, setOpen, index }: { cla
         })
       ]
 
-    }, "Data registered successfully").then(() => {
+    }, i18next.t("Data registered successfully")).then(() => {
       deletedTerm({ data: Object(), delete: false })
     }).finally(() => setLoading(false))
   }
@@ -51,6 +52,7 @@ export default function ClassPeriodsCard({ classPeriods, setOpen, index }: { cla
         <div className={style.infoSection}>
           <span className={style.title} >{description}</span>
           <MenuComponent
+            i18n={i18next}
             setOpen={setOpen}
             row={classPeriods}
             onDelete={deletePeriod}
@@ -59,10 +61,10 @@ export default function ClassPeriodsCard({ classPeriods, setOpen, index }: { cla
 
         <div >
           <div className="mb-2 d-flex justify-content-between">
-            <span style={{ fontSize: 14 }} className="text-secondary">Start Date: </span> <span style={{ fontSize: 14 }} className={style.typenDate} >{startDate}</span>
+            <span style={{ fontSize: 14 }} className="text-secondary">{i18next.t("Start Date")}: </span> <span style={{ fontSize: 14 }} className={style.typenDate} >{startDate}</span>
           </div>
           <div className="d-flex justify-content-between">
-            <span style={{ fontSize: 14 }} className="text-secondary">End Date: </span> <span style={{ fontSize: 14 }} className={style.typenDate} >{endDate}</span>
+            <span style={{ fontSize: 14 }} className="text-secondary">{i18next.t("End Date")}: </span> <span style={{ fontSize: 14 }} className={style.typenDate} >{endDate}</span>
           </div>
         </div>
       </Card>

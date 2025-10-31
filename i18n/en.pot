@@ -5,35 +5,107 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-08-01T07:16:55.090Z\n"
-"PO-Revision-Date: 2025-08-01T07:16:55.090Z\n"
-
-msgid "Cancel"
-msgstr "Cancel"
-
-msgid "Save"
-msgstr "Save"
-
-msgid "Off day registered successfully"
-msgstr "Off day registered successfully"
-
-msgid "To register new off day, please fill out the form"
-msgstr "To register new off day, please fill out the form"
-
-msgid "Off Day Details"
-msgstr "Off Day Details"
-
-msgid "Option saved successfully."
-msgstr "Option saved successfully."
-
-msgid "To register new option, please fill out the form"
-msgstr "To register new option, please fill out the form"
-
-msgid "School calendar updated successfully"
-msgstr "School calendar updated successfully"
-
-msgid "To register new school calendar, please fill out the form"
-msgstr "To register new school calendar, please fill out the form"
+"POT-Creation-Date: 2025-10-31T12:22:10.309Z\n"
+"PO-Revision-Date: 2025-10-31T12:22:10.309Z\n"
 
 msgid "Data registered successfully"
 msgstr "Data registered successfully"
+
+msgid "Start Date"
+msgstr "Start Date"
+
+msgid "End Date"
+msgstr "End Date"
+
+msgid "Are you sure?"
+msgstr "Are you sure?"
+
+msgid "This will delete the selected data"
+msgstr "This will delete the selected data"
+
+msgid "Disagree"
+msgstr "Disagree"
+
+msgid "Agree"
+msgstr "Agree"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Non-Schoolday Type"
+msgstr "Non-Schoolday Type"
+
+msgid "Public Holiday"
+msgstr "Public Holiday"
+
+msgid "Special Events"
+msgstr "Special Events"
+
+msgid "Event"
+msgstr "Event"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Code you configuration"
+msgstr "Code you configuration"
+
+msgid "Academic year"
+msgstr "Academic year"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Description you configuration"
+msgstr "Description you configuration"
+
+msgid "Start date"
+msgstr "Start date"
+
+msgid "End date"
+msgstr "End date"
+
+msgid "General Details"
+msgstr "General Details"
+
+msgid "description"
+msgstr "description"
+
+msgid "Period"
+msgstr "Period"
+
+msgid "School days"
+msgstr "School days"
+
+msgid "Monday"
+msgstr "Monday"
+
+msgid "Tuesday"
+msgstr "Tuesday"
+
+msgid "Wednesday"
+msgstr "Wednesday"
+
+msgid "Thursday"
+msgstr "Thursday"
+
+msgid "Friday"
+msgstr "Friday"
+
+msgid "Saturday"
+msgstr "Saturday"
+
+msgid "Sunday"
+msgstr "Sunday"

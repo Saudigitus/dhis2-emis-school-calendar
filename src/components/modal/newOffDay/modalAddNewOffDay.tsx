@@ -3,7 +3,7 @@ import { ModalActions, Button, ButtonStrip, CircularLoader } from "@dhis2/ui";
 import WithPadding from "../../template/WithPadding";
 import { Form } from "react-final-form";
 import GroupForm from "../../form/GroupForm";
-import fields from "../../../utils/constants/fields.json";
+import { nonSchooldayFields } from "../../../utils/constants/fields";
 import i18n from "../../../locales";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -11,14 +11,17 @@ import { editState } from "../../../schema/editDataSchema";
 import { useParams } from "react-router-dom";
 import { mergeHoliday } from "../../../utils/common/mergeHoliday";
 import { SchoolCalendarData } from "dhis2-semis-components";
+import { D2I18n } from "dhis2-semis-types";
 
 interface ContentProps {
     setOpen: (value: boolean) => void
     selected?: string
     refetch?: () => void
+    i18next: D2I18n
 }
 
-export default function NewOdffDay({ setOpen, selected }: ContentProps): React.ReactElement {
+export default function NewOdffDay({ setOpen, selected, i18next }: ContentProps): React.ReactElement {
+    const i18nLocal = i18next ?? i18n
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const [selectedCard, setSelectedCard] = useRecoilState(editState)
@@ -28,13 +31,13 @@ export default function NewOdffDay({ setOpen, selected }: ContentProps): React.R
         {
             id: "cancel",
             type: "Cancel",
-            label: i18n.t("Cancel"),
+            label: i18nLocal.t("Cancel"),
             white: true
         },
         {
             id: "save",
             type: "button",
-            label: i18n.t("Save"),
+            label: i18nLocal.t("Save"),
             primary: true,
             icon: posting && <CircularLoader small />
         }
@@ -56,7 +59,7 @@ export default function NewOdffDay({ setOpen, selected }: ContentProps): React.R
                         }
                     })]
 
-                }, i18n.t("Off day registered successfully")).then(() => {
+                }, i18nLocal.t("Off day registered successfully")).then(() => {
                     setOpen(false);
                     if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
                 })
@@ -68,7 +71,7 @@ export default function NewOdffDay({ setOpen, selected }: ContentProps): React.R
     return (
         <WithPadding padding="0px">
             <span>
-                {i18n.t("To register new off day, please fill out the form")}
+                {i18nLocal.t("To register new off day, please fill out the form")}
             </span>
             <Form initialValues={selectedCard.edit ? { date: selectedCard.data.date, type: selectedCard.data.type, event: selectedCard.data.title } : {}} onSubmit={() => {
             }}
@@ -78,10 +81,10 @@ export default function NewOdffDay({ setOpen, selected }: ContentProps): React.R
                         <form>
                             <br />
                             <GroupForm
-                                name={i18n.t("Off Day Details")}
+                                name={i18nLocal.t("Off Day Details")}
                                 description={""}
                                 disabled={false}
-                                fields={fields.map((field: any) => ({
+                                fields={nonSchooldayFields(i18nLocal).map((field: any) => ({
                                     ...field,
                                     valueType: field.valueType || "TEXT",
                                 }))}

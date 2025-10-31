@@ -3,20 +3,23 @@ import { Form } from "react-final-form";
 import { ModalActions, Button, ButtonStrip, CircularLoader } from "@dhis2/ui";
 import WithPadding from "../../template/WithPadding";
 import GroupForm from "../../form/GroupForm";
-import fieldsOptions from "../../../utils/constants/fieldsOptions.json";
+import { fieldsOptions } from "../../../utils/constants/fieldsOptions";
 import i18n from "../../../locales";
 import { useGetAcademicYears } from "../../../hooks/dataElements/useGetAcademicYears";
 import { usePostOption } from "../../../hooks/option/usePostOption";
 import useShowAlerts from "../../../hooks/commons/useShowAlert";
 import { LinearProgress } from "@mui/material";
+import { D2I18n } from "dhis2-semis-types";
 
 interface ContentProps {
     setOpen: (value: boolean) => void
     selected?: string
     refetch?: () => void,
+    i18next: D2I18n
 }
 
-export default function AddNewOption({ setOpen, selected }: ContentProps) {
+export default function AddNewOption({ setOpen, selected, i18next }: ContentProps) {
+    const i18nLocal = i18n ?? i18next
     const { show, hide } = useShowAlerts()
     const { postOption, loading: posting } = usePostOption()
     const { loading: loading, data, getAcademicYear, refetch } = useGetAcademicYears()
@@ -29,13 +32,13 @@ export default function AddNewOption({ setOpen, selected }: ContentProps) {
         {
             id: "cancel",
             type: "button",
-            label: i18n.t("Cancel"),
+            label: i18nLocal.t("Cancel"),
             white: true
         },
         {
             id: "save",
             type: "button",
-            label: i18n.t("Save"),
+            label: i18nLocal.t("Save"),
             primary: true,
             icon: posting && <CircularLoader small />
         }
@@ -61,7 +64,7 @@ export default function AddNewOption({ setOpen, selected }: ContentProps) {
                         ...values,
                         optionSet: { id: data?.id }
                     },
-                        i18n.t("Option saved successfully."))
+                        i18nLocal.t("Option saved successfully."))
                         .then(() => {
                             refetch()
                             setOpen(false)
@@ -74,7 +77,7 @@ export default function AddNewOption({ setOpen, selected }: ContentProps) {
     return (
         <WithPadding padding="0px">
             <span>
-                {i18n.t("To register new option, please fill out the form")}
+                {i18nLocal.t("To register new option, please fill out the form")}
             </span>
 
             <Form onSubmit={() => { }}>
@@ -84,10 +87,10 @@ export default function AddNewOption({ setOpen, selected }: ContentProps) {
                             <br />
                             {loading && <LinearProgress />}
                             <GroupForm
-                                name={i18n.t("Off Day Details")}
+                                name={i18nLocal.t("Off Day Details")}
                                 description={""}
                                 disabled={false}
-                                fields={fieldsOptions.map((field: any) => ({
+                                fields={fieldsOptions(i18nLocal).map((field: any) => ({
                                     type: field.type ?? "text",
                                     ...field
                                 }))}

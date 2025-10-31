@@ -4,7 +4,7 @@ import { Form } from "react-final-form";
 import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent } from "@dhis2/ui";
 import WithPadding from "../../template/WithPadding";
 import GroupForm from "../../form/GroupForm";
-import fieldsSchoolDetails from "../../../utils/constants/fieldsSchoolDetails.json";
+import { fieldsSchoolDetails } from "../../../utils/constants/fieldsSchoolDetails";
 import i18n from "../../../locales";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
 import { useGetAcademicYears } from "../../../hooks/dataElements/useGetAcademicYears";
@@ -12,14 +12,17 @@ import { generateId } from "../../../utils/common/generateId";
 import { updateSchoolConfig } from "../../../utils/common/updateSchoolConfig";
 import { schoolCalendar } from "../../../types/dataStore/DataStoreConfig";
 import { SchoolCalendarData } from "dhis2-semis-components";
+import { D2I18n } from "dhis2-semis-types";
 
 interface ContentProps {
     setOpen: (value: boolean) => void
     selected?: string
     academicYearValues: schoolCalendar['academicYear']
+    i18next: D2I18n
 }
 
-export default function AddNewSchoolCalendar({ setOpen, selected, academicYearValues }: ContentProps) {
+export default function AddNewSchoolCalendar({ setOpen, selected, academicYearValues, i18next }: ContentProps) {
+    const i18nLocal = i18n ?? i18next;
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const { loading: loading, data, getAcademicYear } = useGetAcademicYears()
@@ -32,14 +35,14 @@ export default function AddNewSchoolCalendar({ setOpen, selected, academicYearVa
         {
             id: "cancel",
             type: "button",
-            label: i18n.t("Cancel"),
+            label: i18nLocal.t("Cancel"),
             white: true,
             onClick: () => setOpen(false)
         },
         {
             id: "save",
             type: "submit",
-            label: i18n.t("Save"),
+            label: i18nLocal.t("Save"),
             primary: true,
             icon: posting && <CircularLoader small />
         }
@@ -58,7 +61,7 @@ export default function AddNewSchoolCalendar({ setOpen, selected, academicYearVa
                             return x;
                         }
                     })]
-                }, i18n.t("School calendar updated successfully"))
+                }, i18nLocal.t("School calendar updated successfully"))
                     .then(() => { setOpen(false) });
             }
         } else {
@@ -87,7 +90,7 @@ export default function AddNewSchoolCalendar({ setOpen, selected, academicYearVa
                 ...dataStoreData, schoolCalendar: [...(
                     dataStoreData?.schoolCalendar ? dataStoreData?.schoolCalendar : []
                 ), currentData]
-            }, i18n.t("School calendar updated successfully"))
+            }, i18nLocal.t("School calendar updated successfully"))
                 .then(() => { setOpen(false) });
         }
     }
@@ -98,7 +101,7 @@ export default function AddNewSchoolCalendar({ setOpen, selected, academicYearVa
             label: item.label
         })) || [];
 
-        return fieldsSchoolDetails.map((field: any) => {
+        return fieldsSchoolDetails(i18nLocal).map((field: any) => {
             if (field.name === "code" && academicYearOptions.length > 0) {
                 return {
                     ...field,
@@ -117,7 +120,7 @@ export default function AddNewSchoolCalendar({ setOpen, selected, academicYearVa
     return (
         <WithPadding padding="0px">
             <span>
-                {i18n.t("To register new school calendar, please fill out the form")}
+                {i18nLocal.t("To register new school calendar, please fill out the form")}
             </span>
             <Form initialValues={academicYearValues} onSubmit={onSubmit}>
                 {({ values, handleSubmit, pristine, valid }) => {
@@ -129,7 +132,7 @@ export default function AddNewSchoolCalendar({ setOpen, selected, academicYearVa
                                 <CenteredContent><CircularLoader /></CenteredContent>
                                 :
                                 <GroupForm
-                                    name={i18n.t("Off Day Details")}
+                                    name={i18nLocal.t("Off Day Details")}
                                     description={""}
                                     disabled={false}
                                     fields={addAcademicYearOptions().map((field: any) => ({

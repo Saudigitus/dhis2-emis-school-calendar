@@ -5,15 +5,18 @@ import GeneralDetailsForm from '../components/forms/GeneralDetailsForm'
 import { WithPadding } from '../components'
 import styles from './repeatable.module.css'
 import { useNavigate } from 'react-router-dom'
+import i18n from '../locales'
+import { D2I18n } from 'dhis2-semis-types'
 
-function Repeatable() {
+function Repeatable({ i18next }: { i18next: D2I18n }) {
+    const i18nLocal = i18next ?? i18n
     const navigate = useNavigate();
     const [selected, setSelected] = useState('general')
 
     const types = [
-        { name: 'General Details', id: 'general' },
-        { name: 'School Terms', id: 'terms' },
-        { name: 'Non School Days', id: 'nonschool' }
+        { name: i18nLocal.t('General Details'), id: 'general' },
+        { name: i18nLocal.t('School Terms'), id: 'terms' },
+        { name: i18nLocal.t('Non School Days'), id: 'nonschool' }
     ]
     return (
         <div>
@@ -37,20 +40,20 @@ function Repeatable() {
                         selected={false}
                         onClick={() => navigate(-1)}
                     >
-                        Back to list
+                        {i18nLocal.t("Back to list")}
                     </Tab>
                 </TabBar>
             </WithPadding>
 
             <div className='mt-2'>
                 {selected === 'general' &&
-                    <GeneralDetailsForm />
+                    <GeneralDetailsForm i18next={i18next} />
                 }
                 {selected === 'nonschool' &&
-                    <NonSchoolDays />
+                    <NonSchoolDays i18next={i18next} />
                 }
                 {selected === 'terms' &&
-                    <Terms />
+                    <Terms i18next={i18next} />
                 }
             </div>
         </div>

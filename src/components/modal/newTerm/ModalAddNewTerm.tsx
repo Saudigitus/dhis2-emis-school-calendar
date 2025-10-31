@@ -3,7 +3,7 @@ import { ModalActions, Button, ButtonStrip, CircularLoader } from "@dhis2/ui";
 import WithPadding from "../../template/WithPadding";
 import { Form } from "react-final-form";
 import GroupForm from "../../form/GroupForm";
-import fields from "../../../utils/constants/fieldsTerm.json";
+import { fieldsTerm } from "../../../utils/constants/fieldsTerm";
 import i18n from "../../../locales";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -11,13 +11,16 @@ import { editState } from "../../../schema/editDataSchema";
 import { useParams } from "react-router-dom";
 import { SchoolCalendarData } from "dhis2-semis-components";
 import { mergeTerm } from "../../../utils/common/mergeTerm";
+import { D2I18n } from "dhis2-semis-types";
 
 interface ContentProps {
     setOpen: (value: boolean) => void
     refetch?: () => void
+    i18next: D2I18n
 }
 
-export default function NewSchoolTerm({ setOpen }: ContentProps): React.ReactElement {
+export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React.ReactElement {
+    const i18nLocal = i18next ?? i18n
     const { id } = useParams();
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
@@ -27,14 +30,14 @@ export default function NewSchoolTerm({ setOpen }: ContentProps): React.ReactEle
         {
             id: "cancel",
             type: "Cancel",
-            label: i18n.t("Cancel"),
+            label: i18nLocal.t("Cancel"),
             white: true,
             onClick: () => setOpen(false)
         },
         {
             id: "save",
             type: "submit",
-            label: i18n.t("Save"),
+            label: i18nLocal.t("Save"),
             primary: true,
             icon: posting && <CircularLoader small />,
         }
@@ -52,7 +55,7 @@ export default function NewSchoolTerm({ setOpen }: ContentProps): React.ReactEle
                 }
             })]
 
-        }, i18n.t("Data registered successfully")).then(() => {
+        }, i18nLocal.t("Data registered successfully")).then(() => {
             setOpen(false);
             if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
         })
@@ -61,7 +64,7 @@ export default function NewSchoolTerm({ setOpen }: ContentProps): React.ReactEle
     return (
         <WithPadding padding="0px">
             <span>
-                {i18n.t("To register new off day, please fill out the form")}
+                {i18nLocal.t("To register new off day, please fill out the form")}
             </span>
             <Form
                 initialValues={selectedCard.edit ? { key: selectedCard.data.key, startDate: selectedCard.data.startDate, description: selectedCard.data.description, endDate: selectedCard.data.endDate } : {}}
@@ -72,10 +75,10 @@ export default function NewSchoolTerm({ setOpen }: ContentProps): React.ReactEle
                         <form onSubmit={handleSubmit} >
                             <br />
                             <GroupForm
-                                name={i18n.t("Off Day Details")}
+                                name={i18nLocal.t("Off Day Details")}
                                 description={""}
                                 disabled={false}
-                                fields={fields.map((field: any) => ({
+                                fields={fieldsTerm(i18nLocal).map((field: any) => ({
                                     ...field,
                                     valueType: field.valueType || "TEXT",
                                 }))}
