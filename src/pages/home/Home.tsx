@@ -13,11 +13,10 @@ import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement'
 import styles from "./Home.module.css"
 import classNames from 'classnames'
 import { SchoolCalendarData, WithPadding } from 'dhis2-semis-components'
-import i18n from '../../locales'
 import { D2I18n } from 'dhis2-semis-types'
 
 function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
-    const i18nLocal = i18next ?? i18n
+    const i18nLocal = i18next
     const navigate = useNavigate()
     const data = useRecoilValue(SchoolCalendarData)
     const { postData, posting: loadingStore } = dataStoreManagement()

@@ -4,7 +4,6 @@ import WithPadding from "../../template/WithPadding";
 import { Form } from "react-final-form";
 import GroupForm from "../../form/GroupForm";
 import { fieldsTerm } from "../../../utils/constants/fieldsTerm";
-import i18n from "../../../locales";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { editState } from "../../../schema/editDataSchema";
@@ -20,7 +19,7 @@ interface ContentProps {
 }
 
 export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React.ReactElement {
-    const i18nLocal = i18next ?? i18n
+    const i18nLocal = i18next
     const { id } = useParams();
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)

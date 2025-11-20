@@ -4,7 +4,6 @@ import { ModalActions, Button, ButtonStrip, CircularLoader } from "@dhis2/ui";
 import WithPadding from "../../template/WithPadding";
 import GroupForm from "../../form/GroupForm";
 import { fieldsOptions } from "../../../utils/constants/fieldsOptions";
-import i18n from "../../../locales";
 import { useGetAcademicYears } from "../../../hooks/dataElements/useGetAcademicYears";
 import { usePostOption } from "../../../hooks/option/usePostOption";
 import useShowAlerts from "../../../hooks/commons/useShowAlert";
@@ -19,7 +18,7 @@ interface ContentProps {
 }
 
 export default function AddNewOption({ setOpen, selected, i18next }: ContentProps) {
-    const i18nLocal = i18n ?? i18next
+    const i18nLocal = i18next
     const { show, hide } = useShowAlerts()
     const { postOption, loading: posting } = usePostOption()
     const { loading: loading, data, getAcademicYear, refetch } = useGetAcademicYears()

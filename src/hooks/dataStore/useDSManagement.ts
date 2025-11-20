@@ -20,7 +20,6 @@ export const dataStoreManagement = () => {
         await engine.mutate(DATASTOREQUERY, {
             variables: { data: data },
             onComplete() {
-                setloading(false)
                 void refetch().then(() => {
                     if (msg !== null) {
                         show({
@@ -29,6 +28,8 @@ export const dataStoreManagement = () => {
                         });
                         setTimeout(hide, 5000);
                     }
+                }).then(() => {
+                    setloading(false)
                 })
             },
             onError(error) {

@@ -5,7 +5,6 @@ import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent } fr
 import WithPadding from "../../template/WithPadding";
 import GroupForm from "../../form/GroupForm";
 import { fieldsSchoolDetails } from "../../../utils/constants/fieldsSchoolDetails";
-import i18n from "../../../locales";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
 import { useGetAcademicYears } from "../../../hooks/dataElements/useGetAcademicYears";
 import { generateId } from "../../../utils/common/generateId";
@@ -22,7 +21,7 @@ interface ContentProps {
 }
 
 export default function AddNewSchoolCalendar({ setOpen, selected, academicYearValues, i18next }: ContentProps) {
-    const i18nLocal = i18n ?? i18next;
+    const i18nLocal = i18next;
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const { loading: loading, data, getAcademicYear } = useGetAcademicYears()

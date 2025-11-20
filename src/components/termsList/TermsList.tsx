@@ -10,11 +10,10 @@ import NewSchoolTerm from '../modal/newTerm/ModalAddNewTerm';
 import { SchoolCalendarData } from 'dhis2-semis-components';
 import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement';
 import { GeneralLoadingState } from '../../schema/loadingSchema';
-import i18n from '../../locales';
 import { D2I18n } from 'dhis2-semis-types';
 
 function TermsList({ i18next }: { i18next: D2I18n }) {
-    const i18nLocal = i18next ?? i18n
+    const i18nLocal = i18next
     const { id } = useParams();
     const { posting } = dataStoreManagement()
     const [open, setOpen] = useState(false)

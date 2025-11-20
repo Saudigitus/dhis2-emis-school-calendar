@@ -4,7 +4,6 @@ import WithPadding from "../../template/WithPadding";
 import { Form } from "react-final-form";
 import GroupForm from "../../form/GroupForm";
 import { nonSchooldayFields } from "../../../utils/constants/fields";
-import i18n from "../../../locales";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { editState } from "../../../schema/editDataSchema";
@@ -21,7 +20,7 @@ interface ContentProps {
 }
 
 export default function NewOdffDay({ setOpen, selected, i18next }: ContentProps): React.ReactElement {
-    const i18nLocal = i18next ?? i18n
+    const i18nLocal = i18next
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const [selectedCard, setSelectedCard] = useRecoilState(editState)

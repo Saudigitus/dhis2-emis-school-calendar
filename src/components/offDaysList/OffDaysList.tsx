@@ -11,11 +11,10 @@ import NewOdffDay from '../modal/newOffDay/modalAddNewOffDay';
 import { SchoolCalendarData } from 'dhis2-semis-components';
 import { useDataStore } from '../../hooks/appwarapper/useDataStore';
 import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement';
-import i18n from '../../locales';
 import { D2I18n } from 'dhis2-semis-types';
 
 function OffDaysList({ i18next }: { i18next: D2I18n }) {
-    const i18nLocal = i18next ?? i18n
+    const i18nLocal = i18next
     const { id } = useParams();
     const { loading } = useDataStore()
     const [open, setOpen] = useState(false)

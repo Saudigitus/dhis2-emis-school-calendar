@@ -14,11 +14,10 @@ import { LinearProgress } from "@mui/material";
 import { Button } from "@dhis2/ui";
 import { ButtonStrip } from "@dhis2/ui";
 import { CircularLoader } from "@dhis2/ui";
-import i18n from "../../locales";
 import { D2I18n } from "dhis2-semis-types";
 
 function GeneralDetailsForm({ i18next }: { i18next: D2I18n }): React.ReactElement {
-    const i18nLocal = i18next ?? i18n
+    const i18nLocal = i18next
     const { id } = useParams();
     const formRef = useRef<any>(null);
     const { loading } = useDataStore()

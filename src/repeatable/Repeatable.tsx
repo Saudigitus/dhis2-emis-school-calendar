@@ -5,11 +5,10 @@ import GeneralDetailsForm from '../components/forms/GeneralDetailsForm'
 import { WithPadding } from '../components'
 import styles from './repeatable.module.css'
 import { useNavigate } from 'react-router-dom'
-import i18n from '../locales'
 import { D2I18n } from 'dhis2-semis-types'
 
 function Repeatable({ i18next }: { i18next: D2I18n }) {
-    const i18nLocal = i18next ?? i18n
+    const i18nLocal = i18next
     const navigate = useNavigate();
     const [selected, setSelected] = useState('general')
 
