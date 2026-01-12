@@ -12,14 +12,12 @@ import { useParams } from "react-router-dom";
 import { SchoolCalendarData } from "dhis2-semis-components";
 import { mergeTerm } from "../../../utils/common/mergeTerm";
 
-
 interface ContentProps {
     setOpen: (value: boolean) => void
-    selected?: string
     refetch?: () => void
 }
 
-export default function NewSchoolTerm({ setOpen, selected }: ContentProps): React.ReactElement {
+export default function NewSchoolTerm({ setOpen }: ContentProps): React.ReactElement {
     const { id } = useParams();
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
@@ -30,40 +28,34 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
             id: "cancel",
             type: "Cancel",
             label: i18n.t("Cancel"),
-            white: true
+            white: true,
+            onClick: () => setOpen(false)
         },
         {
             id: "save",
-            type: "button",
+            type: "submit",
             label: i18n.t("Save"),
             primary: true,
-            icon: posting && <CircularLoader small />
+            icon: posting && <CircularLoader small />,
         }
     ];
 
-    function actions(action: string, values: any) {
-        switch (action) {
-            case "cancel":
-                setOpen(false)
-                break
-            case "save":
-                const localData = dataStoreData?.schoolCalendar?.find((x) => x.id === id) as unknown as SchoolConfig;
-                const updateValues = selectedCard?.edit ? values : { ...values, key: values?.description?.replace(/\s+/g, '')?.toLowerCase() }
+    const onFormSubmit = (values: any) => {
+        const localData = dataStoreData?.schoolCalendar?.find((x: any) => x.id === id) as unknown as SchoolConfig;
+        const updateValues = selectedCard?.edit ? values : { ...values, key: values?.description?.replace(/\s+/g, '')?.toLowerCase() }
 
-                postData({
-                    ...dataStoreData,
-                    schoolCalendar: [{ ...mergeTerm(localData, { ...updateValues }) }, ...dataStoreData?.schoolCalendar.filter((x) => {
-                        if (x.id !== id) {
-                            return x;
-                        }
-                    })]
+        postData({
+            ...dataStoreData,
+            schoolCalendar: [{ ...mergeTerm(localData, { ...updateValues }) }, ...dataStoreData?.schoolCalendar.filter((x: any) => {
+                if (x.id !== id) {
+                    return x;
+                }
+            })]
 
-                }, i18n.t("Data registered successfully")).then(() => {
-                    setOpen(false);
-                    if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
-                })
-                break
-        }
+        }, i18n.t("Data registered successfully")).then(() => {
+            setOpen(false);
+            if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
+        })
     }
 
     return (
@@ -73,12 +65,11 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
             </span>
             <Form
                 initialValues={selectedCard.edit ? { key: selectedCard.data.key, startDate: selectedCard.data.startDate, description: selectedCard.data.description, endDate: selectedCard.data.endDate } : {}}
-                onSubmit={() => {
-                }}
+                onSubmit={onFormSubmit}
             >
-                {({ values, pristine }) => {
+                {({ pristine, handleSubmit }) => {
                     return (
-                        <form>
+                        <form onSubmit={handleSubmit} >
                             <br />
                             <GroupForm
                                 name={i18n.t("Off Day Details")}
@@ -93,9 +84,7 @@ export default function NewSchoolTerm({ setOpen, selected }: ContentProps): Reac
                             <ModalActions>
                                 <ButtonStrip end>
                                     {modalActions.map((action, i) => (
-                                        <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine} {...action} onClick={(e: any) => {
-                                            actions(action.id, values)
-                                        }}>
+                                        <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine} {...action}>
                                             {action.label}
                                         </Button>
                                     ))}

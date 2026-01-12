@@ -16,15 +16,13 @@ import { SchoolCalendarData } from "dhis2-semis-components";
 interface ContentProps {
     setOpen: (value: boolean) => void
     selected?: string
-    refetch?: () => void,
     academicYearValues: schoolCalendar['academicYear']
 }
 
-export default function AddNewSchoolCalendar({ setOpen, selected, refetch, academicYearValues }: ContentProps) {
+export default function AddNewSchoolCalendar({ setOpen, selected, academicYearValues }: ContentProps) {
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const { loading: loading, data, getAcademicYear } = useGetAcademicYears()
-
 
     useEffect(() => {
         getAcademicYear()
@@ -35,71 +33,64 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
             id: "cancel",
             type: "button",
             label: i18n.t("Cancel"),
-            white: true
+            white: true,
+            onClick: () => setOpen(false)
         },
         {
             id: "save",
-            type: "button",
+            type: "submit",
             label: i18n.t("Save"),
             primary: true,
             icon: posting && <CircularLoader small />
         }
     ];
 
-    function actions(action: string, values: any) {
-        switch (action) {
-            case "cancel":
-                setOpen(false)
-                break
-            case "save":
-                if (selected) {
-                    const currentData = dataStoreData?.schoolCalendar?.find((item: any) => item?.id == selected) as unknown as SchoolConfig
-                    if (currentData) {
-                        const updatedData = updateSchoolConfig(currentData, {
-                            academicYear: { ...(values ? { ...values } : {}), label: data?.options?.find((x) => x?.value === values["code"])?.label }
-                        });
-                        postData({
-                            ...dataStoreData, schoolCalendar: [updatedData, ...dataStoreData?.schoolCalendar.filter((x) => {
-                                if (x.id !== selected) {
-                                    return x;
-                                }
-                            })]
-                        }, i18n.t("School calendar updated successfully"))
-                            .then(() => { setOpen(false) });
-                    }
-                } else {
-                    const safeValues = (values && typeof values === "object" && !Array.isArray(values))
-                        ? values
-                        : {};
-
-                    const currentData = updateSchoolConfig({}, {
-                        academicYear: {
-                            ...safeValues,
-                            label: data?.options?.find((x) => x?.value === values?.code)?.label
-                        },
-                        id: generateId(),
-                        weekDays: {
-                            friday: false,
-                            monday: false,
-                            saturday: false,
-                            sunday: false,
-                            thursday: false,
-                            tuesday: false,
-                            wednesday: false
+    const onSubmit = (values: any) => {
+        if (selected) {
+            const currentData = dataStoreData?.schoolCalendar?.find((item: any) => item?.id == selected) as unknown as SchoolConfig
+            if (currentData) {
+                const updatedData = updateSchoolConfig(currentData, {
+                    academicYear: { ...(values ? { ...values } : {}), label: data?.options?.find((x) => x?.value === values["code"])?.label }
+                });
+                postData({
+                    ...dataStoreData, schoolCalendar: [updatedData, ...dataStoreData?.schoolCalendar.filter((x: any) => {
+                        if (x.id !== selected) {
+                            return x;
                         }
-                    });
+                    })]
+                }, i18n.t("School calendar updated successfully"))
+                    .then(() => { setOpen(false) });
+            }
+        } else {
+            const safeValues = (values && typeof values === "object" && !Array.isArray(values))
+                ? values
+                : {};
 
-                    postData({
-                        ...dataStoreData, schoolCalendar: [...(
-                            dataStoreData?.schoolCalendar ? dataStoreData?.schoolCalendar : []
-                        ), currentData]
-                    }, i18n.t("School calendar updated successfully"))
-                        .then(() => { setOpen(false) });
+            const currentData = updateSchoolConfig({}, {
+                academicYear: {
+                    ...safeValues,
+                    label: data?.options?.find((x) => x?.value === values?.code)?.label
+                },
+                id: generateId(),
+                weekDays: {
+                    friday: false,
+                    monday: false,
+                    saturday: false,
+                    sunday: false,
+                    thursday: false,
+                    tuesday: false,
+                    wednesday: false
                 }
-                break
+            });
+
+            postData({
+                ...dataStoreData, schoolCalendar: [...(
+                    dataStoreData?.schoolCalendar ? dataStoreData?.schoolCalendar : []
+                ), currentData]
+            }, i18n.t("School calendar updated successfully"))
+                .then(() => { setOpen(false) });
         }
     }
-
     // addAcademicYearOptions as options to fieldsSchoolDetails and return the updated fieldsSchoolDetails
     function addAcademicYearOptions() {
         const academicYearOptions = data?.options?.map((item: any) => ({
@@ -128,10 +119,10 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
             <span>
                 {i18n.t("To register new school calendar, please fill out the form")}
             </span>
-            <Form initialValues={academicYearValues} onSubmit={() => { }}>
-                {({ values, pristine, valid }) => {
+            <Form initialValues={academicYearValues} onSubmit={onSubmit}>
+                {({ values, handleSubmit, pristine, valid }) => {
                     return (
-                        <form>
+                        <form onSubmit={handleSubmit} >
                             <br />
 
                             {loading ?
@@ -151,13 +142,7 @@ export default function AddNewSchoolCalendar({ setOpen, selected, refetch, acade
                             <ModalActions>
                                 <ButtonStrip end>
                                     {modalActions.map((action, i) => (
-                                        <Button key={i} disabled={action.id == "cancel" ? posting : (posting || pristine)} {...action} onClick={(e: any) => {
-                                            if (valid) {
-                                                actions(action.id, values)
-                                            } else if (action.id === "cancel") {
-                                                setOpen(false);
-                                            }
-                                        }}>
+                                        <Button key={i} disabled={action.id == "cancel" ? posting : (posting || pristine)} {...action} >
                                             {action.label}
                                         </Button>
                                     ))}
