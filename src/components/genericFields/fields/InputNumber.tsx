@@ -13,7 +13,6 @@ import { FormFieldsProps } from '../../../types/form/GenericFieldsTypes';
 
 const { Field } = ReactFinalForm
 
-// Omitting the underscore here since it messes up i18n
 const lowerbound = 1
 const upperbound = 86400
 

@@ -10,8 +10,10 @@ import NewSchoolTerm from '../modal/newTerm/ModalAddNewTerm';
 import { SchoolCalendarData } from 'dhis2-semis-components';
 import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement';
 import { GeneralLoadingState } from '../../schema/loadingSchema';
+import { D2I18n } from 'dhis2-semis-types';
 
-function TermsList() {
+function TermsList({ i18next }: { i18next: D2I18n }) {
+    const i18nLocal = i18next
     const { id } = useParams();
     const { posting } = dataStoreManagement()
     const [open, setOpen] = useState(false)
@@ -20,7 +22,7 @@ function TermsList() {
 
     return (
         <div>
-            <ModalComponent onClose={() => setOpen(false)} open={open} title={'Non School Day Register'} children={<NewSchoolTerm setOpen={setOpen} />} />
+            <ModalComponent onClose={() => setOpen(false)} open={open} title={i18nLocal.t('Non School Day Register')} children={<NewSchoolTerm i18next={i18next} setOpen={setOpen} />} />
             <WithPadding padding='10px'>
                 <Button
                     variant="outlined"
@@ -29,7 +31,7 @@ function TermsList() {
                         setOpen(true);
                     }}
                 >
-                    Add School Term
+                    {i18nLocal.t("Add School Term")}
                 </Button>
             </WithPadding>
             <WithPadding>
@@ -40,11 +42,12 @@ function TermsList() {
                             data?.schoolCalendar?.find((x: any) => x.id === id)?.classPeriods?.length ?
 
                                 <GridViewComponentTerm
+                                    i18next={i18nLocal}
                                     setOpen={setOpen}
                                     classPeriods={data?.schoolCalendar?.find((x: any) => x.id === id)?.classPeriods || []}
                                 />
                                 :
-                                <>No school term registered yet.</>
+                                <>{i18nLocal.t("No school term registered yet")}.</>
                         }
                     </WithPadding>
                 </div>

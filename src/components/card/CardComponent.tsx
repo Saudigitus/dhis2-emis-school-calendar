@@ -13,7 +13,7 @@ import { deleteState } from "../../schema/deleteDataSchema";
 import { removeHoliday } from "../../utils/common/removeHoliday";
 
 export default function OffDaysCard(offDay: CardSubItemProps): React.ReactElement {
-  const { title, date, disabled, offDayType, setOpen } = offDay;
+  const { title, date, disabled, offDayType, setOpen, i18n } = offDay;
   const { id } = useParams();
   const { postData, posting } = dataStoreManagement()
   const dataStoreData = useRecoilValue(SchoolCalendarData)
@@ -41,7 +41,7 @@ export default function OffDaysCard(offDay: CardSubItemProps): React.ReactElemen
         })
       ]
 
-    }, "Data registered successfully").then(() => {
+    }, i18n.t("Data registered successfully")).then(() => {
       deletedTerm({ data: Object(), delete: false })
     })
   }
@@ -57,6 +57,7 @@ export default function OffDaysCard(offDay: CardSubItemProps): React.ReactElemen
         <div className={style.infoSection}>
           <span className={style.title} >{title}</span>
           <MenuComponent
+            i18n={i18n}
             row={offDay}
             setOpen={setOpen}
             onDelete={deletePeriod}

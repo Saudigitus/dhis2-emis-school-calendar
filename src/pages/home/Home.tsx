@@ -13,8 +13,10 @@ import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement'
 import styles from "./Home.module.css"
 import classNames from 'classnames'
 import { SchoolCalendarData, WithPadding } from 'dhis2-semis-components'
+import { D2I18n } from 'dhis2-semis-types'
 
-function SchoolCalendarHomePage() {
+function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
+    const i18nLocal = i18next
     const navigate = useNavigate()
     const data = useRecoilValue(SchoolCalendarData)
     const { postData, posting: loadingStore } = dataStoreManagement()
@@ -43,7 +45,7 @@ function SchoolCalendarHomePage() {
             }
         };
 
-        postData(updatedData, "Default academic year updated successfully");
+        postData(updatedData, i18nLocal.t("Default academic year updated successfully"));
         setOpenSaveOption(true);
     }
 
@@ -68,9 +70,10 @@ function SchoolCalendarHomePage() {
                 <ModalComponent
                     onClose={() => setOpen(false)}
                     open={open}
-                    title="Add new school calendar"
+                    title={i18nLocal.t("Add new school calendar")}
                     children={
                         <AddNewSchoolCalendar
+                            i18next={i18next}
                             selected={selected}
                             setOpen={setOpen}
                             academicYearValues={values}
@@ -79,11 +82,12 @@ function SchoolCalendarHomePage() {
                 />
 
                 <ModalComponent
-                    title="Add new option"
+                    title={i18nLocal.t("Add new option")}
                     open={openDialogOption}
                     onClose={() => setOpenDialogOption(false)}
                     children={
                         <AddNewOption
+                            i18next={i18next}
                             selected={selected}
                             setOpen={setOpenDialogOption}
                         />
@@ -91,7 +95,7 @@ function SchoolCalendarHomePage() {
                 />
 
                 <div className={classNames("mb-2", styles.topContainer)}>
-                    <h4 style={{ color: '#1e293b' }}>School Calendar</h4>
+                    <h4 style={{ color: '#1e293b' }}>{i18nLocal.t("School Calendar")}</h4>
                     <Button
                         variant="outlined"
                         startIcon={<AddCircleOutline />}
@@ -102,7 +106,7 @@ function SchoolCalendarHomePage() {
                         className={styles.topButton}
                         disabled={error?.error || loadingStore || (loadingAcademicYear && !open && !openDialogOption)}
                     >
-                        New Academc Year Option
+                        {i18nLocal.t("New Academc Year Option")}
                     </Button>
                 </div>
 
@@ -112,7 +116,7 @@ function SchoolCalendarHomePage() {
 
                 {error?.error && !(loadingStore || (loadingAcademicYear && !open && !openDialogOption)) ?
                     <div style={{ fontSize: 13.5 }} className={`my-4 alert ${error?.type == "config" ? "alert-danger" : "alert-warning"}`} role="alert">
-                        {error.type === "config" ? "No academic year configuration found. Please, ensure the data element is configured correctly." : "Error fetching academic years. Please, make sure the configured academic year exists."}
+                        {error.type === "config" ? i18nLocal.t("No academic year configuration found. Please, ensure the data element is configured correctly.") : i18nLocal.t("Error fetching academic years. Please, make sure the configured academic year exists.")}
                     </div> :
 
                     <div className={styles.containerCards}>
@@ -148,21 +152,21 @@ function SchoolCalendarHomePage() {
 
                                         <>
                                             <Typography variant="subtitle1" style={{ color: '#334155', marginTop: '0.25rem' }}>
-                                                {configuredItem.academicYear?.description || <em style={{ fontSize: 12 }}>Not configured</em>}
+                                                {configuredItem.academicYear?.description || <em style={{ fontSize: 12 }}>{i18nLocal.t("Not configured")}</em>}
                                             </Typography>
 
                                             <Divider style={{ margin: '5px 0' }} />
 
                                             <div style={{ flexGrow: 1 }}>
                                                 <Typography variant="body2" style={{ marginBottom: '0.25rem' }}>
-                                                    <strong>Label:</strong> {configuredItem.academicYear?.label || <em style={{ fontSize: 12 }}>Not configured</em>}
+                                                    <strong>{i18nLocal.t("Label")}:</strong> {configuredItem.academicYear?.label || <em style={{ fontSize: 12 }}>{i18nLocal.t("Not configured")}</em>}
                                                 </Typography>
                                                 <div className='d-flex justify-content-between'>
                                                     <Typography variant="body2" style={{ marginBottom: '0.25rem' }}>
-                                                        <strong>Start Date:</strong> {configuredItem.academicYear?.startDate || <em style={{ fontSize: 12 }}>Not configured</em>}
+                                                        <strong>{i18nLocal.t("Start Date")}:</strong> {configuredItem.academicYear?.startDate || <em style={{ fontSize: 12 }}>{i18nLocal.t("Not configured")}</em>}
                                                     </Typography>
                                                     <Typography variant="body2">
-                                                        <strong>End Date:</strong> {configuredItem.academicYear?.endDate || <em style={{ fontSize: 12 }}>Not configured</em>}
+                                                        <strong>{i18nLocal.t("End Date")}:</strong> {configuredItem.academicYear?.endDate || <em style={{ fontSize: 12 }}>{i18nLocal.t("Not configured")}</em>}
                                                     </Typography>
                                                 </div>
                                             </div>
@@ -189,7 +193,7 @@ function SchoolCalendarHomePage() {
                                                     }}
                                                     fullWidth
                                                 >
-                                                    {(isDefault && !loadingStore) ? 'Default Academic Year' : 'Set as Default'}
+                                                    {(isDefault && !loadingStore) ? i18nLocal.t('Default Academic Year') : i18nLocal.t('Set as Default')}
                                                 </Button>
 
                                                 <Button
@@ -208,7 +212,7 @@ function SchoolCalendarHomePage() {
                                                     }}
                                                     fullWidth
                                                 >
-                                                    View Details
+                                                    {i18nLocal.t("View Details")}
                                                 </Button>
                                             </div>
                                         </>

@@ -7,32 +7,34 @@ import { editState } from '../../schema/editDataSchema';
 import { deleteState } from '../../schema/deleteDataSchema';
 import { IconButton, MenuList, Popover } from "@mui/material";
 import { Delete, Edit, MoreHoriz } from '@mui/icons-material';
+import { D2I18n } from 'dhis2-semis-types';
 
-const options = [
-    {
-        icon: <Edit />,
-        label: "Edit",
-        link: "/edit",
-        className: styles.edit_option,
-        type: "edit"
-    },
-    {
-        icon: <Delete />,
-        label: "Delete",
-        link: "/delete",
-        className: styles.delete_option,
-        type: "delete"
-    }
-]
 
-export default function MenuComponent(props: { row: any, setOpen: (value: boolean) => void, onDelete: () => void }) {
-    const { row, setOpen, onDelete } = props;
+export default function MenuComponent(props: { i18n: D2I18n, row: any, setOpen: (value: boolean) => void, onDelete: () => void }) {
+    const { row, setOpen, onDelete, i18n } = props;
     const setSelected = useSetRecoilState(editState)
     const setDeleted = useSetRecoilState(deleteState)
     const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
     const [confirmDelete, setConfirmDelete] = React.useState<boolean>(false);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+
+    const options = [
+        {
+            icon: <Edit />,
+            label: i18n.t("Edit"),
+            link: "/edit",
+            className: styles.edit_option,
+            type: "edit"
+        },
+        {
+            icon: <Delete />,
+            label: i18n.t("Delete"),
+            link: "/delete",
+            className: styles.delete_option,
+            type: "delete"
+        }
+    ]
 
     useEffect(() => {
         if (confirmDelete) {
@@ -92,7 +94,7 @@ export default function MenuComponent(props: { row: any, setOpen: (value: boolea
                     )}
                 </MenuList>
             </Popover>
-            <AlertDialog open={openDeleteDialog} setOpen={setOpenDeleteDialog} setAgree={setConfirmDelete} />
+            <AlertDialog i18n={i18n} open={openDeleteDialog} setOpen={setOpenDeleteDialog} setAgree={setConfirmDelete} />
         </div>
     );
 }

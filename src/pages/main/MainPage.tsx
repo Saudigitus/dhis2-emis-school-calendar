@@ -1,7 +1,8 @@
 import React from 'react'
 import Repeatable from '../../repeatable/Repeatable'
+import { D2I18n } from 'dhis2-semis-types'
 
-function MainPage() {
+function MainPage({ i18next }: { i18next: D2I18n }) {
 
   return (
     <>
@@ -12,7 +13,7 @@ function MainPage() {
            
            
           </WithPadding> */}
-          <Repeatable />
+          <Repeatable i18next={i18next}/>
         </div>
         {/* <div className={`col-md-3 ${style.mainNonRepeatableContainer}`}>
           <GeneralDetails />

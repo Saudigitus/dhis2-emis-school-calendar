@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import GridViewComponent from '../table/gridView/GridViewComponent';
 import { WithPadding } from "../template";
 import { Button, LinearProgress } from '@mui/material';
@@ -11,8 +11,10 @@ import NewOdffDay from '../modal/newOffDay/modalAddNewOffDay';
 import { SchoolCalendarData } from 'dhis2-semis-components';
 import { useDataStore } from '../../hooks/appwarapper/useDataStore';
 import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement';
+import { D2I18n } from 'dhis2-semis-types';
 
-function OffDaysList() {
+function OffDaysList({ i18next }: { i18next: D2I18n }) {
+    const i18nLocal = i18next
     const { id } = useParams();
     const { loading } = useDataStore()
     const [open, setOpen] = useState(false)
@@ -27,7 +29,7 @@ function OffDaysList() {
 
     return (
         <div>
-            <ModalComponent onClose={onClose} open={open} title={'Non School Day Register'} children={<NewOdffDay setOpen={setOpen} />} />
+            <ModalComponent onClose={onClose} open={open} title={i18nLocal.t('Non School Day Register')} children={<NewOdffDay i18next={i18next} setOpen={setOpen} />} />
             <WithPadding padding='10px'>
                 <Button
                     variant="outlined"
@@ -37,7 +39,7 @@ function OffDaysList() {
                         setOpen(true);
                     }}
                 >
-                    New Off Day
+                    {i18nLocal.t("New Off Day")}
                 </Button>
             </WithPadding>
             <WithPadding>
@@ -46,15 +48,14 @@ function OffDaysList() {
                     {
                         data?.schoolCalendar?.find((x: any) => x.id === id)?.holidays?.length ?
                             <WithPadding>
-                                <GridViewComponent setOpen={setOpen} offDays={data?.schoolCalendar?.find((x: any) => x.id === id)?.holidays || []} />
+                                <GridViewComponent i18n={i18nLocal} setOpen={setOpen} offDays={data?.schoolCalendar?.find((x: any) => x.id === id)?.holidays || []} />
                             </WithPadding>
                             :
-                            <>No off day registered yet.</>
+                            <>{i18nLocal.t("No off day registered yet")}.</>
                     }
                 </div>
             </WithPadding>
         </div>
     )
 }
-
 export default OffDaysList

@@ -1,19 +1,20 @@
 import React from "react";
-import OffDaysCard from "../../card/CardComponent";
 import style from './GridView.module.css'
 import { schoolCalendar } from "../../../types/dataStore/DataStoreConfig";
-import { getDisplayName } from "../../../utils/common/getTypeName";
 import ClassPeriodsCard from "../../card/ClassPeriodsCard";
+import { D2I18n } from "dhis2-semis-types";
 
 interface GridViewProps {
     classPeriods: schoolCalendar['classPeriods']
     setOpen: (value: boolean) => void
+    i18next: D2I18n
 }
 
 const GridViewComponentTerm = (props: GridViewProps): React.ReactElement => {
     const {
         classPeriods,
-        setOpen
+        setOpen,
+        i18next
     } = props;
 
     return (
@@ -24,6 +25,7 @@ const GridViewComponentTerm = (props: GridViewProps): React.ReactElement => {
                         classPeriods={classPeriod}
                         setOpen={setOpen}
                         index={index}
+                        i18next={i18next}
                     />
                 </div>
             ))}
