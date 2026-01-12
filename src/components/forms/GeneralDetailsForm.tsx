@@ -43,7 +43,7 @@ function GeneralDetailsForm({ i18next }: { i18next: D2I18n }): React.ReactElemen
         const updated = {
             ...current,
             weekDays: getValues(debouncedValues, current?.weekDays || {}),
-            academicYear: getValues(debouncedValues, current?.academicYear)
+            academicYear: getValues(debouncedValues, current?.academicYear || {})
         };
 
         postData(
