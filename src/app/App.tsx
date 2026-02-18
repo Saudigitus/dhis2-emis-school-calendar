@@ -8,13 +8,14 @@ import { Router } from '../components';
 // import { useConfig } from '@dhis2/app-runtime';
 import { D2I18n } from 'dhis2-semis-types';
 
-export default function SchoolCalendar({ i18n }: { i18n: D2I18n }) {
-    // const { baseUrl } = useConfig()
+export default function SchoolCalendar({ i18n, baseUrl }: { i18n: D2I18n; baseUrl?: string }) {
+    // const { baseUrl: localBaseUrl } = useConfig()
+    // const useBaseUrl = baseUrl || localBaseUrl
 
     return (
         // <AppWrapper
         //     schoolCalendarKey='dataStore/semis/schoolCalendar'
-        //     baseUrl={baseUrl}
+        //     baseUrl={useBaseUrl}
         //     dataStoreKey="dataStore/semis/values"
         // >
         //     <HashRouter>
