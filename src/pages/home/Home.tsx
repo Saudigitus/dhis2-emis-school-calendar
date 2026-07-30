@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { AddCircleOutline, Edit, Star, StarBorder, Visibility } from '@mui/icons-material'
-import { IconButton, Button, Card, CardContent, Typography, Divider, LinearProgress } from '@mui/material'
+import { IconButton, Button, Card, CardContent, Typography, Divider, LinearProgress, Paper } from '@mui/material'
 import { CircularLoader } from "@dhis2/ui"
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
@@ -14,6 +14,39 @@ import styles from "./Home.module.css"
 import classNames from 'classnames'
 import { SchoolCalendarData, WithPadding } from 'dhis2-semis-components'
 import { D2I18n } from 'dhis2-semis-types'
+import { breakpoints } from '../../../../../libs/components/src/constants/breakpoints'
+import RightActionsButtons from '../../components/rightActionsButtons/RightActionsButtons'
+
+export const useStyles = () => {
+
+    return {
+        header: {
+            display: 'flex',
+            padding: '0.6rem 0.5rem 0rem',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            [breakpoints.down('md')]: {
+                alignItems: 'start',
+                flexDirection: 'column',
+            },
+        },
+        rightElements: {
+            display: 'flex',
+            flexWrap: 'wrap' as 'wrap',
+            columnGap: '5px',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+        },
+        title: {
+            margin: '10px 0px 10px 0px',
+            fontSize: 'larger',
+            fontWeight: '500',
+            [breakpoints.down('md')]: {
+                margin: '10px 8px',
+            },
+        },
+    };
+};
 
 function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
     const i18nLocal = i18next
@@ -63,8 +96,21 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
         data?.schoolCalendar?.map((item) => [item?.academicYear?.code, item])
     )
 
+    const classes = useStyles()
+
     return (
-        <div className="container mt-3">
+        <div className="mt-3">
+            <WithPadding p="10px 30px">
+                <Paper>
+                    {<div style={classes.header}>
+                        <h4 style={classes.title}>{"School Calendar"}</h4>
+                        <div style={classes.rightElements}>
+                            <RightActionsButtons i18n={i18next} />
+                        </div>
+                    </div>}
+                </Paper>
+            </WithPadding>
+
             <WithPadding p="10px 30px">
 
                 <ModalComponent
