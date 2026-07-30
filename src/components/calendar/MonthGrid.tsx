@@ -56,7 +56,7 @@ function getSelectedTermClassPeriod(
 export default function MonthGrid({ year, month, classPeriods, holidays, selectedTerm }: MonthGridProps) {
     const daysInMonth = getDaysInMonth(year, month);
     const firstDay = getFirstDayOfMonth(year, month);
-    const monthName = new Date(year, month).toLocaleString("en-US", { month: "long" });
+    const monthName = `${new Date(year, month).toLocaleString("en-US", { month: "long" })} - ${year}`;
 
     const cells: React.ReactNode[] = [];
     const selectedTermIndex = getTermIndexFromSelected(selectedTerm);
