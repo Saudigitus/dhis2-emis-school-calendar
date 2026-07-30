@@ -1,0 +1,86 @@
+.offDaysPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1565C0;
+}
+
+.addForm {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.addFormTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.formField {
+    margin-bottom: 10px;
+}
+
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.offDayCard {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    background: #f8f9fa;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    padding: 10px 12px;
+}
+
+.cardContent {
+    flex: 1;
+    min-width: 0;
+}
+
+.cardTitle {
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.cardMeta {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.cardType {
+    font-size: 11px;
+    color: #888;
+}
+
+.cardDate {
+    font-size: 11px;
+    color: #888;
+}
