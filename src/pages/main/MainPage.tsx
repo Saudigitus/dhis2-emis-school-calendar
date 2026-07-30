@@ -5,8 +5,6 @@ import { SchoolCalendarData } from "dhis2-semis-components";
 import { useDataStore } from "../../hooks/appwarapper/useDataStore";
 import YearCalendarView from "../../components/calendar/YearCalendarView";
 import SidebarPanel from "../../components/sidebar/SidebarPanel";
-import ActionButtons from "../../components/actionButtons/ActionButtons";
-import TopBarDropdown from "../../components/sidebar/TopBarDropdown";
 import type { SidebarOption } from "../../components/sidebar/SidebarDropdown";
 import styles from "./main.module.css";
 import type { D2I18n } from "dhis2-semis-types";

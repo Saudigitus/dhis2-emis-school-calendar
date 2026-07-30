@@ -116,14 +116,16 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
     return (
         <div className={styles.monthGrid}>
             <div className={styles.monthTitle}>{monthName}</div>
-            <div className={styles.weekdayHeader}>
-                {WEEKDAY_HEADERS.map((w, i) => (
-                    <div key={i} className={styles.weekdayCell}>
-                        {w}
-                    </div>
-                ))}
+            <div className={styles.monthBody}>
+                <div className={styles.weekdayHeader}>
+                    {WEEKDAY_HEADERS.map((w, i) => (
+                        <div key={i} className={styles.weekdayCell}>
+                            {w}
+                        </div>
+                    ))}
+                </div>
+                <div className={styles.daysGrid}>{cells}</div>
             </div>
-            <div className={styles.daysGrid}>{cells}</div>
         </div>
     );
 }

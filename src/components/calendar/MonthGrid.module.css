@@ -41,11 +41,16 @@
     gap: 1px;
 }
 
+.dayCell:hover {
+    border: 1px solid #eee !important;
+    cursor: pointer;
+}
+
 .dayCell {
     text-align: center;
     font-size: 12px;
     font-weight: 400;
-    padding: 6px 0;
+    margin: 3px;
     border-radius: 2px;
     color: #5a6370;
     min-height: 28px;
@@ -72,6 +77,10 @@
     font-size: 12px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
     font-variant-numeric: tabular-nums;
+}
+
+.dotBadge:hover>div {
+    color: white !important;
 }
 
 .term1 {
