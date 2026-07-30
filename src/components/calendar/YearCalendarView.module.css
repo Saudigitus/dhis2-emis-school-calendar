@@ -1,38 +1,11 @@
 .yearCalendar {
     width: 100%;
-    padding: 4px;
+    padding: 8px;
     box-sizing: border-box;
 }
 
 .monthsGrid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px 28px;
-}
-
-@media (max-width: 1400px) {
-    .monthsGrid {
-        gap: 20px 24px;
-    }
-}
-
-@media (max-width: 1200px) {
-    .monthsGrid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-    }
-}
-
-@media (max-width: 900px) {
-    .monthsGrid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 18px;
-    }
-}
-
-@media (max-width: 600px) {
-    .monthsGrid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
 }
