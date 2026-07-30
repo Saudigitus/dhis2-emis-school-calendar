@@ -1,0 +1,114 @@
+.monthGrid {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 2px;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.monthTitle {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    padding: 4px 0 6px;
+    letter-spacing: 0.1px;
+}
+
+.weekdayHeader {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 0 1px;
+    margin-bottom: 1px;
+}
+
+.weekdayCell {
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748b;
+    padding: 3px 0;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.daysGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 0 1px;
+    gap: 1px;
+}
+
+.dayCell:hover {
+    border: 1px solid #eee !important;
+    cursor: pointer;
+}
+
+.dayCell {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 400;
+    margin: 3px;
+    border-radius: 2px;
+    color: #5a6370;
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease;
+    font-variant-numeric: tabular-nums;
+}
+
+.categoryCell {
+    font-weight: 500;
+}
+
+.dotBadge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    color: #ffffff !important;
+    font-weight: 600;
+    font-size: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    font-variant-numeric: tabular-nums;
+}
+
+.dotBadge:hover>div {
+    color: white !important;
+}
+
+.term1 {
+    background-color: #E3F2E9;
+    color: #1B5E20;
+}
+
+.term2 {
+    background-color: #D6E8F7;
+    color: #194775;
+}
+
+.term3 {
+    background-color: #FFF3D6;
+    color: #8A6D00;
+}
+
+.termBreak {
+    background-color: #FFF3D6;
+    color: #8A6D00;
+}
+
+.holidayDay {
+    background-color: #FFE5E5 !important;
+    color: #B71C1C !important;
+    font-weight: 700;
+}
+
+.examBoundary {
+    font-weight: 700;
+}

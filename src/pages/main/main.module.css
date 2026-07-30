@@ -1,3 +1,63 @@
+.mainPage {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+.topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 24px;
+    border-bottom: 1px solid #e0e0e0;
+    background: #ffffff;
+    gap: 16px;
+}
+
+.yearTitle {
+    font-size: 24px;
+    font-weight: 700;
+    color: #194775;
+    margin: 0;
+    flex-shrink: 0;
+    letter-spacing: -0.2px;
+}
+
+.topBarRight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.contentArea {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    gap: 0;
+}
+
+.calendarArea {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 16px 20px;
+    background: #ffffff;
+    border-right: 1px solid #e8e8e8;
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #757575;
+    font-size: 15px;
+    font-weight: 500;
+}
+
 .mainNonRepeatableContainer {
     border-left: 1px solid #e6e4e4;
     height: 100%;

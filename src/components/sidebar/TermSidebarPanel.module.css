@@ -1,0 +1,23 @@
+.termPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sectionTitle {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1565C0;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
