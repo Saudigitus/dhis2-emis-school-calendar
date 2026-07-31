@@ -17,7 +17,11 @@ export default function YearCalendarView({ year, classPeriods, holidays, selecte
     MONTHS.push(...Array.from({ length: 12 }, (_, i) => (startMonth + i) % 12));
 
     // if year begin from >0 pass trougth 0 to > 0 add more 1 Year = year+1 
-    let newYearPosition = MONTHS.indexOf(0);
+    let newYearPosition;
+
+    if (MONTHS.includes(0) && MONTHS.indexOf(0) > 0) {
+        newYearPosition = MONTHS.indexOf(0);
+    }
 
     return (
         <div className={styles.yearCalendar}>
