@@ -12,20 +12,21 @@ import { D2I18n } from "dhis2-semis-types";
 
 interface ContentProps {
     setOpen: (value: boolean) => void
-    selected?: string
     refetch?: () => void,
     i18next: D2I18n
 }
 
-export default function AddNewOption({ setOpen, selected, i18next }: ContentProps) {
+export default function AddNewOption({ setOpen, i18next }: ContentProps) {
     const i18nLocal = i18next
     const { show, hide } = useShowAlerts()
     const { postOption, loading: posting } = usePostOption()
     const { loading: loading, data, getAcademicYear, refetch } = useGetAcademicYears()
 
-    useEffect(() => {
-        getAcademicYear()
-    }, [])
+    // useEffect(() => {
+    //     getAcademicYear()
+    // }, [])
+
+    console.log(data)
 
     const modalActions = [
         {
@@ -73,14 +74,38 @@ export default function AddNewOption({ setOpen, selected, i18next }: ContentProp
         }
     }
 
+
+    const validateForm = (values: any, data: any, i18n: any) => {
+        const errors: any = {};
+
+        const nameExists = data?.options?.some(
+            (opt: any) => opt.label?.toLowerCase() === values.name?.trim().toLowerCase()
+        );
+        if (nameExists) {
+            errors.name = i18n.t("This name already exists");
+        }
+
+        const codeExists = data?.options?.some(
+            (opt: any) => opt.value?.toLowerCase() === values.code?.trim().toLowerCase()
+        );
+        if (codeExists) {
+            errors.code = i18n.t("This code already exists");
+        }
+
+        return errors;
+    };
+
     return (
         <WithPadding padding="0px">
             <span>
                 {i18nLocal.t("To register new option, please fill out the form")}
             </span>
 
-            <Form onSubmit={() => { }}>
-                {({ values, pristine, valid }) => {
+            <Form
+                onSubmit={() => { }}
+                validate={(values) => validateForm(values, data, i18nLocal)}
+            >
+                {({ values, pristine, valid, errors }) => {
                     return (
                         <form>
                             <br />
@@ -89,22 +114,31 @@ export default function AddNewOption({ setOpen, selected, i18next }: ContentProp
                                 name={i18nLocal.t("Off Day Details")}
                                 description={""}
                                 disabled={false}
-                                fields={fieldsOptions(i18nLocal).map((field: any) => ({
+                                fields={fieldsOptions({
+                                    i18n: i18nLocal,
+                                    errors: errors,
+                                }).map((field: any) => ({
+                                    ...field,
                                     type: field.type ?? "text",
-                                    ...field
+                                    error: values[field?.name]
+                                        ? errors[field?.name] : "",
                                 }))}
                             />
                             <br />
                             <ModalActions>
                                 <ButtonStrip end>
                                     {modalActions.map((action, i) => (
-                                        <Button key={i} disabled={action.id == "cancel" ? posting : (posting || pristine)} {...action} onClick={(e: any) => {
-                                            if (valid) {
-                                                actions(action.id, values)
-                                            } else if (action.id === "cancel") {
-                                                setOpen(false);
-                                            }
-                                        }}>
+                                        <Button
+                                            key={i}
+                                            {...action}
+                                            disabled={action.id == "cancel" ? posting : (posting || pristine)}
+                                            onClick={(e: any) => {
+                                                if (valid) {
+                                                    actions(action.id, values)
+                                                } else if (action.id === "cancel") {
+                                                    setOpen(false);
+                                                }
+                                            }}>
                                             {action.label}
                                         </Button>
                                     ))}
