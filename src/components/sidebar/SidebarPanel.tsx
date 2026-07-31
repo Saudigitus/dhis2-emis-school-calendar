@@ -1,20 +1,47 @@
 import React, { useEffect, useState } from "react";
-import SidebarDropdown, { type SidebarOption } from "./SidebarDropdown";
-import OffDaysSidebarPanel from "./OffDaysSidebarPanel";
-import TermSidebarPanel from "./TermSidebarPanel";
 import styles from "./SidebarPanel.module.css";
 import type { D2I18n } from "dhis2-semis-types";
 import type { schoolCalendar } from "../../types/dataStore/DataStoreConfig";
+import { CustomDropdown as DropdownButton } from 'dhis2-semis-components';
+import { IconUserGroup16 } from "@dhis2/ui";
+import GeneralDetailsForm from "../forms/GeneralDetailsForm";
 
 interface SidebarPanelProps {
     i18n: D2I18n;
     classPeriods: schoolCalendar["classPeriods"];
-    initialSelected?: SidebarOption;
-    onSelectedChange?: (value: SidebarOption) => void;
+    initialSelected?: string;
+    onSelectedChange?: (value: string) => void;
 }
 
 export default function SidebarPanel({ i18n, classPeriods, initialSelected, onSelectedChange }: SidebarPanelProps) {
-    const [selected, setSelected] = useState<SidebarOption>(initialSelected || "non-school-days");
+    const [selected, setSelected] = useState<string>('general-details');
+    const options: any = [
+        {
+            label: <div style={{ minWidth: "180px" }} onClick={() => setSelected('general-details')} >
+                {i18n.t('General details')}
+            </div>,
+            divider: true,
+            key: "general-details",
+            disabled: false,
+        },
+        {
+            label: <div style={{ minWidth: "180px" }} onClick={() => setSelected('terms')} >
+                {i18n.t('Terms')}
+            </div>,
+            divider: true,
+            key: "terms",
+            disabled: false,
+        },
+        {
+            label: <div style={{ minWidth: "180px" }} onClick={() => setSelected('non-school-days')} >
+                {i18n.t('Non school days')}
+            </div>,
+            divider: true,
+            key: "non-school-days",
+            disabled: false,
+        }
+    ]
+
 
     useEffect(() => {
         if (initialSelected !== undefined) {
@@ -24,7 +51,7 @@ export default function SidebarPanel({ i18n, classPeriods, initialSelected, onSe
 
     const termLabels = classPeriods?.map((p) => p.description) || [];
 
-    const handleChange = (value: SidebarOption) => {
+    const handleChange = (value: string) => {
         setSelected(value);
         if (onSelectedChange) {
             onSelectedChange(value);
@@ -33,12 +60,16 @@ export default function SidebarPanel({ i18n, classPeriods, initialSelected, onSe
 
     return (
         <div className={styles.sidebarPanel}>
-            <SidebarDropdown
-                i18n={i18n}
-                value={selected}
-                onChange={handleChange}
-                termLabels={termLabels}
+            <DropdownButton
+                name={<span className={styles.work_buttons_text}>{options?.find(x => x.key == selected)?.label}</span> as unknown as string}
+                icon={<IconUserGroup16 />}
+                options={options}
+                fullWidth={true}
             />
+
+            <div className={styles.container} >
+                {selected == 'general-details' && <GeneralDetailsForm i18next={i18n} />}
+            </div>
         </div>
     );
 }

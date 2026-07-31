@@ -82,9 +82,9 @@ function GeneralDetailsForm({ i18next }: { i18next: D2I18n }): React.ReactElemen
     // }, [debouncedValues]);
 
     return (
-        <WithPadding padding="5px 15px">
+        <WithPadding padding="0">
             {(loading || posting) && <LinearProgress />}
-            <div className="col-6">
+            <div>
                 <Form
                     initialValues={{
                         ...(dataStoreData?.schoolCalendar?.find((x:any) => x.id === id)?.weekDays ?? {}),

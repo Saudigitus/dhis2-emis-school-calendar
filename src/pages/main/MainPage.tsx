@@ -29,6 +29,7 @@ function MainPage({ i18next }: { i18next: D2I18n }) {
     const yearLabel = currentCalendar?.academicYear?.label || `${year}`;
     const termLabels = classPeriods?.map((p: any) => p.description) || [];
 
+    console.log(currentCalendar)
     return (
         <div className={styles.mainPage}>
             <div className={styles.topBar}>

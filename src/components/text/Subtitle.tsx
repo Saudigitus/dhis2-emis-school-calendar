@@ -3,9 +3,9 @@ import styles from "./Text.module.css";
 import { SubtitleProps } from "../../types/text/SubtitleTypes";
 
 function Subtitle(props: SubtitleProps): React.ReactElement {
-  const { label } = props;
+  const { label, color } = props;
 
-  return <h6 className={styles.subTitle}>{label}</h6>;
+  return <h6 style={color ? { color: color } : {}} className={styles.subTitle}>{label}</h6>;
 }
 
 export default Subtitle;

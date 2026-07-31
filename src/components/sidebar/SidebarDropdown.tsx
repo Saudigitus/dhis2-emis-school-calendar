@@ -2,12 +2,11 @@ import React from "react";
 import { SingleSelectField, SingleSelectOption } from "@dhis2/ui";
 import type { D2I18n } from "dhis2-semis-types";
 
-export type SidebarOption = "non-school-days" | "term-1" | "term-2" | "term-3";
 
 interface SidebarDropdownProps {
     i18n: D2I18n;
-    value: SidebarOption;
-    onChange: (value: SidebarOption) => void;
+    value: string;
+    onChange: (value: string) => void;
     termLabels?: string[];
 }
 
@@ -22,7 +21,7 @@ export default function SidebarDropdown({ i18n, value, onChange, termLabels }: S
     return (
         <SingleSelectField
             selected={value}
-            onChange={(e: any) => onChange(e.selected as SidebarOption)}
+            onChange={(e: any) => onChange(e.selected as any)}
             label=""
         >
             {options.map((opt) => (
