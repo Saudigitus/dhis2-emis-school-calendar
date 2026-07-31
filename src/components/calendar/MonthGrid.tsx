@@ -5,6 +5,9 @@ import {
     getCategoryBgColor,
     getCategoryTextColor,
     getCategoryDotColor,
+    getTermColorForDate,
+    getTermBgColor,
+    getTermTextColor,
     isClassStartDate,
     type DayCategory,
     isClassEndDate,
@@ -38,9 +41,9 @@ function formatDate(year: number, month: number, day: number): string {
 }
 
 function getTermIndexFromSelected(selected?: SidebarOption): number | undefined {
-    if (selected === "term-1") return 0;
-    if (selected === "term-2") return 1;
-    if (selected === "term-3") return 2;
+    if (selected === "term1") return 0;
+    if (selected === "term2") return 1;
+    if (selected === "term3") return 2;
     return undefined;
 }
 
@@ -85,8 +88,15 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
             }
         }
 
-        const bgColor = getCategoryBgColor(displayCategory);
-        const textColor = getCategoryTextColor(displayCategory);
+        const termColorKey = displayCategory === "class"
+            ? getTermColorForDate(dateStr, classPeriods)
+            : null;
+        const bgColor = termColorKey
+            ? getTermBgColor(termColorKey)
+            : getCategoryBgColor(displayCategory);
+        const textColor = termColorKey
+            ? getTermTextColor(termColorKey)
+            : getCategoryTextColor(displayCategory);
 
         const cellStyle: React.CSSProperties = {
             backgroundColor: displayCategory !== "none" ? bgColor : undefined,
