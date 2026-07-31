@@ -52,9 +52,9 @@ export function getCategoryForDate(
             const isStart = startISO === dateStr;
             const isEnd = endISO === dateStr;
             const isSelected =
-                (selectedTerm === "term-1" && i === 0) ||
-                (selectedTerm === "term-2" && i === 1) ||
-                (selectedTerm === "term-3" && i === 2) ||
+                (selectedTerm === "term1" && i === 0) ||
+                (selectedTerm === "term2" && i === 1) ||
+                (selectedTerm === "term3" && i === 2) ||
                 !selectedTerm ||
                 selectedTerm === "non-school-days";
 
@@ -100,6 +100,7 @@ export function getTermColorForDate(
 
         if (date >= start && date <= end) {
             const termKey = (period.key || "").toLowerCase();
+
             if (termKey.includes("1")) return "term1";
             if (termKey.includes("2")) return "term2";
             if (termKey.includes("3")) return "term3";
