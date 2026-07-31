@@ -7,6 +7,7 @@ import {
     getCategoryDotColor,
     isClassStartDate,
     type DayCategory,
+    isClassEndDate,
 } from "../../utils/common/getTermColor";
 import type { schoolCalendar } from "../../types/dataStore/DataStoreConfig";
 import type { SidebarOption } from "../sidebar/SidebarDropdown";
@@ -54,6 +55,7 @@ function getSelectedTermClassPeriod(
 }
 
 export default function MonthGrid({ year, month, classPeriods, holidays, selectedTerm }: MonthGridProps) {
+
     const daysInMonth = getDaysInMonth(year, month);
     const firstDay = getFirstDayOfMonth(year, month);
     const monthName = new Date(year, month).toLocaleString("en-US", { month: "long" });
@@ -70,9 +72,10 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
         const dateStr = formatDate(year, month, day);
         const { category } = getCategoryForDate(dateStr, classPeriods, holidays, selectedTerm);
         const isStartBoundary = isClassStartDate(dateStr, classPeriods, selectedTermIndex);
+        const isLastBoundary = isClassEndDate(dateStr, classPeriods, selectedTermIndex);
 
         let displayCategory: DayCategory = category;
-        let showDot = isStartBoundary;
+        let showDot = isStartBoundary || isLastBoundary;
         let dotColor: string = getCategoryDotColor("class");
 
         if (selectedTerm && selectedTerm !== "non-school-days" && selectedPeriod) {
@@ -115,7 +118,7 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
 
     return (
         <div className={styles.monthGrid}>
-            <div className={styles.monthTitle}>{monthName}</div>
+            <div className={styles.monthTitle}>{monthName} {year}</div>
             <div className={styles.monthBody}>
                 <div className={styles.weekdayHeader}>
                     {WEEKDAY_HEADERS.map((w, i) => (
