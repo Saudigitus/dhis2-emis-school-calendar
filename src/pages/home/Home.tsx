@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil'
 import { D2I18n } from 'dhis2-semis-types'
 import { useNavigate } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
+import { useUrlParams } from "dhis2-semis-functions"
 import { LinearProgress, Paper } from '@mui/material'
 import MainCard from '../../components/mainCard/mainCard'
 import { schoolCalendar } from '../../types/dataStore/DataStoreConfig'
@@ -11,12 +12,13 @@ import { useGetAcademicYears } from '../../hooks/dataElements/useGetAcademicYear
 import RightActionsButtons from '../../components/rightActionsButtons/RightActionsButtons'
 import AddNewSchoolCalendar from "../../components/modal/newSchoolCalendar/AddNewSchoolCalendar"
 import { ModalComponent, SchoolCalendarData, WithBorder, WithPadding } from 'dhis2-semis-components'
-import { Chip } from "@dhis2/ui"
 
 
 function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
     const i18nLocal = i18next
     const navigate = useNavigate()
+    const { useQuery } = useUrlParams()
+    const dataFilter = useQuery.get("filter")
     const data = useRecoilValue(SchoolCalendarData)
     const { postData, posting: loadingStore } = dataStoreManagement()
     const [open, setOpen] = useState(false)
@@ -29,8 +31,6 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
     useEffect(() => {
         if (data) getAcademicYear()
     }, [data])
-
-    console.log(loadingAcademicYear)
 
     const handleSetDefault = ({ code }: { code: string }) => {
         setDefaultYear(code)
@@ -45,6 +45,7 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
         postData(updatedData, i18nLocal.t("Default academic year updated successfully"));
         setOpenSaveOption(true);
     }
+
     const handleEdit = ({ code, values }: { code: string, values: schoolCalendar['academicYear'] }) => {
         setSelected(code)
         setValues(values)
@@ -62,7 +63,7 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
 
     return (
         <div className="mt-3">
-            <WithPadding p="10px 30px">
+            <WithPadding p="0px 30px">
                 <Paper>
                     <WithBorder type="bottom">
                         <div className={styles.header}>
@@ -74,7 +75,6 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
                     </WithBorder>
 
                     <div className={styles.mainContent}>
-                          {/* {["All", "Active", "Inactive"]?.map((arg) => <Chip>{arg}</Chip>)} */}
                         <div className="my-2">
                             {(loadingStore || (loadingAcademicYear && !open)) && <LinearProgress />}
                             {/* {(loadingStore || (loadingAcademicYear && !open && !openDialogOption)) && <LinearProgress />} */}
@@ -89,27 +89,34 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
                             </div> :
 
                             <div className={styles.containerCards}>
-                                {academicYears?.options?.map((yearOption) => {
-                                    const configuredItem: any = configuredYearsMap.get(yearOption.value) || {} as schoolCalendar
-                                    const isConfigured = !!configuredItem.id
-                                    const isDefault = configuredItem?.academicYear?.code == defaultYear
-
-                                    return (
-                                        <MainCard
-                                            key={"main-card"}
-                                            yearOption={yearOption}
-                                            onViewDetails={(args) => handleNavigate(args)}
-                                            onSetAsDefault={(args) => { handleSetDefault(args) }}
-                                            configuredItem={configuredItem}
-                                            onClickEdit={(args) => handleEdit(args)}
-                                            loading={loadingStore}
-                                            isDefault={isDefault}
-                                            isConfigured={isConfigured}
-                                            i18next={i18next}
-
-                                        />
+                                {academicYears?.options
+                                    ?.filter((opt) =>
+                                        dataFilter ? (dataFilter === "inactive"
+                                            ? !configuredYearsMap.get(opt.value)?.academicYear
+                                            : configuredYearsMap.get(opt.value)?.academicYear)
+                                            : true
                                     )
-                                })}
+                                    ?.map((yearOption) => {
+                                        const configuredItem: any = configuredYearsMap.get(yearOption.value) || {} as schoolCalendar
+                                        const isConfigured = !!configuredItem.id
+                                        const isDefault = configuredItem?.academicYear?.code == defaultYear
+
+                                        return (
+                                            <MainCard
+                                                key={"main-card"}
+                                                yearOption={yearOption}
+                                                onViewDetails={(args) => handleNavigate(args)}
+                                                onSetAsDefault={(args) => { handleSetDefault(args) }}
+                                                configuredItem={configuredItem}
+                                                onClickEdit={(args) => handleEdit(args)}
+                                                loading={loadingStore}
+                                                isDefault={isDefault}
+                                                isConfigured={isConfigured}
+                                                i18next={i18next}
+
+                                            />
+                                        )
+                                    })}
                             </div>
                         }
                     </div>

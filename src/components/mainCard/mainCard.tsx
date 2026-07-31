@@ -40,7 +40,7 @@ function MainCard(props: MainCardInterface) {
             <CardContent className={styles.cardContent}>
                 <div className={styles.cardHead}>
                     <Typography
-                        variant="h5"
+                        variant="h6"
                         onClick={() => isConfigured && handleNavigate(configuredItem.code)}
                         style={{
                             fontWeight: 700,
@@ -59,11 +59,11 @@ function MainCard(props: MainCardInterface) {
                 </div>
 
                 <>
-                    <Typography variant="subtitle1" style={{ color: '#334155', marginTop: '0.25rem' }}>
+                    <Typography variant="subtitle1" style={{ color: '#334155', fontSize: 13 }}>
                         {configuredItem.academicYear?.description || <em style={{ fontSize: 12 }}>{i18nLocal.t("Not configured")}</em>}
                     </Typography>
 
-                    <Divider style={{ margin: '5px 0' }} />
+                    <Divider style={{ margin: '5px 0', borderColor: "#00000099" }} />
 
                     <div style={{ flexGrow: 1 }}>
                         <Typography variant="body2" style={{ marginBottom: '0.25rem' }}>
@@ -83,7 +83,7 @@ function MainCard(props: MainCardInterface) {
                         <Button
                             size="small"
                             onClick={() => onSetAsDefault({ code: configuredItem?.academicYear?.code })}
-                            disabled={!isConfigured || (loading)}
+                            disabled={!isConfigured || (loading) || isDefault}
                             endIcon={(loading && isDefault) && <CircularLoader small />}
                             startIcon={
                                 (isDefault && !loading)
@@ -91,7 +91,8 @@ function MainCard(props: MainCardInterface) {
                                     : <StarBorder fontSize="small" style={{ color: '#9ca3af' }} />
                             }
                             style={{
-                                color: (isDefault && !loading) ? '#1e6194' : '#4b5563',
+                                color: (isDefault && !loading) ? '#fff' : '#4b5563',
+                                background: (isDefault && !loading) ? '#1e6194' : 'transparent',
                                 fontWeight: 500,
                                 textTransform: 'none',
                                 opacity: !isConfigured ? 0.5 : 1,
@@ -101,7 +102,7 @@ function MainCard(props: MainCardInterface) {
                             }}
                             fullWidth
                         >
-                            {(isDefault && !loading) ? i18nLocal.t('Default Academic Year') : i18nLocal.t('Set as Default')}
+                            {(isDefault && !loading) ? i18nLocal.t('Default') : i18nLocal.t('Set as Default')}
                         </Button>
 
                         <Button
@@ -120,7 +121,7 @@ function MainCard(props: MainCardInterface) {
                             }}
                             fullWidth
                         >
-                            {i18nLocal.t("View Details")}
+                            {i18nLocal.t("Details")}
                         </Button>
                     </div>
                 </>
