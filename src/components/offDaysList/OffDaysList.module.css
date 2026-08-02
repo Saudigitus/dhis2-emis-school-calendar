@@ -1,0 +1,10 @@
+.titleContainer {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.icon{
+    color: #14800A !important;
+    margin-top: -5px;
+}

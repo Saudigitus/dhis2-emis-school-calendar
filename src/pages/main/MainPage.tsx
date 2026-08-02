@@ -5,7 +5,6 @@ import { SchoolCalendarData } from "dhis2-semis-components";
 import { useDataStore } from "../../hooks/appwarapper/useDataStore";
 import YearCalendarView from "../../components/calendar/YearCalendarView";
 import SidebarPanel from "../../components/sidebar/SidebarPanel";
-import type { SidebarOption } from "../../components/sidebar/SidebarDropdown";
 import styles from "./main.module.css";
 import type { D2I18n } from "dhis2-semis-types";
 
@@ -13,7 +12,7 @@ function MainPage({ i18next }: { i18next: D2I18n }) {
     const { id } = useParams();
     const { loading } = useDataStore();
     const dataStoreData = useRecoilValue(SchoolCalendarData);
-    const [selectedOption, setSelectedOption] = useState<SidebarOption>("non-school-days");
+    const [selectedOption, setSelectedOption] = useState<string>("non-school-days");
 
     const currentCalendar = dataStoreData?.schoolCalendar?.find(
         (x: any) => x.id === id

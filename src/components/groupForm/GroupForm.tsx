@@ -22,20 +22,23 @@ function GroupForm(props: GroupFormProps) {
                                     x.error ? styles.errorFormField : styles.notErrorFormField,
                                     i % 2 === 0 ? styles.evenFormField : styles.oddFormField)}
                         >
-                            <div className={
-                                classNames(
-                                    'd-flex',
-                                    String(x.valueType) !== "BOOLEAN" && 'flex-column'
-                                )
-                            }>
-                                <Label className={styles.label}>
-                                    {x.labelName} {x.required ? " *" : ""}
-                                </Label>
-                                <GenericFields
-                                    attribute={x}
-                                    disabled={x.disabled}
-                                    valueType={x.valueType}
-                                />
+                            <div>
+                                <div className={
+                                    classNames(
+                                        'd-flex',
+                                        String(x.valueType) !== "BOOLEAN" && 'flex-column',
+                                        String(x.valueType) === "BOOLEAN" && 'justify-content-between'
+                                    )
+                                }>
+                                    <Label className={styles.label}>
+                                        {x.labelName} {x.required ? " *" : ""}
+                                    </Label>
+                                    <GenericFields
+                                        attribute={x}
+                                        disabled={x.disabled}
+                                        valueType={x.valueType}
+                                    />
+                                </div>
                                 <span className={styles.helpText}>
                                     {x.content}
                                 </span>

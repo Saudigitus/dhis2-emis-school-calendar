@@ -5,6 +5,7 @@ import type { schoolCalendar } from "../../types/dataStore/DataStoreConfig";
 import { CustomDropdown as DropdownButton } from 'dhis2-semis-components';
 import { IconUserGroup16 } from "@dhis2/ui";
 import GeneralDetailsForm from "../forms/GeneralDetailsForm";
+import OffDaysList from "../offDaysList/OffDaysList";
 
 interface SidebarPanelProps {
     i18n: D2I18n;
@@ -69,6 +70,7 @@ export default function SidebarPanel({ i18n, classPeriods, initialSelected, onSe
 
             <div className={styles.container} >
                 {selected == 'general-details' && <GeneralDetailsForm i18next={i18n} />}
+                {selected == 'non-school-days' && <OffDaysList i18next={i18n} />}
             </div>
         </div>
     );
