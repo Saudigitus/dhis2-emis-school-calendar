@@ -63,18 +63,22 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
         data?.schoolCalendar?.map((item) => [item?.academicYear?.code, item])
     )
 
-    const sortedAcademicYears = [...academicYears?.options || []].sort((a, b) => {
+    const sortedAcademicYears = [...(academicYears?.options ?? [])].sort((a, b) => {
         const aYear = configuredYearsMap.get(a.value);
         const bYear = configuredYearsMap.get(b.value);
 
-        const configuredDiff = Number(!!bYear) - Number(!!aYear);
-        if (configuredDiff !== 0) {
-            return configuredDiff;
+        const aIsDefault = aYear?.academicYear?.code === defaultYear;
+        const bIsDefault = bYear?.academicYear?.code === defaultYear;
+
+        if (aIsDefault !== bIsDefault) {
+            return Number(bIsDefault) - Number(aIsDefault);
         }
 
-        return (aYear?.academicYear?.code ?? "").localeCompare(
-            bYear?.academicYear?.code ?? ""
-        );
+        if (!!aYear !== !!bYear) {
+            return Number(!!bYear) - Number(!!aYear);
+        }
+
+        return (a.label ?? a.value).localeCompare(b.label ?? b.value);
     });
 
     return (
