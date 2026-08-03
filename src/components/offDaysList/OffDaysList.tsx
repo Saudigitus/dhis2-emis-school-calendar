@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import GridViewComponent from '../table/gridView/GridViewComponent';
 import { Accordion, AccordionSummary, IconButton, LinearProgress } from '@mui/material';
@@ -12,23 +12,31 @@ import { D2I18n } from 'dhis2-semis-types';
 import { IconAddCircle24 } from '@dhis2/ui';
 import styles from './OffDaysList.module.css'
 
-function OffDaysList({ i18next }: { i18next: D2I18n }) {
+function OffDaysList({ i18next, expanded, setExpanded }: { i18next: D2I18n, expanded: string, setExpanded: (args: string) => void, }) {
     const i18nLocal = i18next
     const { id } = useParams();
     const { loading } = useDataStore()
     const { posting } = dataStoreManagement()
     const data = useRecoilValue(SchoolCalendarData)
-    const [expanded, setExpanded] = useState("")
     const [selected, setSelected] = useRecoilState(editState)
     const isExpanded = Boolean(expanded === "panel1d" || selected?.edit);
+    const div1Ref = useRef(null);
+
+    const scrollToTop = () => {
+        div1Ref.current?.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
 
     return (
-        <div>
+        <div >
             <div className={styles.titleContainer} >
                 <h6 style={{ marginTop: "8px", color: "#2C6693" }} >{i18nLocal.t("Off days")}</h6>
                 <IconButton onClick={() => {
-                    if (expanded == 'panel1d') {
+                    if (expanded == 'panel1d' || selected?.edit) {
                         setExpanded("");
+                        setSelected({ data: null, edit: false })
                     } else {
                         setExpanded("panel1d");
                     }
@@ -37,18 +45,17 @@ function OffDaysList({ i18next }: { i18next: D2I18n }) {
                 </IconButton>
             </div>
 
-            <Accordion style={{ padding: "-10px 0 0 0" }} elevation={0} expanded={isExpanded} >
-                <AccordionSummary style={{ display: "none" }} />
-                <NewOdffDay i18next={i18next} setOpen={setExpanded} />
-            </Accordion>
+            <div className={styles.listHandler} ref={div1Ref}>
+                <Accordion style={{ padding: "-10px 0 0 0" }} elevation={0} expanded={isExpanded} >
+                    <AccordionSummary style={{ display: "none" }} />
+                    <NewOdffDay i18next={i18next} setOpen={setExpanded} />
+                </Accordion>
 
-            <div>
                 {(loading || posting) && <LinearProgress />}
+
                 {
                     data?.schoolCalendar?.find((x: any) => x.id === id)?.holidays?.length ?
-                        <>
-                            <GridViewComponent i18n={i18nLocal} offDays={data?.schoolCalendar?.find((x: any) => x.id === id)?.holidays || []} />
-                        </>
+                        <GridViewComponent scrollToTop={scrollToTop} i18n={i18nLocal} offDays={data?.schoolCalendar?.find((x: any) => x.id === id)?.holidays || []} />
                         :
                         <>{i18nLocal.t("No off day registered yet")}.</>
                 }

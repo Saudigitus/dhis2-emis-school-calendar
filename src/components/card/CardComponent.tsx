@@ -2,7 +2,7 @@
 import React from "react";
 import classNames from "classnames";
 import style from "./Card.module.css";
-import { Box, Card } from "@dhis2/ui";
+import { Card } from "@dhis2/ui";
 import MenuComponent from "../menu/menu";
 import { type CardSubItemProps } from "../../types/card/CardTypes";
 import { useParams } from "react-router-dom";
@@ -13,9 +13,9 @@ import { deleteState } from "../../schema/deleteDataSchema";
 import { removeHoliday } from "../../utils/common/removeHoliday";
 
 export default function OffDaysCard(offDay: CardSubItemProps): React.ReactElement {
-  const { title, date, disabled, offDayType, i18n } = offDay;
+  const { title, date, disabled, offDayType, i18n, scrollToTop } = offDay;
   const { id } = useParams();
-  const { postData, posting } = dataStoreManagement()
+  const { postData } = dataStoreManagement()
   const dataStoreData = useRecoilValue(SchoolCalendarData)
   const deletedTerm = useSetRecoilState(deleteState)
 
@@ -47,29 +47,28 @@ export default function OffDaysCard(offDay: CardSubItemProps): React.ReactElemen
   }
 
   return (
-    <Box>
-      <Card
-        className={classNames(
-          style.cardContainer,
-          disabled === true && style.disabledCard
-        )}
-      >
-        <div className={style.infoSection}>
-          <span className={style.title} >{title}</span>
-          <MenuComponent
-            i18n={i18n}
-            row={offDay}
-            onDelete={deletePeriod}
-          />
-        </div>
-        <div className={classNames(
-          style.infoSection,
-          style.lastSection
-        )}>
-          <span className={style.typenDate} >{offDayType}</span>
-          <span className={style.typenDate} >{date}</span>
-        </div>
-      </Card>
-    </Box>
+    <Card
+      className={classNames(
+        style.cardContainer,
+        disabled === true && style.disabledCard
+      )}
+    >
+      <div className={style.infoSection}>
+        <span className={style.title} >{title}</span>
+        <MenuComponent
+          i18n={i18n}
+          scrollToTop={scrollToTop}
+          row={offDay}
+          onDelete={deletePeriod}
+        />
+      </div>
+      <div className={classNames(
+        style.infoSection,
+        style.lastSection
+      )}>
+        <span className={style.typenDate} >{offDayType}</span>
+        <span className={style.typenDate} >{date}</span>
+      </div>
+    </Card>
   );
 }

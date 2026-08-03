@@ -8,16 +8,18 @@ import { D2I18n } from "dhis2-semis-types";
 interface GridViewProps {
     offDays: schoolCalendar['holidays']
     i18n: D2I18n
+    scrollToTop: () => void
 }
 
 const GridViewComponent = (props: GridViewProps): React.ReactElement => {
-    const { offDays, i18n } = props;
+    const { offDays, i18n, scrollToTop } = props;
 
     return (
-        <div className={style.list}>
+        <div className={style.list} >
             {offDays.map((offDay, index) => (
-                <div>
+                <div style={{ width: "255px", margin: "auto" }}>
                     <OffDaysCard
+                        scrollToTop={scrollToTop}
                         index={index}
                         type={offDay.type}
                         title={offDay.event}

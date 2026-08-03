@@ -1,5 +1,5 @@
-import { Box, Card } from "@dhis2/ui";
-import React, { useState } from "react";
+import { Card } from "@dhis2/ui";
+import React from "react";
 import style from "./Card.module.css";
 import classNames from "classnames";
 import MenuComponent from "../menu/menu";
@@ -14,7 +14,7 @@ import { GeneralLoadingState } from "../../schema/loadingSchema";
 import { D2I18n } from "dhis2-semis-types";
 import { SelectedTermAtom } from "../../schema/selectedTerm";
 
-export default function ClassPeriodsCard({ classPeriods, index, i18next }: { classPeriods: schoolCalendar['classPeriods'][0], index: number, i18next: D2I18n }): React.ReactElement {
+export default function ClassPeriodsCard({ classPeriods, index, i18next, scrollToTop }: { scrollToTop: any, classPeriods: schoolCalendar['classPeriods'][0], index: number, i18next: D2I18n }): React.ReactElement {
   const { description, endDate, key, startDate } = classPeriods
   const { id } = useParams();
   const { postData } = dataStoreManagement()
@@ -45,7 +45,6 @@ export default function ClassPeriodsCard({ classPeriods, index, i18next }: { cla
 
   return (
     <div onClick={() => {
-      console.log(key)
       setselectedTerm(key)
     }} >
       <Card
@@ -58,6 +57,7 @@ export default function ClassPeriodsCard({ classPeriods, index, i18next }: { cla
         <div className={style.infoSection}>
           <span className={style.title} >{description}</span>
           <MenuComponent
+            scrollToTop={scrollToTop}
             i18n={i18next}
             row={classPeriods}
             onDelete={deletePeriod}

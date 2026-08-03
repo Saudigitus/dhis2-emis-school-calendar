@@ -82,7 +82,7 @@ function GeneralDetailsForm({ i18next }: { i18next: D2I18n }): React.ReactElemen
     // }, [debouncedValues]);
 
     return (
-        <WithPadding padding="0">
+        <WithPadding padding="0 10px">
             {(loading || posting) && <LinearProgress />}
             <div>
                 <Form
