@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useCallback } from "react";
 import styles from "./MonthGrid.module.css";
 import {
     getCategoryForDate,
@@ -8,12 +8,14 @@ import {
     getTermColorForDate,
     getTermBgColor,
     getTermTextColor,
+    getTermDotColor,
     isClassStartDate,
     type DayCategory,
     isClassEndDate,
 } from "../../utils/common/getTermColor";
-import type { schoolCalendar } from "../../types/dataStore/DataStoreConfig";
+import type { schoolCalendar, HolidayType } from "../../types/dataStore/DataStoreConfig";
 import type { SidebarOption } from "../sidebar/SidebarDropdown";
+import { HolidayPopover } from "./HolidayPopover";
 
 interface MonthGridProps {
     year: number;
@@ -57,7 +59,22 @@ function getSelectedTermClassPeriod(
     return classPeriods[idx];
 }
 
+function getHolidayForDate(dateStr: string, holidays: schoolCalendar["holidays"]): HolidayType | undefined {
+    if (!holidays || holidays.length === 0) return undefined;
+    return holidays.find((h) => {
+        const hDate = new Date(h.date).toISOString().split("T")[0];
+        return hDate === dateStr;
+    });
+}
+
+interface ActiveHoliday {
+    holiday: HolidayType;
+    ref: React.RefObject<Element>;
+}
+
 export default function MonthGrid({ year, month, classPeriods, holidays, selectedTerm }: MonthGridProps) {
+
+    const [activeHoliday, setActiveHoliday] = useState<ActiveHoliday | null>(null);
 
     const daysInMonth = getDaysInMonth(year, month);
     const firstDay = getFirstDayOfMonth(year, month);
@@ -76,6 +93,8 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
         const { category } = getCategoryForDate(dateStr, classPeriods, holidays, selectedTerm);
         const isStartBoundary = isClassStartDate(dateStr, classPeriods, selectedTermIndex);
         const isLastBoundary = isClassEndDate(dateStr, classPeriods, selectedTermIndex);
+
+        const holiday = getHolidayForDate(dateStr, holidays);
 
         let displayCategory: DayCategory = category;
         let showDot = isStartBoundary || isLastBoundary;
@@ -98,31 +117,40 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
             ? getTermTextColor(termColorKey)
             : getCategoryTextColor(displayCategory);
 
+        // dot badge uses the term's deeper, more saturated shade
+        if (termColorKey) {
+            dotColor = getTermDotColor(termColorKey);
+        }
+
         const cellStyle: React.CSSProperties = {
             backgroundColor: displayCategory !== "none" ? bgColor : undefined,
             color: textColor,
         };
 
+        const isHoliday = displayCategory === "holiday";
+
         const dayClasses = [
             styles.dayCell,
             displayCategory !== "none" ? styles.categoryCell : "",
+            isHoliday ? styles.holidayDay : "",
         ]
             .filter(Boolean)
             .join(" ");
 
         cells.push(
-            <div key={day} className={dayClasses} style={cellStyle}>
-                {showDot ? (
-                    <div
-                        className={styles.dotBadge}
-                        style={{ backgroundColor: dotColor }}
-                    >
-                        {String(day).padStart(2, "0")}
-                    </div>
-                ) : (
-                    String(day).padStart(2, "0")
-                )}
-            </div>
+            <HolidayDayCell
+                key={day}
+                day={day}
+                dayClasses={dayClasses}
+                cellStyle={isHoliday ? undefined : cellStyle}
+                showDot={showDot}
+                dotColor={dotColor}
+                isHoliday={isHoliday}
+                holiday={holiday}
+                isActive={activeHoliday?.holiday === holiday}
+                onOpen={(h, ref) => setActiveHoliday({ holiday: h, ref })}
+                onClose={() => setActiveHoliday(null)}
+            />
         );
     }
 
@@ -139,6 +167,73 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
                 </div>
                 <div className={styles.daysGrid}>{cells}</div>
             </div>
+
+            {activeHoliday && (
+                <HolidayPopover
+                    holiday={activeHoliday.holiday}
+                    reference={activeHoliday.ref}
+                    onClose={() => setActiveHoliday(null)}
+                />
+            )}
+        </div>
+    );
+}
+
+
+interface HolidayDayCellProps {
+    day: number;
+    dayClasses: string;
+    cellStyle?: React.CSSProperties;
+    showDot: boolean;
+    dotColor: string;
+    isHoliday: boolean;
+    holiday?: HolidayType;
+    isActive: boolean;
+    onOpen: (holiday: HolidayType, ref: React.RefObject<Element>) => void;
+    onClose: () => void;
+}
+
+function HolidayDayCell({
+    day,
+    dayClasses,
+    cellStyle,
+    showDot,
+    dotColor,
+    isHoliday,
+    holiday,
+    isActive,
+    onOpen,
+    onClose,
+}: HolidayDayCellProps) {
+    const cellRef = useRef<HTMLDivElement>(null);
+
+    const handleClick = useCallback(() => {
+        if (!isHoliday || !holiday) return;
+        if (isActive) {
+            onClose();
+        } else {
+            onOpen(holiday, cellRef as React.RefObject<Element>);
+        }
+    }, [isHoliday, holiday, isActive, onOpen, onClose]);
+
+    return (
+        <div
+            ref={cellRef}
+            className={dayClasses}
+            style={cellStyle}
+            onClick={handleClick}
+            title={isHoliday && holiday ? holiday.event : undefined}
+        >
+            {showDot ? (
+                <div
+                    className={styles.dotBadge}
+                    style={{ backgroundColor: dotColor }}
+                >
+                    {String(day).padStart(2, "0")}
+                </div>
+            ) : (
+                String(day).padStart(2, "0")
+            )}
         </div>
     );
 }
