@@ -5,6 +5,10 @@
     margin : 0 !important;
 }
 
+.menu_item a{
+    height: 20px !important;
+}
+
 .menu_item span {
     margin-left : 2px !important;
 }

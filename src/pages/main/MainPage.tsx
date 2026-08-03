@@ -7,11 +7,13 @@ import YearCalendarView from "../../components/calendar/YearCalendarView";
 import SidebarPanel from "../../components/sidebar/SidebarPanel";
 import styles from "./main.module.css";
 import type { D2I18n } from "dhis2-semis-types";
+import { SelectedTermAtom } from "../../schema/selectedTerm";
 
 function MainPage({ i18next }: { i18next: D2I18n }) {
     const { id } = useParams();
     const { loading } = useDataStore();
     const dataStoreData = useRecoilValue(SchoolCalendarData);
+    const selectedTerm = useRecoilValue(SelectedTermAtom);
 
     const currentCalendar = dataStoreData?.schoolCalendar?.find(
         (x: any) => x.id === id
@@ -44,6 +46,7 @@ function MainPage({ i18next }: { i18next: D2I18n }) {
                             year={year}
                             classPeriods={classPeriods}
                             holidays={holidays}
+                            selectedTerm={selectedTerm}
                         />
                     )}
                 </div>

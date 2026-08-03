@@ -27,7 +27,6 @@ function TermsList({ i18next }: { i18next: D2I18n }) {
             <div className={styles.titleContainer} >
                 <h6 style={{ marginTop: "8px", color: "#2C6693" }} >{i18nLocal.t("School Terms")}</h6>
                 <IconButton onClick={() => {
-            console.log(expanded, selected)
                     if (expanded == 'panel2d') {
                         setExpanded("");
                     } else {

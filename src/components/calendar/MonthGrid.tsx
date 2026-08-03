@@ -37,9 +37,9 @@ function formatDate(year: number, month: number, day: number): string {
 }
 
 function getTermIndexFromSelected(selected?: SidebarOption): number | undefined {
-    if (selected === "term-1") return 0;
-    if (selected === "term-2") return 1;
-    if (selected === "term-3") return 2;
+    if (selected === "term1") return 0;
+    if (selected === "term2") return 1;
+    if (selected === "term3") return 2;
     return undefined;
 }
 
@@ -61,7 +61,7 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
     const cells: React.ReactNode[] = [];
     const selectedTermIndex = getTermIndexFromSelected(selectedTerm);
     const selectedPeriod = getSelectedTermClassPeriod(classPeriods, selectedTerm);
-
+console.log(selectedPeriod)
     for (let i = 0; i < firstDay; i++) {
         cells.push(<div key={`empty-${i}`} className={styles.dayCell} />);
     }

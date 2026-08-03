@@ -12,6 +12,7 @@ import { removeTerm } from "../../utils/common/removeTerm";
 import { deleteState } from "../../schema/deleteDataSchema";
 import { GeneralLoadingState } from "../../schema/loadingSchema";
 import { D2I18n } from "dhis2-semis-types";
+import { SelectedTermAtom } from "../../schema/selectedTerm";
 
 export default function ClassPeriodsCard({ classPeriods, index, i18next }: { classPeriods: schoolCalendar['classPeriods'][0], index: number, i18next: D2I18n }): React.ReactElement {
   const { description, endDate, key, startDate } = classPeriods
@@ -20,6 +21,7 @@ export default function ClassPeriodsCard({ classPeriods, index, i18next }: { cla
   const dataStoreData = useRecoilValue(SchoolCalendarData)
   const deletedTerm = useSetRecoilState(deleteState)
   const setLoading = useSetRecoilState(GeneralLoadingState)
+  const setselectedTerm = useSetRecoilState(SelectedTermAtom);
 
   const deletePeriod = () => {
     setLoading(true)
@@ -42,8 +44,12 @@ export default function ClassPeriodsCard({ classPeriods, index, i18next }: { cla
   }
 
   return (
-    <>
+    <div onClick={() => {
+      console.log(key)
+      setselectedTerm(key)
+    }} >
       <Card
+
         className={classNames(
           style.cardContainer
         )}
@@ -67,6 +73,6 @@ export default function ClassPeriodsCard({ classPeriods, index, i18next }: { cla
           </div>
         </div>
       </Card>
-    </>
+    </div>
   );
 }
