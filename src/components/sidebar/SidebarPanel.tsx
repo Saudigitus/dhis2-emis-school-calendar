@@ -6,6 +6,7 @@ import { CustomDropdown as DropdownButton } from 'dhis2-semis-components';
 import { IconUserGroup16 } from "@dhis2/ui";
 import GeneralDetailsForm from "../forms/GeneralDetailsForm";
 import OffDaysList from "../offDaysList/OffDaysList";
+import TermsList from "../termsList/TermsList";
 
 interface SidebarPanelProps {
     i18n: D2I18n;
@@ -27,7 +28,7 @@ export default function SidebarPanel({ i18n, classPeriods, initialSelected, onSe
         },
         {
             label: <div style={{ minWidth: "180px" }} onClick={() => setSelected('terms')} >
-                {i18n.t('Terms')}
+                {i18n.t('School terms')}
             </div>,
             divider: true,
             key: "terms",
@@ -52,12 +53,7 @@ export default function SidebarPanel({ i18n, classPeriods, initialSelected, onSe
 
     const termLabels = classPeriods?.map((p) => p.description) || [];
 
-    const handleChange = (value: string) => {
-        setSelected(value);
-        if (onSelectedChange) {
-            onSelectedChange(value);
-        }
-    };
+
 
     return (
         <div className={styles.sidebarPanel}>
@@ -71,6 +67,7 @@ export default function SidebarPanel({ i18n, classPeriods, initialSelected, onSe
             <div className={styles.container} >
                 {selected == 'general-details' && <GeneralDetailsForm i18next={i18n} />}
                 {selected == 'non-school-days' && <OffDaysList i18next={i18n} />}
+                {selected == 'terms' && <TermsList i18next={i18n} />}
             </div>
         </div>
     );

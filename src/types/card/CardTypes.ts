@@ -11,7 +11,6 @@ interface CardSubItemProps {
     offDayType: string
     type: string
     disabled?: boolean
-    setOpen: (value: boolean) => void | null
     index: number
     i18n: D2I18n
 }

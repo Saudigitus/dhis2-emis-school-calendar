@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil';
+import React, { useEffect, useState } from 'react'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import GridViewComponent from '../table/gridView/GridViewComponent';
 import { WithPadding } from "../template";
-import { Button, IconButton, LinearProgress } from '@mui/material';
+import { Accordion, AccordionSummary, Button, IconButton, LinearProgress } from '@mui/material';
 import { AddCircleOutline } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { editState } from '../../schema/editDataSchema';
@@ -20,32 +20,42 @@ function OffDaysList({ i18next }: { i18next: D2I18n }) {
     const i18nLocal = i18next
     const { id } = useParams();
     const { loading } = useDataStore()
-    const [open, setOpen] = useState(false)
     const { posting } = dataStoreManagement()
     const data = useRecoilValue(SchoolCalendarData)
+    const [expanded, setExpanded] = useState("")
     const [selected, setSelected] = useRecoilState(editState)
 
-    function onClose() {
-        setOpen(false);
-        setSelected({ edit: false, data: Object() });
-    }
+    useEffect(() => {
+        setExpanded('panel1d')
+    }, [selected])
 
     return (
         <div>
-            <ModalComponent onClose={onClose} open={open} title={i18nLocal.t('Non School Day Register')} children={<NewOdffDay i18next={i18next} setOpen={setOpen} />} />
             <div className={styles.titleContainer} >
-                <Subtitle color="#2C6693" label={"Off days"} />
-                <IconButton className={styles.icon}>
+                <h6 style={{ marginTop: "8px", color: "#2C6693" }} >{i18nLocal.t("Off days")}</h6>
+                <IconButton onClick={() => {
+                    if (expanded == 'panel1d') {
+                        setExpanded("");
+                    } else {
+                        setExpanded("panel1d");
+                    }
+                }} className={styles.icon}>
                     <IconAddCircle24 />
                 </IconButton>
             </div>
+
+            <Accordion style={{ padding: "-10px 0 0 0" }} elevation={0} expanded={expanded == 'panel1d' || selected?.edit} >
+                <AccordionSummary style={{ display: "none" }} aria-controls="panel1d-content" id="panel1d-header" />
+                <NewOdffDay i18next={i18next} setOpen={setExpanded} />
+            </Accordion>
+            
             <div>
                 {(loading || posting) && <LinearProgress />}
                 {
                     data?.schoolCalendar?.find((x: any) => x.id === id)?.holidays?.length ?
-                        <WithPadding>
-                            <GridViewComponent i18n={i18nLocal} setOpen={setOpen} offDays={data?.schoolCalendar?.find((x: any) => x.id === id)?.holidays || []} />
-                        </WithPadding>
+                        <>
+                            <GridViewComponent i18n={i18nLocal} offDays={data?.schoolCalendar?.find((x: any) => x.id === id)?.holidays || []} />
+                        </>
                         :
                         <>{i18nLocal.t("No off day registered yet")}.</>
                 }
