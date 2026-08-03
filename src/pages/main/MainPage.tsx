@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { useNavigate, useParams } from "react-router-dom";
 import { SchoolCalendarData } from "dhis2-semis-components";
 import { useDataStore } from "../../hooks/appwarapper/useDataStore";
 import YearCalendarView from "../../components/calendar/YearCalendarView";
@@ -8,9 +8,11 @@ import SidebarPanel from "../../components/sidebar/SidebarPanel";
 import styles from "./main.module.css";
 import type { D2I18n } from "dhis2-semis-types";
 import { SelectedTermAtom } from "../../schema/selectedTerm";
+import { Button } from "@dhis2/ui";
 
 function MainPage({ i18next }: { i18next: D2I18n }) {
     const { id } = useParams();
+    const navigate = useNavigate();
     const { loading } = useDataStore();
     const dataStoreData = useRecoilValue(SchoolCalendarData);
     const selectedTerm = useRecoilValue(SelectedTermAtom);
@@ -36,6 +38,9 @@ function MainPage({ i18next }: { i18next: D2I18n }) {
     return (
         <div className={styles.mainPage}>
             <div className={styles.topBar}>
+                <Button small onClick={() => navigate(-1)}>
+                    {i18next.t("Back")}
+                </Button>
                 <h1 className={styles.yearTitle}>
                     {yearLabel} {i18next.t("School Calendar")}
                 </h1>

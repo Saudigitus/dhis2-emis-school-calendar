@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { useUrlParams } from "dhis2-semis-functions"
 import { LinearProgress, Paper } from '@mui/material'
 import MainCard from '../../components/mainCard/mainCard'
+import MainCardSkeleton from "../../components/mainCard/CardSkeleton"
 import { schoolCalendar } from '../../types/dataStore/DataStoreConfig'
 import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement'
 import { useGetAcademicYears } from '../../hooks/dataElements/useGetAcademicYears'
@@ -92,6 +93,15 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
                     <div className={styles.mainContent}>
                         <div className="my-2">
                             {(loadingStore || (loadingAcademicYear && !open)) && <LinearProgress />}
+                        </div>
+
+                        <div className={styles.containerCards}>
+                            {
+                                (loadingAcademicYear && !open) &&
+                                Array.from({ length: 6 }).map((_, index) => (
+                                    <MainCardSkeleton key={index} />
+                                ))
+                            }
                         </div>
 
                         {error?.error && !(loadingStore || (loadingAcademicYear && !open)) ?
