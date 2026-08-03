@@ -24,8 +24,8 @@ export const useGetAcademicYears = () => {
     const [academicYearState, setAcademicYearState] = useRecoilState(AcademicYearState)
     const [error, setError] = useState<{ error: boolean; type: "config" | "dataElement" } | null>(null);
 
-    async function getAcademicYear() {
-        setLoading(true);
+    async function getAcademicYear(loading: boolean = true) {
+        setLoading(loading);
 
         const academic = schoolCalendar?.academicYear || "";
         if (academic.length === 0) {
@@ -61,8 +61,8 @@ export const useGetAcademicYears = () => {
 
     }
 
-    const refetch = async () => {
-        await getAcademicYear();
+    const refetch = async (loading: boolean = true) => {
+        await getAcademicYear(loading);
     };
 
     return {

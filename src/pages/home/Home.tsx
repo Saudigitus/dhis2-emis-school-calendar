@@ -1,42 +1,40 @@
-import React, { useEffect, useState } from 'react'
-import { AddCircleOutline, Edit, Star, StarBorder, Visibility } from '@mui/icons-material'
-import { IconButton, Button, Card, CardContent, Typography, Divider, LinearProgress } from '@mui/material'
-import { CircularLoader } from "@dhis2/ui"
-import { useNavigate } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
-import AddNewSchoolCalendar from '../../components/modal/newSchoolCalendar/AddNewSchoolCalendar'
-import ModalComponent from '../../components/modal/modal'
-import { useGetAcademicYears } from '../../hooks/dataElements/useGetAcademicYears'
-import { schoolCalendar } from '../../types/dataStore/DataStoreConfig'
-import AddNewOption from '../../components/modal/newOption/AddNewOption'
-import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement'
 import styles from "./Home.module.css"
-import classNames from 'classnames'
-import { SchoolCalendarData, WithPadding } from 'dhis2-semis-components'
+import { useRecoilValue } from 'recoil'
 import { D2I18n } from 'dhis2-semis-types'
+import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useUrlParams } from "dhis2-semis-functions"
+import { LinearProgress, Paper } from '@mui/material'
+import MainCard from '../../components/mainCard/mainCard'
+import { schoolCalendar } from '../../types/dataStore/DataStoreConfig'
+import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement'
+import { useGetAcademicYears } from '../../hooks/dataElements/useGetAcademicYears'
+import RightActionsButtons from '../../components/rightActionsButtons/RightActionsButtons'
+import AddNewSchoolCalendar from "../../components/modal/newSchoolCalendar/AddNewSchoolCalendar"
+import { ModalComponent, SchoolCalendarData, WithBorder, WithPadding } from 'dhis2-semis-components'
+
 
 function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
     const i18nLocal = i18next
     const navigate = useNavigate()
-    const data = useRecoilValue(SchoolCalendarData)
-    const { postData, posting: loadingStore } = dataStoreManagement()
-    const { data: academicYears, loading: loadingAcademicYear, getAcademicYear, error } = useGetAcademicYears()
+    const { useQuery } = useUrlParams()
     const [open, setOpen] = useState(false)
-    const [openDialogOption, setOpenDialogOption] = useState(false)
-    const [openSaveOption, setOpenSaveOption] = useState(false)
+    const dataFilter = useQuery.get("filter")
+    const { postData } = dataStoreManagement()
     const [selected, setSelected] = useState("")
+    const data = useRecoilValue(SchoolCalendarData)
+    const [loadingStore, setLoadingStore] = useState(false)
     const [values, setValues] = useState<schoolCalendar['academicYear']>()
-    const [defaultYear, setDefaultYear] = useState(() => {
-        return data?.defaults?.academicYear || ""
-    })
+    const [defaultYear, setDefaultYear] = useState(() => { return data?.defaults?.academicYear || "" })
+    const { data: academicYears, loading: loadingAcademicYear, getAcademicYear, error } = useGetAcademicYears()
 
     useEffect(() => {
         if (data) getAcademicYear()
     }, [data])
 
-    const handleSetDefault = (id: string) => {
+    const handleSetDefault = async ({ id }: { id: string }) => {
+        setLoadingStore(true)
         setDefaultYear(id)
-        //store the default year in the data store
         const updatedData = {
             ...data,
             defaults: {
@@ -45,17 +43,18 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
             }
         };
 
-        postData(updatedData, i18nLocal.t("Default academic year updated successfully"));
-        setOpenSaveOption(true);
+        await postData(updatedData, i18nLocal.t("Default academic year updated successfully"));
+        setLoadingStore(false)
     }
 
-    const handleEdit = (id: string, values: schoolCalendar['academicYear']) => {
+    const handleEdit = ({ id, values }: { id: string, values: schoolCalendar['academicYear'] }) => {
         setSelected(id)
         setValues(values)
         setOpen(true)
     }
 
-    const handleNavigate = (id: string) => {
+
+    const handleNavigate = ({ id }: { id: string }) => {
         navigate(`main/${id}`)
     }
 
@@ -63,166 +62,94 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
         data?.schoolCalendar?.map((item) => [item?.academicYear?.code, item])
     )
 
+    const sortedAcademicYears = [...academicYears?.options || []].sort((a, b) => {
+        const aYear = configuredYearsMap.get(a.value);
+        const bYear = configuredYearsMap.get(b.value);
+
+        const configuredDiff = Number(!!bYear) - Number(!!aYear);
+        if (configuredDiff !== 0) {
+            return configuredDiff;
+        }
+
+        return (aYear?.academicYear?.code ?? "").localeCompare(
+            bYear?.academicYear?.code ?? ""
+        );
+    });
+
     return (
-        <div className="container mt-3">
-            <WithPadding p="10px 30px">
+        <div className="mt-3">
+            <WithPadding p="0px 30px">
+                <Paper>
+                    <WithBorder type="bottom">
+                        <div className={styles.header}>
+                            <h4 className={styles.title}>{"School Calendar"}</h4>
+                            <div className={styles.rightElements}>
+                                <RightActionsButtons i18n={i18next} />
+                            </div>
+                        </div>
+                    </WithBorder>
 
-                <ModalComponent
-                    onClose={() => setOpen(false)}
-                    open={open}
-                    title={i18nLocal.t("Add new school calendar")}
-                    children={
-                        <AddNewSchoolCalendar
-                            i18next={i18next}
-                            selected={selected}
-                            setOpen={setOpen}
-                            academicYearValues={values}
-                        />
-                    }
-                />
+                    <div className={styles.mainContent}>
+                        <div className="my-2">
+                            {(loadingStore || (loadingAcademicYear && !open)) && <LinearProgress />}
+                        </div>
 
-                <ModalComponent
-                    title={i18nLocal.t("Add new option")}
-                    open={openDialogOption}
-                    onClose={() => setOpenDialogOption(false)}
-                    children={
-                        <AddNewOption
-                            i18next={i18next}
-                            selected={selected}
-                            setOpen={setOpenDialogOption}
-                        />
-                    }
-                />
+                        {error?.error && !(loadingStore || (loadingAcademicYear && !open)) ?
+                            <div style={{ fontSize: 13.5 }} className={`my-4 alert ${error?.type == "config" ? "alert-danger" : "alert-warning"}`} role="alert">
+                                {error.type === "config"
+                                    ? i18nLocal.t("No academic year configuration found. Please, ensure the data element is configured correctly.")
+                                    : i18nLocal.t("Error fetching academic years. Please, make sure the configured academic year exists.")}
+                            </div> :
 
-                <div className={classNames("mb-2", styles.topContainer)}>
-                    <h4 style={{ color: '#1e293b' }}>{i18nLocal.t("School Calendar")}</h4>
-                    <Button
-                        variant="outlined"
-                        startIcon={<AddCircleOutline />}
-                        onClick={() => {
-                            setSelected("")
-                            setOpenDialogOption(true)
-                        }}
-                        className={styles.topButton}
-                        disabled={error?.error || loadingStore || (loadingAcademicYear && !open && !openDialogOption)}
-                    >
-                        {i18nLocal.t("New Academc Year Option")}
-                    </Button>
-                </div>
+                            <div className={styles.containerCards}>
+                                {sortedAcademicYears
 
-                <div className="mb-2">
-                    {(loadingStore || (loadingAcademicYear && !open && !openDialogOption)) && <LinearProgress />}
-                </div>
+                                    ?.filter((opt) =>
+                                        dataFilter ? (dataFilter === "inactive"
+                                            ? !configuredYearsMap.get(opt.value)?.academicYear
+                                            : configuredYearsMap.get(opt.value)?.academicYear)
+                                            : true
+                                    )
+                                    ?.map((yearOption) => {
+                                        const configuredItem: any = configuredYearsMap.get(yearOption.value) || {} as schoolCalendar
+                                        const isConfigured = !!configuredItem.id
+                                        const isDefault = configuredItem?.academicYear?.code == defaultYear
 
-                {error?.error && !(loadingStore || (loadingAcademicYear && !open && !openDialogOption)) ?
-                    <div style={{ fontSize: 13.5 }} className={`my-4 alert ${error?.type == "config" ? "alert-danger" : "alert-warning"}`} role="alert">
-                        {error.type === "config" ? i18nLocal.t("No academic year configuration found. Please, ensure the data element is configured correctly.") : i18nLocal.t("Error fetching academic years. Please, make sure the configured academic year exists.")}
-                    </div> :
+                                        return (
+                                            <MainCard
+                                                key={"main-card"}
+                                                yearOption={yearOption}
+                                                onViewDetails={(args) => handleNavigate(args)}
+                                                onSetAsDefault={(args) => { handleSetDefault(args) }}
+                                                configuredItem={configuredItem}
+                                                onClickEdit={(args) => handleEdit(args)}
+                                                loading={loadingStore}
+                                                isDefault={isDefault}
+                                                isConfigured={isConfigured}
+                                                i18next={i18next}
 
-                    <div className={styles.containerCards}>
-                        {academicYears?.options?.map((yearOption) => {
-                            const configuredItem: any = configuredYearsMap.get(yearOption.value) || {} as schoolCalendar
-                            const isConfigured = !!configuredItem.id
-                            const isDefault = configuredItem?.academicYear?.code == defaultYear
-
-                            return (
-                                <Card
-                                    key={yearOption.value}
-                                    elevation={(isDefault && !loadingStore) ? 4 : 1}
-                                    className={classNames(styles.card, (isDefault && !loadingStore) && styles.dafaultCard)}
-                                >
-                                    <CardContent className={styles.cardContent}>
-                                        <div className={styles.cardHead}>
-                                            <Typography
-                                                variant="h5"
-                                                onClick={() => isConfigured && handleNavigate(configuredItem.id)}
-                                                style={{
-                                                    fontWeight: 700,
-                                                    color: isConfigured ? '#1e6194' : '#9ca3af',
-                                                    cursor: isConfigured ? 'pointer' : 'default'
-                                                }}
-                                            >
-                                                {yearOption.label}
-                                            </Typography>
-
-                                            <IconButton onClick={() => handleEdit(configuredItem.id, { ...configuredItem.academicYear, code: yearOption.value })}>
-                                                <Edit fontSize="small" style={{ color: '#4b5563' }} />
-                                            </IconButton>
-                                        </div>
-
-                                        <>
-                                            <Typography variant="subtitle1" style={{ color: '#334155', marginTop: '0.25rem' }}>
-                                                {configuredItem.academicYear?.description || <em style={{ fontSize: 12 }}>{i18nLocal.t("Not configured")}</em>}
-                                            </Typography>
-
-                                            <Divider style={{ margin: '5px 0' }} />
-
-                                            <div style={{ flexGrow: 1 }}>
-                                                <Typography variant="body2" style={{ marginBottom: '0.25rem' }}>
-                                                    <strong>{i18nLocal.t("Label")}:</strong> {configuredItem.academicYear?.label || <em style={{ fontSize: 12 }}>{i18nLocal.t("Not configured")}</em>}
-                                                </Typography>
-                                                <div className='d-flex justify-content-between'>
-                                                    <Typography variant="body2" style={{ marginBottom: '0.25rem' }}>
-                                                        <strong>{i18nLocal.t("Start Date")}:</strong> {configuredItem.academicYear?.startDate || <em style={{ fontSize: 12 }}>{i18nLocal.t("Not configured")}</em>}
-                                                    </Typography>
-                                                    <Typography variant="body2">
-                                                        <strong>{i18nLocal.t("End Date")}:</strong> {configuredItem.academicYear?.endDate || <em style={{ fontSize: 12 }}>{i18nLocal.t("Not configured")}</em>}
-                                                    </Typography>
-                                                </div>
-                                            </div>
-
-                                            <div className={styles.cardActions}>
-                                                <Button
-                                                    size="small"
-                                                    onClick={() => handleSetDefault(configuredItem?.academicYear?.code)}
-                                                    disabled={!isConfigured || (loadingStore)}
-                                                    endIcon={(loadingStore && isDefault) && <CircularLoader small />}
-                                                    startIcon={
-                                                        (isDefault && !loadingStore)
-                                                            ? <Star fontSize="small" style={{ color: '#f59e0b' }} />
-                                                            : <StarBorder fontSize="small" style={{ color: '#9ca3af' }} />
-                                                    }
-                                                    style={{
-                                                        color: (isDefault && !loadingStore) ? '#1e6194' : '#4b5563',
-                                                        fontWeight: 500,
-                                                        textTransform: 'none',
-                                                        opacity: !isConfigured ? 0.5 : 1,
-                                                        cursor: !isConfigured ? 'not-allowed' : 'pointer',
-                                                        border: (isDefault && !loadingStore) ? '1px solid #bfdbfe' : '1px solid #d1d5db',
-                                                        borderRadius: '6px'
-                                                    }}
-                                                    fullWidth
-                                                >
-                                                    {(isDefault && !loadingStore) ? i18nLocal.t('Default Academic Year') : i18nLocal.t('Set as Default')}
-                                                </Button>
-
-                                                <Button
-                                                    size="small"
-                                                    variant="outlined"
-                                                    startIcon={<Visibility fontSize="small" />}
-                                                    onClick={() => handleNavigate(configuredItem.id)}
-                                                    disabled={!isConfigured}
-                                                    style={{
-                                                        textTransform: 'none',
-                                                        color: '#1e6194',
-                                                        borderColor: '#1e6194',
-                                                        fontWeight: 500,
-                                                        opacity: !isConfigured ? 0.5 : 1,
-                                                        cursor: !isConfigured ? 'not-allowed' : 'pointer'
-                                                    }}
-                                                    fullWidth
-                                                >
-                                                    {i18nLocal.t("View Details")}
-                                                </Button>
-                                            </div>
-                                        </>
-                                    </CardContent>
-                                </Card>
-                            )
-                        })}
+                                            />
+                                        )
+                                    })}
+                            </div>
+                        }
                     </div>
-                }
+                </Paper>
             </WithPadding>
+
+            <ModalComponent
+                open={open}
+                handleClose={() => setOpen(false)}
+                title={i18nLocal.t("Add new school calendar")}
+                children={
+                    <AddNewSchoolCalendar
+                        i18next={i18next}
+                        setOpen={setOpen}
+                        selected={selected}
+                        academicYearValues={values}
+                    />
+                }
+            />
         </div >
     )
 }

@@ -1,6 +1,6 @@
 import { D2I18n } from "dhis2-semis-types";
 
-const fieldsOptions = (i18n: D2I18n) => {
+const fieldsOptions = ({ i18n, errors }: { i18n: D2I18n; errors: any }) => {
   return [
     {
       required: true,
@@ -13,8 +13,9 @@ const fieldsOptions = (i18n: D2I18n) => {
       pattern: "",
       visible: true,
       description: i18n.t("Name"),
-      id: "code",
+      id: "name",
       displayName: i18n.t("Name"),
+      error: errors?.name,
     },
     {
       required: true,
@@ -28,7 +29,8 @@ const fieldsOptions = (i18n: D2I18n) => {
       visible: true,
       description: i18n.t("Code"),
       id: "code",
-      displayName: i18n.t("Code")
+      displayName: i18n.t("Code"),
+      error: errors?.code,
     }
   ];
 };
