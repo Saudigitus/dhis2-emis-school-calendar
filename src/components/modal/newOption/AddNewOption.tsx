@@ -22,12 +22,6 @@ export default function AddNewOption({ setOpen, i18next }: ContentProps) {
     const { postOption, loading: posting } = usePostOption()
     const { loading: loading, data, getAcademicYear, refetch } = useGetAcademicYears()
 
-    // useEffect(() => {
-    //     getAcademicYear()
-    // }, [])
-
-    console.log(data)
-
     const modalActions = [
         {
             id: "cancel",
@@ -58,8 +52,8 @@ export default function AddNewOption({ setOpen, i18next }: ContentProps) {
                     setTimeout(hide, 1000);
                 }
                 else {
-                    refetch()
-                    getAcademicYear()
+                    refetch(false)
+                    getAcademicYear(false)
                     postOption({
                         ...values,
                         optionSet: { id: data?.id }

@@ -18,12 +18,12 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
     const i18nLocal = i18next
     const navigate = useNavigate()
     const { useQuery } = useUrlParams()
-    const dataFilter = useQuery.get("filter")
-    const data = useRecoilValue(SchoolCalendarData)
-    const { postData, posting: loadingStore } = dataStoreManagement()
     const [open, setOpen] = useState(false)
-    const [openSaveOption, setOpenSaveOption] = useState(false)
+    const dataFilter = useQuery.get("filter")
+    const { postData } = dataStoreManagement()
     const [selected, setSelected] = useState("")
+    const data = useRecoilValue(SchoolCalendarData)
+    const [loadingStore, setLoadingStore] = useState(false)
     const [values, setValues] = useState<schoolCalendar['academicYear']>()
     const [defaultYear, setDefaultYear] = useState(() => { return data?.defaults?.academicYear || "" })
     const { data: academicYears, loading: loadingAcademicYear, getAcademicYear, error } = useGetAcademicYears()
@@ -32,7 +32,8 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
         if (data) getAcademicYear()
     }, [data])
 
-    const handleSetDefault = ({ id }: { id: string }) => {
+    const handleSetDefault = async ({ id }: { id: string }) => {
+        setLoadingStore(true)
         setDefaultYear(id)
         const updatedData = {
             ...data,
@@ -42,8 +43,8 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
             }
         };
 
-        postData(updatedData, i18nLocal.t("Default academic year updated successfully"));
-        setOpenSaveOption(true);
+        await postData(updatedData, i18nLocal.t("Default academic year updated successfully"));
+        setLoadingStore(false)
     }
 
     const handleEdit = ({ id, values }: { id: string, values: schoolCalendar['academicYear'] }) => {
@@ -61,6 +62,20 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
         data?.schoolCalendar?.map((item) => [item?.academicYear?.code, item])
     )
 
+    const sortedAcademicYears = [...academicYears?.options || []].sort((a, b) => {
+        const aYear = configuredYearsMap.get(a.value);
+        const bYear = configuredYearsMap.get(b.value);
+
+        const configuredDiff = Number(!!bYear) - Number(!!aYear);
+        if (configuredDiff !== 0) {
+            return configuredDiff;
+        }
+
+        return (aYear?.academicYear?.code ?? "").localeCompare(
+            bYear?.academicYear?.code ?? ""
+        );
+    });
+
     return (
         <div className="mt-3">
             <WithPadding p="0px 30px">
@@ -77,11 +92,9 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
                     <div className={styles.mainContent}>
                         <div className="my-2">
                             {(loadingStore || (loadingAcademicYear && !open)) && <LinearProgress />}
-                            {/* {(loadingStore || (loadingAcademicYear && !open && !openDialogOption)) && <LinearProgress />} */}
                         </div>
 
                         {error?.error && !(loadingStore || (loadingAcademicYear && !open)) ?
-                            // {error?.error && !(loadingStore || (loadingAcademicYear && !open && !openDialogOption)) ?
                             <div style={{ fontSize: 13.5 }} className={`my-4 alert ${error?.type == "config" ? "alert-danger" : "alert-warning"}`} role="alert">
                                 {error.type === "config"
                                     ? i18nLocal.t("No academic year configuration found. Please, ensure the data element is configured correctly.")
@@ -89,7 +102,8 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
                             </div> :
 
                             <div className={styles.containerCards}>
-                                {academicYears?.options
+                                {sortedAcademicYears
+
                                     ?.filter((opt) =>
                                         dataFilter ? (dataFilter === "inactive"
                                             ? !configuredYearsMap.get(opt.value)?.academicYear
