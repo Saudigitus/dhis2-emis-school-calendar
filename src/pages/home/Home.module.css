@@ -20,10 +20,8 @@
 }
 
 .mainContent {
-    overflow: auto;
     margin: 0px 0 0;
     padding: 0 20px;
-    max-height: calc(100vh - 140px);
 }
 
 .containerCards {
@@ -31,6 +29,7 @@
     display: grid;
     overflow: auto;
     padding: 0 0 20px;
+    max-height: calc(250px * 2 + 3rem);
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 }
 
