@@ -13,9 +13,9 @@ interface SidebarDropdownProps {
 export default function SidebarDropdown({ i18n, value, onChange, termLabels }: SidebarDropdownProps) {
     const options = [
         { value: "non-school-days", label: i18n.t("Non-school days") },
-        { value: "term-1", label: termLabels?.[0] || i18n.t("Term 1") },
-        { value: "term-2", label: termLabels?.[1] || i18n.t("Term 2") },
-        { value: "term-3", label: termLabels?.[2] || i18n.t("Term 3") },
+        { value: "term1", label: termLabels?.[0] || i18n.t("Term 1") },
+        { value: "term2", label: termLabels?.[1] || i18n.t("Term 2") },
+        { value: "term3", label: termLabels?.[2] || i18n.t("Term 3") },
     ];
 
     return (

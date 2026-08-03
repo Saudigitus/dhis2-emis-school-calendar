@@ -14,6 +14,16 @@ const TERM_COLORS: Record<TermColorKey, { bg: string; text: string }> = {
     none: { bg: "transparent", text: "#5a6370" },
 };
 
+/** Slightly deeper / more saturated than the text colour — used for boundary dot badges */
+const TERM_DOT_COLORS: Record<TermColorKey, string> = {
+    term1: "#144D1A", // deep forest green
+    term2: "#0F2F5C", // deep navy
+    term3: "#7A5C00", // deep amber
+    break: "#7A5C00",
+    exam: "#0F2F5C",
+    none: "transparent",
+};
+
 const CATEGORY_COLORS: Record<DayCategory, { bg: string; text: string; dot: string }> = {
     class: { bg: "#E3F2E9", text: "#1B5E20", dot: "#1B5E20" },
     exam: { bg: "#D6E8F7", text: "#194775", dot: "#194775" },
@@ -52,9 +62,9 @@ export function getCategoryForDate(
             const isStart = startISO === dateStr;
             const isEnd = endISO === dateStr;
             const isSelected =
-                (selectedTerm === "term-1" && i === 0) ||
-                (selectedTerm === "term-2" && i === 1) ||
-                (selectedTerm === "term-3" && i === 2) ||
+                (selectedTerm === "term1" && i === 0) ||
+                (selectedTerm === "term2" && i === 1) ||
+                (selectedTerm === "term3" && i === 2) ||
                 !selectedTerm ||
                 selectedTerm === "non-school-days";
 
@@ -100,6 +110,7 @@ export function getTermColorForDate(
 
         if (date >= start && date <= end) {
             const termKey = (period.key || "").toLowerCase();
+
             if (termKey.includes("1")) return "term1";
             if (termKey.includes("2")) return "term2";
             if (termKey.includes("3")) return "term3";
@@ -123,6 +134,11 @@ export function getTermBgColor(colorKey: TermColorKey): string {
 export function getTermTextColor(colorKey: TermColorKey): string {
     return TERM_COLORS[colorKey].text;
 }
+
+export function getTermDotColor(colorKey: TermColorKey): string {
+    return TERM_DOT_COLORS[colorKey];
+}
+
 
 export function getCategoryBgColor(category: DayCategory): string {
     return CATEGORY_COLORS[category].bg;

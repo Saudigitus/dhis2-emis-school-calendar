@@ -23,6 +23,10 @@ function MainPage({ i18next }: { i18next: D2I18n }) {
         ? new Date(currentCalendar.academicYear.startDate).getFullYear()
         : new Date().getFullYear();
 
+    const startMonth = currentCalendar?.academicYear?.startDate
+        ? new Date(currentCalendar.academicYear.startDate).getMonth()
+        : new Date().getMonth();
+
     const classPeriods = currentCalendar?.classPeriods || [];
     const holidays = currentCalendar?.holidays || [];
 
@@ -43,6 +47,7 @@ function MainPage({ i18next }: { i18next: D2I18n }) {
                         <div className={styles.loading}>{i18next.t("Loading...")}</div>
                     ) : (
                         <YearCalendarView
+                            startMonth={startMonth}
                             year={year}
                             classPeriods={classPeriods}
                             holidays={holidays}
