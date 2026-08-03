@@ -33,9 +33,9 @@ function MainCard(props: MainCardInterface) {
 
     return (
         <Card
+            elevation={0}
             key={yearOption.value}
-            elevation={(isDefault && !loading) ? 4 : 1}
-            className={classNames(styles.card, (isDefault && !loading) && styles.dafaultCard)}
+            className={classNames(styles.card, (isDefault && !loading) && styles.defaultCard)}
         >
             <CardContent className={styles.cardContent}>
                 <div className={styles.cardHead}>
