@@ -38,6 +38,7 @@ function TermsList({ i18next, expanded, setExpanded }: { i18next: D2I18n, expand
                         setSelected({ data: null, edit: false })
                     } else {
                         setExpanded("panel2d");
+                        scrollToTop()
                     }
                 }} className={styles.icon}>
                     <IconAddCircle24 />
@@ -50,7 +51,9 @@ function TermsList({ i18next, expanded, setExpanded }: { i18next: D2I18n, expand
                     <NewSchoolTerm i18next={i18next} setOpen={setExpanded} />
                 </Accordion>
 
-                {(loading || posting) && <LinearProgress />}
+                {(loading || posting) && <div style={{ padding: "0 20px 10px 15px" }} >
+                    <LinearProgress />
+                </div>}
                 {
                     data?.schoolCalendar?.find((x: any) => x.id === id)?.classPeriods?.length ?
 
