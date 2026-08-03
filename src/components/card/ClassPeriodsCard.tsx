@@ -13,7 +13,7 @@ import { deleteState } from "../../schema/deleteDataSchema";
 import { GeneralLoadingState } from "../../schema/loadingSchema";
 import { D2I18n } from "dhis2-semis-types";
 
-export default function ClassPeriodsCard({ classPeriods, setOpen, index, i18next }: { classPeriods: schoolCalendar['classPeriods'][0], setOpen: any, index: number, i18next: D2I18n }): React.ReactElement {
+export default function ClassPeriodsCard({ classPeriods, index, i18next }: { classPeriods: schoolCalendar['classPeriods'][0], index: number, i18next: D2I18n }): React.ReactElement {
   const { description, endDate, key, startDate } = classPeriods
   const { id } = useParams();
   const { postData } = dataStoreManagement()
@@ -53,7 +53,6 @@ export default function ClassPeriodsCard({ classPeriods, setOpen, index, i18next
           <span className={style.title} >{description}</span>
           <MenuComponent
             i18n={i18next}
-            setOpen={setOpen}
             row={classPeriods}
             onDelete={deletePeriod}
           />

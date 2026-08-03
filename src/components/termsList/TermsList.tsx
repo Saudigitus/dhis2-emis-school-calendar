@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
-import { useRecoilValue } from 'recoil';
-import { WithPadding } from "../template";
-import { Button, IconButton, LinearProgress } from '@mui/material';
-import { AddCircleOutline } from '@mui/icons-material';
-import ModalComponent from "../modal/modal";
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { Accordion, AccordionSummary, IconButton, LinearProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import GridViewComponentTerm from '../table/gridView/GridViewComponentTerm';
 import NewSchoolTerm from '../modal/newTerm/ModalAddNewTerm';
@@ -13,27 +10,38 @@ import { GeneralLoadingState } from '../../schema/loadingSchema';
 import { D2I18n } from 'dhis2-semis-types';
 import styles from '../offDaysList/OffDaysList.module.css'
 import { IconAddCircle24 } from '@dhis2/ui';
-import { Subtitle } from '../text';
+import { editState } from '../../schema/editDataSchema';
+import NewOdffDay from '../modal/newOffDay/modalAddNewOffDay';
 
 function TermsList({ i18next }: { i18next: D2I18n }) {
     const i18nLocal = i18next
     const { id } = useParams();
     const { posting } = dataStoreManagement()
-    const [open, setOpen] = useState(false)
     const data = useRecoilValue(SchoolCalendarData)
     const loading = useRecoilValue(GeneralLoadingState)
+    const [expanded, setExpanded] = useState("")
+    const [selected, setSelected] = useRecoilState(editState)
 
     return (
         <div>
-            <ModalComponent onClose={() => setOpen(false)} open={open} title={i18nLocal.t('Non School Day Register')} children={<NewSchoolTerm i18next={i18next} setOpen={setOpen} />} />
             <div className={styles.titleContainer} >
-                <Subtitle color="#2C6693" label={"School Terms"} />
+                <h6 style={{ marginTop: "8px", color: "#2C6693" }} >{i18nLocal.t("School Terms")}</h6>
                 <IconButton onClick={() => {
-                    setOpen(true);
+            console.log(expanded, selected)
+                    if (expanded == 'panel2d') {
+                        setExpanded("");
+                    } else {
+                        setExpanded("panel2d");
+                    }
                 }} className={styles.icon}>
                     <IconAddCircle24 />
                 </IconButton>
             </div>
+
+            <Accordion style={{ padding: "-10px 0 0 0" }} elevation={0} expanded={(expanded == 'panel2d' || selected?.edit) ?? false} >
+                <AccordionSummary style={{ display: "none" }} />
+                <NewSchoolTerm i18next={i18next} setOpen={setExpanded} />
+            </Accordion>
             <div>
                 {(loading || posting) && <LinearProgress />}
                 <>
@@ -42,7 +50,6 @@ function TermsList({ i18next }: { i18next: D2I18n }) {
 
                             <GridViewComponentTerm
                                 i18next={i18nLocal}
-                                setOpen={setOpen}
                                 classPeriods={data?.schoolCalendar?.find((x: any) => x.id === id)?.classPeriods || []}
                             />
                             :

@@ -31,7 +31,7 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
             type: "Cancel",
             label: i18nLocal.t("Cancel"),
             white: true,
-            
+
         },
         {
             id: "save",
@@ -91,7 +91,7 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
                             <ModalActions>
                                 <ButtonStrip end>
                                     {modalActions.map((action, i) => (
-                                        <Button key={i} disabled={action.id === "cancel" ? setOpen('') : posting || pristine} {...action} onClick={(e: any) => {
+                                        <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine} {...action} onClick={(e: any) => {
                                             actions(action.id, values)
                                         }}>
                                             {action.label}

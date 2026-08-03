@@ -109,7 +109,7 @@ function GeneralDetailsForm({ i18next }: { i18next: D2I18n }): React.ReactElemen
                                         disabled={section.disabled}
                                     />
                                 ))}
-                                <ButtonStrip>
+                                <ButtonStrip end>
                                     <Button
                                         disabled={(posting || loading || pristine)}
                                         onClick={() => form.reset()}

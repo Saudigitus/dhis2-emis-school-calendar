@@ -15,7 +15,7 @@ interface SidebarPanelProps {
     onSelectedChange?: (value: string) => void;
 }
 
-export default function SidebarPanel({ i18n, classPeriods, initialSelected, onSelectedChange }: SidebarPanelProps) {
+export default function SidebarPanel({ i18n }: SidebarPanelProps) {
     const [selected, setSelected] = useState<string>('general-details');
     const options: any = [
         {
@@ -43,17 +43,6 @@ export default function SidebarPanel({ i18n, classPeriods, initialSelected, onSe
             disabled: false,
         }
     ]
-
-
-    useEffect(() => {
-        if (initialSelected !== undefined) {
-            setSelected(initialSelected);
-        }
-    }, [initialSelected]);
-
-    const termLabels = classPeriods?.map((p) => p.description) || [];
-
-
 
     return (
         <div className={styles.sidebarPanel}>

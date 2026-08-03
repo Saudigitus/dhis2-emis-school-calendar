@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import React, { useState } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil';
 import GridViewComponent from '../table/gridView/GridViewComponent';
-import { WithPadding } from "../template";
-import { Accordion, AccordionSummary, Button, IconButton, LinearProgress } from '@mui/material';
-import { AddCircleOutline } from '@mui/icons-material';
+import { Accordion, AccordionSummary, IconButton, LinearProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { editState } from '../../schema/editDataSchema';
-import ModalComponent from "../modal/modal";
 import NewOdffDay from '../modal/newOffDay/modalAddNewOffDay';
 import { SchoolCalendarData } from 'dhis2-semis-components';
 import { useDataStore } from '../../hooks/appwarapper/useDataStore';
 import { dataStoreManagement } from '../../hooks/dataStore/useDSManagement';
 import { D2I18n } from 'dhis2-semis-types';
-import { Subtitle } from '../text';
 import { IconAddCircle24 } from '@dhis2/ui';
 import styles from './OffDaysList.module.css'
 
@@ -24,10 +20,7 @@ function OffDaysList({ i18next }: { i18next: D2I18n }) {
     const data = useRecoilValue(SchoolCalendarData)
     const [expanded, setExpanded] = useState("")
     const [selected, setSelected] = useRecoilState(editState)
-
-    useEffect(() => {
-        setExpanded('panel1d')
-    }, [selected])
+    const isExpanded = Boolean(expanded === "panel1d" || selected?.edit);
 
     return (
         <div>
@@ -44,11 +37,11 @@ function OffDaysList({ i18next }: { i18next: D2I18n }) {
                 </IconButton>
             </div>
 
-            <Accordion style={{ padding: "-10px 0 0 0" }} elevation={0} expanded={expanded == 'panel1d' || selected?.edit} >
-                <AccordionSummary style={{ display: "none" }} aria-controls="panel1d-content" id="panel1d-header" />
+            <Accordion style={{ padding: "-10px 0 0 0" }} elevation={0} expanded={isExpanded} >
+                <AccordionSummary style={{ display: "none" }} />
                 <NewOdffDay i18next={i18next} setOpen={setExpanded} />
             </Accordion>
-            
+
             <div>
                 {(loading || posting) && <LinearProgress />}
                 {

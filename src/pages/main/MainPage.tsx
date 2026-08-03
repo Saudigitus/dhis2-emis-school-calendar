@@ -12,7 +12,6 @@ function MainPage({ i18next }: { i18next: D2I18n }) {
     const { id } = useParams();
     const { loading } = useDataStore();
     const dataStoreData = useRecoilValue(SchoolCalendarData);
-    const [selectedOption, setSelectedOption] = useState<string>("non-school-days");
 
     const currentCalendar = dataStoreData?.schoolCalendar?.find(
         (x: any) => x.id === id
@@ -26,7 +25,6 @@ function MainPage({ i18next }: { i18next: D2I18n }) {
     const holidays = currentCalendar?.holidays || [];
 
     const yearLabel = currentCalendar?.academicYear?.label || `${year}`;
-    const termLabels = classPeriods?.map((p: any) => p.description) || [];
 
     console.log(currentCalendar)
     return (
@@ -46,15 +44,12 @@ function MainPage({ i18next }: { i18next: D2I18n }) {
                             year={year}
                             classPeriods={classPeriods}
                             holidays={holidays}
-                            selectedTerm={selectedOption}
                         />
                     )}
                 </div>
                 <SidebarPanel
                     i18n={i18next}
                     classPeriods={classPeriods}
-                    initialSelected={selectedOption}
-                    onSelectedChange={setSelectedOption}
                 />
             </div>
         </div>
