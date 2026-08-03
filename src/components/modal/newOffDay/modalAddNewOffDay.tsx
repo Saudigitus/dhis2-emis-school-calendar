@@ -13,13 +13,12 @@ import { SchoolCalendarData } from "dhis2-semis-components";
 import { D2I18n } from "dhis2-semis-types";
 
 interface ContentProps {
-    setOpen: (value: boolean) => void
-    selected?: string
+    setOpen: (value: string) => void
     refetch?: () => void
     i18next: D2I18n
 }
 
-export default function NewOdffDay({ setOpen, selected, i18next }: ContentProps): React.ReactElement {
+export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.ReactElement {
     const i18nLocal = i18next
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
@@ -31,7 +30,8 @@ export default function NewOdffDay({ setOpen, selected, i18next }: ContentProps)
             id: "cancel",
             type: "Cancel",
             label: i18nLocal.t("Cancel"),
-            white: true
+            white: true,
+
         },
         {
             id: "save",
@@ -45,21 +45,21 @@ export default function NewOdffDay({ setOpen, selected, i18next }: ContentProps)
     function actions(action: string, values: any) {
         switch (action) {
             case "cancel":
-                setOpen(false)
+                setOpen('');
                 break
             case "save":
-                const localData = dataStoreData?.schoolCalendar?.find((x:any) => x.id === id) as unknown as SchoolConfig;
+                const localData = dataStoreData?.schoolCalendar?.find((x: any) => x.id === id) as unknown as SchoolConfig;
 
                 postData({
                     ...dataStoreData,
-                    schoolCalendar: [{ ...mergeHoliday(localData, values) }, ...dataStoreData?.schoolCalendar.filter((x:any) => {
+                    schoolCalendar: [{ ...mergeHoliday(localData, values) }, ...dataStoreData?.schoolCalendar.filter((x: any) => {
                         if (x.id !== id) {
                             return x;
                         }
                     })]
 
                 }, i18nLocal.t("Off day registered successfully")).then(() => {
-                    setOpen(false);
+                    setOpen('');
                     if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
                 })
 
@@ -68,10 +68,7 @@ export default function NewOdffDay({ setOpen, selected, i18next }: ContentProps)
     }
 
     return (
-        <WithPadding padding="0px">
-            <span>
-                {i18nLocal.t("To register new off day, please fill out the form")}
-            </span>
+        <div  >
             <Form initialValues={selectedCard.edit ? { date: selectedCard.data.date, type: selectedCard.data.type, event: selectedCard.data.title } : {}} onSubmit={() => {
             }}
             >
@@ -80,6 +77,7 @@ export default function NewOdffDay({ setOpen, selected, i18next }: ContentProps)
                         <form>
                             <br />
                             <GroupForm
+                                padding="0"
                                 name={i18nLocal.t("Off Day Details")}
                                 description={""}
                                 disabled={false}
@@ -87,6 +85,7 @@ export default function NewOdffDay({ setOpen, selected, i18next }: ContentProps)
                                     ...field,
                                     valueType: field.valueType || "TEXT",
                                 }))}
+                                flex={false}
                             />
                             <br />
                             <ModalActions>
@@ -104,6 +103,6 @@ export default function NewOdffDay({ setOpen, selected, i18next }: ContentProps)
                     );
                 }}
             </Form>
-        </WithPadding>
+        </div>
     );
 }

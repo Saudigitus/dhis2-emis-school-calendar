@@ -2,13 +2,12 @@ import React from "react";
 import MonthGrid from "./MonthGrid";
 import styles from "./YearCalendarView.module.css";
 import type { schoolCalendar } from "../../types/dataStore/DataStoreConfig";
-import type { SidebarOption } from "../sidebar/SidebarDropdown";
 
 interface YearCalendarViewProps {
     year: number;
     classPeriods: schoolCalendar["classPeriods"];
     holidays: schoolCalendar["holidays"];
-    selectedTerm?: SidebarOption;
+    selectedTerm?: string;
     startMonth: number;
 }
 

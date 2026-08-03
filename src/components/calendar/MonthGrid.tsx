@@ -83,7 +83,7 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
     const cells: React.ReactNode[] = [];
     const selectedTermIndex = getTermIndexFromSelected(selectedTerm);
     const selectedPeriod = getSelectedTermClassPeriod(classPeriods, selectedTerm);
-
+console.log(selectedPeriod)
     for (let i = 0; i < firstDay; i++) {
         cells.push(<div key={`empty-${i}`} className={styles.dayCell} />);
     }

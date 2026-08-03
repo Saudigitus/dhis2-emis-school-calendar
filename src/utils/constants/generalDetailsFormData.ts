@@ -9,53 +9,6 @@ import { D2I18n } from "dhis2-semis-types";
 export function generalDetailsFormData(i18n: D2I18n): FormSectionProps[] {
   return [
     {
-      section: i18n.t("General Details"),
-      description: "",
-      disabled: false,
-      fields: [
-        {
-          id: `code`,
-          displayName: i18n.t("Academic year"),
-          header: "",
-          required: false,
-          name: `code`,
-          labelName: i18n.t("Academic year"),
-          valueType: Attribute.valueType
-            .TEXT as unknown as CustomAttributeProps["valueType"],
-          visible: true,
-          disabled: true,
-          pattern: "",
-          searchable: false,
-          error: false,
-          content: "",
-          key: "",
-          unique: true,
-          displayInFilters: true,
-          type: VariablesTypes.Attribute,
-        },
-        {
-          id: `description`,
-          displayName: i18n.t("Description"),
-          header: "",
-          required: false,
-          name: i18n.t(`description`),
-          labelName: "Description",
-          valueType: Attribute.valueType
-            .TEXT as unknown as CustomAttributeProps["valueType"],
-          visible: true,
-          disabled: false,
-          pattern: "",
-          searchable: false,
-          error: false,
-          content: "",
-          key: "",
-          unique: true,
-          displayInFilters: true,
-          type: VariablesTypes.Attribute,
-        },
-      ],
-    },
-    {
       section: i18n.t("Period"),
       description: "",
       disabled: false,

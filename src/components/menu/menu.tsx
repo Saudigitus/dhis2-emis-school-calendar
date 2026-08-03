@@ -10,8 +10,8 @@ import { Delete, Edit, MoreHoriz } from '@mui/icons-material';
 import { D2I18n } from 'dhis2-semis-types';
 
 
-export default function MenuComponent(props: { i18n: D2I18n, row: any, setOpen: (value: boolean) => void, onDelete: () => void }) {
-    const { row, setOpen, onDelete, i18n } = props;
+export default function MenuComponent(props: { i18n: D2I18n, row: any, onDelete: () => void }) {
+    const { row, onDelete, i18n } = props;
     const setSelected = useSetRecoilState(editState)
     const setDeleted = useSetRecoilState(deleteState)
     const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
@@ -57,7 +57,7 @@ export default function MenuComponent(props: { i18n: D2I18n, row: any, setOpen: 
             setOpenDeleteDialog(true)
             setDeleted({ data: row, delete: true })
         } else if (type === 'edit') {
-            setOpen(true)
+            // setOpen(true)
             setSelected({ data: row, edit: true })
         }
     }

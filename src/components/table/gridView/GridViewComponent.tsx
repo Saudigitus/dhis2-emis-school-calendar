@@ -7,12 +7,11 @@ import { D2I18n } from "dhis2-semis-types";
 
 interface GridViewProps {
     offDays: schoolCalendar['holidays']
-    setOpen: (value: boolean) => void
     i18n: D2I18n
 }
 
 const GridViewComponent = (props: GridViewProps): React.ReactElement => {
-    const { offDays, setOpen, i18n } = props;
+    const { offDays, i18n } = props;
 
     return (
         <div className={style.list}>
@@ -20,7 +19,6 @@ const GridViewComponent = (props: GridViewProps): React.ReactElement => {
                 <div>
                     <OffDaysCard
                         index={index}
-                        setOpen={setOpen}
                         type={offDay.type}
                         title={offDay.event}
                         date={offDay.date as unknown as string}

@@ -13,7 +13,7 @@ import { mergeTerm } from "../../../utils/common/mergeTerm";
 import { D2I18n } from "dhis2-semis-types";
 
 interface ContentProps {
-    setOpen: (value: boolean) => void
+    setOpen: (value: string) => void
     refetch?: () => void
     i18next: D2I18n
 }
@@ -25,13 +25,14 @@ export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const [selectedCard, setSelectedCard] = useRecoilState(editState)
 
+    console.log(123)
     const modalActions = [
         {
             id: "cancel",
             type: "Cancel",
             label: i18nLocal.t("Cancel"),
             white: true,
-            onClick: () => setOpen(false)
+            onClick: () => setOpen("")
         },
         {
             id: "save",
@@ -55,47 +56,43 @@ export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React
             })]
 
         }, i18nLocal.t("Data registered successfully")).then(() => {
-            setOpen(false);
+            setOpen("");
             if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
         })
     }
 
     return (
-        <WithPadding padding="0px">
-            <span>
-                {i18nLocal.t("To register new off day, please fill out the form")}
-            </span>
-            <Form
-                initialValues={selectedCard.edit ? { key: selectedCard.data.key, startDate: selectedCard.data.startDate, description: selectedCard.data.description, endDate: selectedCard.data.endDate } : {}}
-                onSubmit={onFormSubmit}
-            >
-                {({ pristine, handleSubmit }) => {
-                    return (
-                        <form onSubmit={handleSubmit} >
-                            <br />
-                            <GroupForm
-                                name={i18nLocal.t("Off Day Details")}
-                                description={""}
-                                disabled={false}
-                                fields={fieldsTerm(i18nLocal).map((field: any) => ({
-                                    ...field,
-                                    valueType: field.valueType || "TEXT",
-                                }))}
-                            />
-                            <br />
-                            <ModalActions>
-                                <ButtonStrip end>
-                                    {modalActions.map((action, i) => (
-                                        <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine} {...action}>
-                                            {action.label}
-                                        </Button>
-                                    ))}
-                                </ButtonStrip>
-                            </ModalActions>
-                        </form>
-                    );
-                }}
-            </Form>
-        </WithPadding>
+        <Form
+            initialValues={selectedCard.edit ? { key: selectedCard.data.key, startDate: selectedCard.data.startDate, description: selectedCard.data.description, endDate: selectedCard.data.endDate } : {}}
+            onSubmit={onFormSubmit}
+        >
+            {({ pristine, handleSubmit }) => {
+                return (
+                    <form onSubmit={handleSubmit} >
+                        <br />
+                        <GroupForm
+                            description={""}
+                            flex={false}
+                            padding="0"
+                            disabled={false}
+                            fields={fieldsTerm(i18nLocal).map((field: any) => ({
+                                ...field,
+                                valueType: field.valueType || "TEXT",
+                            }))}
+                        />
+                        <br />
+                        <ModalActions>
+                            <ButtonStrip end>
+                                {modalActions.map((action, i) => (
+                                    <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine} {...action}>
+                                        {action.label}
+                                    </Button>
+                                ))}
+                            </ButtonStrip>
+                        </ModalActions>
+                    </form>
+                );
+            }}
+        </Form>
     );
 }
