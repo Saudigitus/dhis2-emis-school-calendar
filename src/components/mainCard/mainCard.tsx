@@ -1,35 +1,26 @@
 import React from 'react'
+import classNames from 'classnames'
+import { CircularLoader } from "@dhis2/ui"
+import styles from "./mainCard.module.css"
+import { D2I18n } from 'dhis2-semis-types'
+import { schoolCalendar } from '../../types/dataStore/DataStoreConfig'
 import { Edit, Star, StarBorder, Visibility } from '@mui/icons-material'
 import { IconButton, Button, Card, CardContent, Typography, Divider } from '@mui/material'
-import { CircularLoader } from "@dhis2/ui"
-import { useNavigate } from 'react-router-dom'
-import { schoolCalendar } from '../../types/dataStore/DataStoreConfig'
-import styles from "./mainCard.module.css"
-import classNames from 'classnames'
-import { D2I18n } from 'dhis2-semis-types'
-
-
 interface MainCardInterface {
     i18next: D2I18n
     isDefault: any
     loading: boolean
     isConfigured: any
     configuredItem: any
-    onViewDetails: (args: { code: string }) => void
     yearOption: { label: string, value: string }
-    onSetAsDefault: (args: { code: string }) => void
-    onClickEdit: (args: { code: string, values: schoolCalendar['academicYear'] }) => void
+    onViewDetails: (args: { id: string }) => void
+    onSetAsDefault: (args: { id: string }) => void
+    onClickEdit: (args: { id: string, values: schoolCalendar['academicYear'] }) => void
 }
 
 function MainCard(props: MainCardInterface) {
     const { i18next, onViewDetails, onSetAsDefault, configuredItem, isConfigured, isDefault, yearOption, onClickEdit, loading } = props
     const i18nLocal = i18next
-    const navigate = useNavigate()
-
-    const handleNavigate = (code: string) => {
-        navigate(`main/${code}`)
-    }
-
 
     return (
         <Card
@@ -41,7 +32,7 @@ function MainCard(props: MainCardInterface) {
                 <div className={styles.cardHead}>
                     <Typography
                         variant="h6"
-                        onClick={() => isConfigured && handleNavigate(configuredItem.code)}
+                        onClick={() => isConfigured && onViewDetails({ id: configuredItem.code })}
                         style={{
                             fontWeight: 700,
                             color: isConfigured ? '#1e6194' : '#9ca3af',
@@ -52,7 +43,7 @@ function MainCard(props: MainCardInterface) {
                     </Typography>
 
                     <IconButton
-                        onClick={() => onClickEdit({ code: configuredItem.code, values: { ...configuredItem.academicYear, code: yearOption.value } })}
+                        onClick={() => onClickEdit({ id: configuredItem.code, values: { ...configuredItem.academicYear, code: yearOption.value } })}
                     >
                         <Edit fontSize="small" style={{ color: '#4b5563' }} />
                     </IconButton>
@@ -82,7 +73,7 @@ function MainCard(props: MainCardInterface) {
                     <div className={styles.cardActions}>
                         <Button
                             size="small"
-                            onClick={() => onSetAsDefault({ code: configuredItem?.academicYear?.code })}
+                            onClick={() => onSetAsDefault({ id: configuredItem?.academicYear?.code })}
                             disabled={!isConfigured || (loading) || isDefault}
                             endIcon={(loading && isDefault) && <CircularLoader small />}
                             startIcon={
@@ -109,7 +100,7 @@ function MainCard(props: MainCardInterface) {
                             size="small"
                             variant="outlined"
                             startIcon={<Visibility fontSize="small" />}
-                            onClick={() => handleNavigate(configuredItem.code)}
+                            onClick={() => onViewDetails({ id: configuredItem?.id })}
                             disabled={!isConfigured}
                             style={{
                                 textTransform: 'none',

@@ -32,13 +32,13 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
         if (data) getAcademicYear()
     }, [data])
 
-    const handleSetDefault = ({ code }: { code: string }) => {
-        setDefaultYear(code)
+    const handleSetDefault = ({ id }: { id: string }) => {
+        setDefaultYear(id)
         const updatedData = {
             ...data,
             defaults: {
                 ...data.defaults,
-                academicYear: code
+                academicYear: id
             }
         };
 
@@ -46,15 +46,15 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
         setOpenSaveOption(true);
     }
 
-    const handleEdit = ({ code, values }: { code: string, values: schoolCalendar['academicYear'] }) => {
-        setSelected(code)
+    const handleEdit = ({ id, values }: { id: string, values: schoolCalendar['academicYear'] }) => {
+        setSelected(id)
         setValues(values)
         setOpen(true)
     }
 
 
-    const handleNavigate = ({ code }: { code: string }) => {
-        navigate(`main/${code}`)
+    const handleNavigate = ({ id }: { id: string }) => {
+        navigate(`main/${id}`)
     }
 
     const configuredYearsMap = new Map(
