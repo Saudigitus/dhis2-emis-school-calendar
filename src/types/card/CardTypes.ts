@@ -13,6 +13,7 @@ interface CardSubItemProps {
     disabled?: boolean
     index: number
     i18n: D2I18n
+    scrollToTop?: any
 }
 
 

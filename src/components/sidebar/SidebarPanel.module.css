@@ -3,9 +3,7 @@
     min-width: 320px;
     border-left: 1px solid #e5e7eb;
     background: #ffffff;
-    padding: 20px 20px 24px;
     overflow-y: auto;
-    height: 100%;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
