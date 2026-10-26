@@ -5,6 +5,7 @@ import { SchoolCalendarData } from "dhis2-semis-components";
 import { ValuesDataStoreState } from "../../schema/valuesDataStoreSchema";
 import { useState } from 'react';
 import { GeneralLoadingState } from '../../schema/loadingSchema';
+import i18n from '@dhis2/d2-i18n';
 
 const DATASTORE_QUERY = ({
     config: {
@@ -28,7 +29,7 @@ export function useDataStore() {
         await engine.query(DATASTORE_QUERY, {
             onError(error) {
                 show({
-                    message: `${("Could not get data")}: ${error.message}`,
+                    message: `${i18n.t("Could not get data")}: ${error.message}`,
                     type: { critical: true }
                 });
                 setError(true)

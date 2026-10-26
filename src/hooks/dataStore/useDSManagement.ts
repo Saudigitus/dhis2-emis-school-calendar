@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDataEngine } from "@dhis2/app-runtime";
 import useShowAlerts from "../commons/useShowAlert";
 import { useDataStore } from "../appwarapper/useDataStore";
+import i18n from "@dhis2/d2-i18n";
 
 const DATASTOREQUERY: any = {
     resource: "dataStore/semis/schoolCalendar",
@@ -35,7 +36,7 @@ export const dataStoreManagement = () => {
             onError(error) {
                 setloading(false)
                 show({
-                    message: `Could not update data: ${error.message}`,
+                    message: `${i18n.t("Could not update data")}: ${error.message}`,
                     type: { critical: true }
                 });
                 setTimeout(hide, 5000);

@@ -2,6 +2,7 @@ import React from "react";
 import MonthGrid from "./MonthGrid";
 import styles from "./YearCalendarView.module.css";
 import type { schoolCalendar } from "../../types/dataStore/DataStoreConfig";
+import type { D2I18n } from "dhis2-semis-types";
 
 interface YearCalendarViewProps {
     year: number;
@@ -9,9 +10,10 @@ interface YearCalendarViewProps {
     holidays: schoolCalendar["holidays"];
     selectedTerm?: string;
     startMonth: number;
+    i18n: D2I18n;
 }
 
-export default function YearCalendarView({ year, classPeriods, holidays, selectedTerm, startMonth }: YearCalendarViewProps) {
+export default function YearCalendarView({ year, classPeriods, holidays, selectedTerm, startMonth, i18n }: YearCalendarViewProps) {
     const MONTHS = [];
     MONTHS.push(...Array.from({ length: 12 }, (_, i) => (startMonth + i) % 12));
 
@@ -33,6 +35,7 @@ export default function YearCalendarView({ year, classPeriods, holidays, selecte
                         classPeriods={classPeriods}
                         holidays={holidays}
                         selectedTerm={selectedTerm}
+                        i18n={i18n}
                     />
                 ))}
             </div>

@@ -46,7 +46,7 @@ export default function AddNewOption({ setOpen, i18next }: ContentProps) {
             case "save":
                 if (data?.options?.some((opt) => opt.value === values?.code || opt?.label === values?.name)) {
                     show({
-                        message: `${("Could not get data")}: typed code or name already exist.`,
+                        message: i18nLocal.t("The code or name already exists"),
                         type: { critical: true }
                     });
                     setTimeout(hide, 1000);

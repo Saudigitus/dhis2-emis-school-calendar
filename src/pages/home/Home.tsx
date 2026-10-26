@@ -87,7 +87,7 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
                 <Paper>
                     <WithBorder type="bottom">
                         <div className={styles.header}>
-                            <h4 className={styles.title}>{"School Calendar"}</h4>
+                            <h4 className={styles.title}>{i18nLocal.t("School Calendar")}</h4>
                             <div className={styles.rightElements}>
                                 <RightActionsButtons i18n={i18next} />
                             </div>

@@ -61,6 +61,7 @@ export default function ClassPeriodsCard({ classPeriods, index, i18next }: { cla
           <MenuComponent
             i18n={i18next}
             row={classPeriods}
+            itemName={description}
             onDelete={deletePeriod}
           />
         </div>

@@ -59,6 +59,7 @@ export default function OffDaysCard(offDay: CardSubItemProps): React.ReactElemen
           <MenuComponent
             i18n={i18n}
             row={offDay}
+            itemName={`${title} (${date})`}
             onDelete={deletePeriod}
           />
         </div>

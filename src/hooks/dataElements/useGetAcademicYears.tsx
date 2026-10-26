@@ -5,6 +5,7 @@ import useShowAlerts from "../commons/useShowAlert";
 import { AcademicYearState } from "../../schema/academicYearSchema";
 import { SchoolCalendarData } from "dhis2-semis-components";
 import { GeneralLoadingState } from "../../schema/loadingSchema";
+import i18n from "@dhis2/d2-i18n";
 
 const DATAELEMENT_QUERY: any = ({
     dataElement: {
@@ -30,7 +31,7 @@ export const useGetAcademicYears = () => {
         const academic = schoolCalendar?.academicYear || "";
         if (academic.length === 0) {
             show({
-                message: `No academic year found. Please ensure the data element is configured correctly.`,
+                message: i18n.t("No academic year found. Please ensure the data element is configured correctly."),
                 type: { critical: true }
             });
             setError({error: true, type: "config"});
@@ -50,7 +51,7 @@ export const useGetAcademicYears = () => {
             }).catch((error: any) => {
                 setError({ error: true, type: "dataElement" });
                 show({
-                    message: `Error fetching data element: ${error.message}`,
+                    message: `${i18n.t("Error fetching data element")}: ${error.message}`,
                     type: { critical: true }
                 });
                 setTimeout(hide, 5000);

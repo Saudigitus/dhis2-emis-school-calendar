@@ -16,6 +16,8 @@ import {
 import type { schoolCalendar, HolidayType } from "../../types/dataStore/DataStoreConfig";
 import type { SidebarOption } from "../sidebar/SidebarDropdown";
 import { HolidayPopover } from "./HolidayPopover";
+import type { D2I18n } from "dhis2-semis-types";
+import { getLocale } from "../../utils/common/getLocale";
 
 interface MonthGridProps {
     year: number;
@@ -23,9 +25,13 @@ interface MonthGridProps {
     classPeriods: schoolCalendar["classPeriods"];
     holidays: schoolCalendar["holidays"];
     selectedTerm?: SidebarOption;
+    i18n: D2I18n;
 }
 
-const WEEKDAY_HEADERS = ["M", "T", "W", "T", "F", "S", "S"];
+function getWeekdayHeaders(locale: string): string[] {
+    // 1 January 2024 is a Monday
+    return Array.from({ length: 7 }, (_, i) => new Date(2024, 0, 1 + i).toLocaleString(locale, { weekday: "narrow" }));
+}
 
 function getDaysInMonth(year: number, month: number): number {
     return new Date(year, month + 1, 0).getDate();
@@ -71,13 +77,14 @@ interface ActiveHoliday {
     ref: React.RefObject<Element>;
 }
 
-export default function MonthGrid({ year, month, classPeriods, holidays, selectedTerm }: MonthGridProps) {
+export default function MonthGrid({ year, month, classPeriods, holidays, selectedTerm, i18n }: MonthGridProps) {
 
     const [activeHoliday, setActiveHoliday] = useState<ActiveHoliday | null>(null);
 
     const daysInMonth = getDaysInMonth(year, month);
     const firstDay = getFirstDayOfMonth(year, month);
-    const monthName = `${new Date(year, month).toLocaleString("en-US", { month: "long" })} - ${year}`;
+    const locale = getLocale(i18n?.language);
+    const monthName = `${new Date(year, month).toLocaleString(locale, { month: "long" })} - ${year}`;
 
     const cells: React.ReactNode[] = [];
     const selectedTermIndex = getTermIndexFromSelected(classPeriods, selectedTerm);
@@ -157,7 +164,7 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
             <div className={styles.monthTitle}>{monthName} {year}</div>
             <div className={styles.monthBody}>
                 <div className={styles.weekdayHeader}>
-                    {WEEKDAY_HEADERS.map((w, i) => (
+                    {getWeekdayHeaders(locale).map((w, i) => (
                         <div key={i} className={styles.weekdayCell}>
                             {w}
                         </div>
@@ -170,6 +177,7 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
                 <HolidayPopover
                     holiday={activeHoliday.holiday}
                     reference={activeHoliday.ref}
+                    i18n={i18n}
                     onClose={() => setActiveHoliday(null)}
                 />
             )}
