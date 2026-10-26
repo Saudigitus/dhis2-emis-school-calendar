@@ -56,6 +56,8 @@ export default function AddNewOption({ setOpen, i18next }: ContentProps) {
                     getAcademicYear(false)
                     postOption({
                         ...values,
+                        // put the new option at the end of the list
+                        sortOrder: Math.max(data?.options?.length ?? 0, ...(data?.options ?? []).map((opt) => Number(opt?.sortOrder) || 0)) + 1,
                         optionSet: { id: data?.id }
                     },
                         i18nLocal.t("Option saved successfully."))

@@ -11,7 +11,7 @@ const DATAELEMENT_QUERY: any = ({
         resource: "dataElements",
         id: ({ id }: { id: string }) => id,
         params: {
-            fields: "optionSet[id, options[code~rename(value),name~rename(label)]]"
+            fields: "optionSet[id, options[code~rename(value),name~rename(label),sortOrder]]"
         }
     }
 })
