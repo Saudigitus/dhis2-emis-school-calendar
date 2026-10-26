@@ -44,8 +44,14 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
             }
         };
 
-        await postData(updatedData, i18nLocal.t("Default academic year updated successfully"));
-        setLoadingStore(false)
+        try {
+            await postData(updatedData, i18nLocal.t("Default academic year updated successfully"));
+        } catch {
+            // not saved: show the default that is still stored
+            setDefaultYear(data?.defaults?.academicYear || "")
+        } finally {
+            setLoadingStore(false)
+        }
     }
 
     const handleEdit = ({ id, values }: { id: string, values: schoolCalendar['academicYear'] }) => {
