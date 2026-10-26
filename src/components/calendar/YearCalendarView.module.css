@@ -9,3 +9,36 @@
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
 }
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: #374151;
+}
+
+.legendItem {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legendSwatch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 2px;
+    font-size: 9px;
+}
+
+.legendDot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #144D1A;
+}

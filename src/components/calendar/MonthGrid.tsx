@@ -26,7 +26,12 @@ interface MonthGridProps {
     holidays: schoolCalendar["holidays"];
     selectedTerm?: SidebarOption;
     i18n: D2I18n;
+    weekDays?: schoolCalendar["weekDays"];
 }
+
+const DAY_OFF_TEXT_COLOR = "#b0b7c3";
+
+const WEEKDAY_KEYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"] as const;
 
 function getWeekdayHeaders(locale: string): string[] {
     // 1 January 2024 is a Monday
@@ -77,14 +82,14 @@ interface ActiveHoliday {
     ref: React.RefObject<Element>;
 }
 
-export default function MonthGrid({ year, month, classPeriods, holidays, selectedTerm, i18n }: MonthGridProps) {
+export default function MonthGrid({ year, month, classPeriods, holidays, selectedTerm, i18n, weekDays }: MonthGridProps) {
 
     const [activeHoliday, setActiveHoliday] = useState<ActiveHoliday | null>(null);
 
     const daysInMonth = getDaysInMonth(year, month);
     const firstDay = getFirstDayOfMonth(year, month);
     const locale = getLocale(i18n?.language);
-    const monthName = `${new Date(year, month).toLocaleString(locale, { month: "long" })} - ${year}`;
+    const monthName = new Date(year, month).toLocaleString(locale, { month: "long" });
 
     const cells: React.ReactNode[] = [];
     const selectedTermIndex = getTermIndexFromSelected(classPeriods, selectedTerm);
@@ -127,9 +132,15 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
             dotColor = getTermDotColor(termColorKey);
         }
 
+        // week days without school are not shaded as term days
+        const isWeekDayOff = Boolean(weekDays) && !weekDays?.[WEEKDAY_KEYS[new Date(year, month, day).getDay()]];
+        if (isWeekDayOff && displayCategory === "class") {
+            displayCategory = "none";
+        }
+
         const cellStyle: React.CSSProperties = {
             backgroundColor: displayCategory !== "none" ? bgColor : undefined,
-            color: textColor,
+            color: isWeekDayOff && displayCategory === "none" ? DAY_OFF_TEXT_COLOR : textColor,
         };
 
         const isHoliday = displayCategory === "holiday";
