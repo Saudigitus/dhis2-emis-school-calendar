@@ -75,13 +75,13 @@ export default function AddNewSchoolCalendar({ setOpen, selected, academicYearVa
                 },
                 id: generateId(),
                 weekDays: {
-                    friday: false,
-                    monday: false,
+                    friday: true,
+                    monday: true,
                     saturday: false,
                     sunday: false,
-                    thursday: false,
-                    tuesday: false,
-                    wednesday: false
+                    thursday: true,
+                    tuesday: true,
+                    wednesday: true
                 }
             });
 
