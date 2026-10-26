@@ -32,7 +32,7 @@ function MainCard(props: MainCardInterface) {
                 <div className={styles.cardHead}>
                     <Typography
                         variant="h6"
-                        onClick={() => isConfigured && onViewDetails({ id: configuredItem.code })}
+                        onClick={() => isConfigured && onViewDetails({ id: configuredItem?.id })}
                         style={{
                             fontWeight: 700,
                             color: isConfigured ? '#1e6194' : '#9ca3af',
