@@ -42,7 +42,7 @@ export default function ClassPeriodsCard({ classPeriods, index, i18next }: { cla
       deletedTerm({ data: Object(), delete: false })
       // show every term in the year view after a delete
       setselectedTerm("")
-    }).finally(() => setLoading(false))
+    }).catch(() => { /* postData already showed the message */ }).finally(() => setLoading(false))
   }
 
   return (

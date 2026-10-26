@@ -43,7 +43,7 @@ export default function OffDaysCard(offDay: CardSubItemProps): React.ReactElemen
 
     }, i18n.t("Data registered successfully")).then(() => {
       deletedTerm({ data: Object(), delete: false })
-    })
+    }).catch(() => { /* postData already showed the message */ })
   }
 
   return (

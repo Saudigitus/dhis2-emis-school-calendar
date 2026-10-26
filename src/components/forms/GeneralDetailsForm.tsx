@@ -60,7 +60,7 @@ function GeneralDetailsForm({ i18next }: { i18next: D2I18n }): React.ReactElemen
                 )
             },
             i18nLocal.t('Data updated successfully')
-        );
+        ).catch(() => { /* postData already showed the message */ });
 
     }
 
@@ -98,6 +98,8 @@ function GeneralDetailsForm({ i18next }: { i18next: D2I18n }): React.ReactElemen
                     }}
                     onSubmit={() => { }}
                     validate={(values) => validateYearDates(values, i18nLocal)}
+                    // a refused save must not wipe what the user typed
+                    keepDirtyOnReinitialize
                 >
                     {({ handleSubmit, values, form, pristine }) => {
                         formRef.current = form;

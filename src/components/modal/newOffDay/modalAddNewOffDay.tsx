@@ -63,7 +63,7 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
                 }, i18nLocal.t("Off day registered successfully")).then(() => {
                     setOpen('');
                     if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
-                })
+                }).catch(() => { /* postData already showed the message */ })
 
                 break
         }

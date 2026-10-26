@@ -66,7 +66,7 @@ export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React
             // show every term in the year view after a save
             setSelectedTerm("")
             if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
-        })
+        }).catch(() => { /* postData already showed the message */ })
     }
 
     return (
