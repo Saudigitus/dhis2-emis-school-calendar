@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { SchoolCalendarData } from "dhis2-semis-components";
 import { mergeTerm } from "../../../utils/common/mergeTerm";
 import { D2I18n } from "dhis2-semis-types";
+import { validateTerm } from "../../../utils/common/validateDates";
 
 interface ContentProps {
     setOpen: (value: string) => void
@@ -68,6 +69,7 @@ export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React
         <Form
             initialValues={selectedCard.edit ? { key: selectedCard.data.key, startDate: selectedCard.data.startDate, description: selectedCard.data.description, endDate: selectedCard.data.endDate } : {}}
             onSubmit={onFormSubmit}
+            validate={(values) => validateTerm(values, dataStoreData?.schoolCalendar?.find((x: any) => x.id === id), selectedCard?.edit ? selectedCard?.data?.key : undefined, i18nLocal)}
         >
             {({ pristine, handleSubmit, form }) => {
                 return (

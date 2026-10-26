@@ -11,6 +11,7 @@ import { generateId } from "../../../utils/common/generateId";
 import { updateSchoolConfig } from "../../../utils/common/updateSchoolConfig";
 import { schoolCalendar } from "../../../types/dataStore/DataStoreConfig";
 import { SchoolCalendarData } from "dhis2-semis-components";
+import { validateYearDates } from "../../../utils/common/validateDates";
 import { D2I18n } from "dhis2-semis-types";
 
 interface ContentProps {
@@ -121,7 +122,7 @@ export default function AddNewSchoolCalendar({ setOpen, selected, academicYearVa
             <span>
                 {i18nLocal.t("To register new school calendar, please fill out the form")}
             </span>
-            <Form initialValues={academicYearValues} onSubmit={onSubmit}>
+            <Form initialValues={academicYearValues} onSubmit={onSubmit} validate={(values) => validateYearDates(values, i18nLocal)}>
                 {({ values, handleSubmit, pristine, valid }) => {
                     return (
                         <form onSubmit={handleSubmit} >

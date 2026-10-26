@@ -15,6 +15,7 @@ import { Button } from "@dhis2/ui";
 import { ButtonStrip } from "@dhis2/ui";
 import { CircularLoader } from "@dhis2/ui";
 import { D2I18n } from "dhis2-semis-types";
+import { validateYearDates } from "../../utils/common/validateDates";
 
 function GeneralDetailsForm({ i18next }: { i18next: D2I18n }): React.ReactElement {
     const i18nLocal = i18next
@@ -39,6 +40,11 @@ function GeneralDetailsForm({ i18next }: { i18next: D2I18n }): React.ReactElemen
     }
 
     const onSubmit = () => {
+        if (formRef.current?.getState()?.invalid) {
+            // shows the validation messages without saving
+            formRef.current.submit()
+            return
+        }
         const current = dataStoreData?.schoolCalendar?.find((x:any) => x.id === id);
         const updated = {
             ...current,
@@ -91,6 +97,7 @@ function GeneralDetailsForm({ i18next }: { i18next: D2I18n }): React.ReactElemen
                         ...(dataStoreData?.schoolCalendar?.find((x:any) => x.id === id)?.academicYear ?? {})
                     }}
                     onSubmit={() => { }}
+                    validate={(values) => validateYearDates(values, i18nLocal)}
                 >
                     {({ handleSubmit, values, form, pristine }) => {
                         formRef.current = form;

@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { mergeHoliday } from "../../../utils/common/mergeHoliday";
 import { SchoolCalendarData } from "dhis2-semis-components";
 import { D2I18n } from "dhis2-semis-types";
+import { validateNonSchoolDay } from "../../../utils/common/validateDates";
 
 interface ContentProps {
     setOpen: (value: string) => void
@@ -71,6 +72,7 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
     return (
         <div  >
             <Form initialValues={selectedCard.edit ? { date: selectedCard.data.date, type: selectedCard.data.type, event: selectedCard.data.title } : {}} onSubmit={(values) => actions("save", values)}
+                validate={(values) => validateNonSchoolDay(values, dataStoreData?.schoolCalendar?.find((x: any) => x.id === id), selectedCard?.edit ? selectedCard?.data?.date : undefined, i18nLocal)}
             >
                 {({ values, pristine, handleSubmit, form }) => {
                     return (
