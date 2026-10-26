@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { useDataEngine } from "@dhis2/app-runtime";
 import { SchoolCalendarData } from "dhis2-semis-components";
 import useShowAlerts from "../commons/useShowAlert";
@@ -74,7 +74,7 @@ export const dataStoreManagement = () => {
     const { hide, show } = useShowAlerts()
     const [loading, setloading] = useState(false)
     // version of the document this page loaded or last saved
-    const [baseData, setBaseData] = useRecoilState(SchoolCalendarData)
+    const baseData = useRecoilValue(SchoolCalendarData)
 
     async function postData(data: any, msg: string | null): Promise<void> {
         setloading(true)
@@ -110,8 +110,7 @@ export const dataStoreManagement = () => {
         await engine.mutate(DATASTOREQUERY, {
             variables: { data: data },
             onComplete() {
-                // the saved version is the new base
-                setBaseData(data)
+                // the re-read version is the new base (setting it here too reloads the app's program rules twice)
                 void refetch().then(() => {
                     if (msg !== null) {
                         show({
