@@ -42,11 +42,9 @@ function formatDate(year: number, month: number, day: number): string {
     return `${year}-${m}-${d}`;
 }
 
-function getTermIndexFromSelected(selected?: SidebarOption): number | undefined {
-    if (selected === "term1") return 0;
-    if (selected === "term2") return 1;
-    if (selected === "term3") return 2;
-    return undefined;
+function getTermIndexFromSelected(classPeriods: schoolCalendar["classPeriods"], selected?: SidebarOption): number | undefined {
+    const index = (classPeriods ?? []).findIndex((p) => p?.key === selected);
+    return index >= 0 ? index : undefined;
 }
 
 function getSelectedTermClassPeriod(
@@ -54,7 +52,7 @@ function getSelectedTermClassPeriod(
     selectedTerm?: SidebarOption
 ): any {
     if (!classPeriods || classPeriods.length === 0) return undefined;
-    const idx = getTermIndexFromSelected(selectedTerm);
+    const idx = getTermIndexFromSelected(classPeriods, selectedTerm);
     if (idx === undefined) return undefined;
     return classPeriods[idx];
 }
@@ -82,7 +80,7 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
     const monthName = `${new Date(year, month).toLocaleString("en-US", { month: "long" })} - ${year}`;
 
     const cells: React.ReactNode[] = [];
-    const selectedTermIndex = getTermIndexFromSelected(selectedTerm);
+    const selectedTermIndex = getTermIndexFromSelected(classPeriods, selectedTerm);
     const selectedPeriod = getSelectedTermClassPeriod(classPeriods, selectedTerm);
     for (let i = 0; i < firstDay; i++) {
         cells.push(<div key={`empty-${i}`} className={styles.dayCell} />);

@@ -5,13 +5,14 @@ import { Form } from "react-final-form";
 import GroupForm from "../../form/GroupForm";
 import { fieldsTerm } from "../../../utils/constants/fieldsTerm";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { editState } from "../../../schema/editDataSchema";
 import { useParams } from "react-router-dom";
 import { SchoolCalendarData } from "dhis2-semis-components";
 import { mergeTerm } from "../../../utils/common/mergeTerm";
 import { D2I18n } from "dhis2-semis-types";
 import { validateTerm } from "../../../utils/common/validateDates";
+import { SelectedTermAtom } from "../../../schema/selectedTerm";
 
 interface ContentProps {
     setOpen: (value: string) => void
@@ -25,6 +26,7 @@ export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const [selectedCard, setSelectedCard] = useRecoilState(editState)
+    const setSelectedTerm = useSetRecoilState(SelectedTermAtom)
 
     const onCancel = () => {
         setOpen("");
@@ -61,6 +63,8 @@ export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React
 
         }, i18nLocal.t("Data registered successfully")).then(() => {
             setOpen("");
+            // show every term in the year view after a save
+            setSelectedTerm("")
             if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
         })
     }
