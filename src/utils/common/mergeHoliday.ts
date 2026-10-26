@@ -5,10 +5,11 @@ type NewHoliday = {
     index?: number;
 };
 
-export function mergeHoliday(original: SchoolConfig, newHolidayWrapper: NewHoliday): SchoolConfig {
+export function mergeHoliday(original: SchoolConfig, newHolidayWrapper: NewHoliday, originalDate?: string): SchoolConfig {
     const { date, type, event } = newHolidayWrapper;
 
-    const holidayIndex = original.holidays?.findIndex(h => h.date === date);
+    // when editing, replace the day that had the original date
+    const holidayIndex = original.holidays?.findIndex(h => h.date === (originalDate ?? date));
     const updatedHoliday: Holiday = { date, type, event };
     let updatedHolidays: Holiday[];
 

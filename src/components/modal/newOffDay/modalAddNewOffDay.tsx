@@ -54,7 +54,7 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
 
                 postData({
                     ...dataStoreData,
-                    schoolCalendar: [{ ...mergeHoliday(localData, values) }, ...dataStoreData?.schoolCalendar.filter((x: any) => {
+                    schoolCalendar: [{ ...mergeHoliday(localData, values, selectedCard?.edit ? selectedCard?.data?.date : undefined) }, ...dataStoreData?.schoolCalendar.filter((x: any) => {
                         if (x.id !== id) {
                             return x;
                         }
