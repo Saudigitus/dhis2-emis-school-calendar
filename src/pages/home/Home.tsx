@@ -154,7 +154,7 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
             <ModalComponent
                 open={open}
                 handleClose={() => setOpen(false)}
-                title={i18nLocal.t("Add new school calendar")}
+                title={selected ? i18nLocal.t("Edit school calendar") : i18nLocal.t("Add new school calendar")}
                 children={
                     <AddNewSchoolCalendar
                         i18next={i18next}
