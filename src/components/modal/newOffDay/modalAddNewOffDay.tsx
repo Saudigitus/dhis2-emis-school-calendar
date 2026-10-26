@@ -28,10 +28,9 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
     const modalActions = [
         {
             id: "cancel",
-            type: "Cancel",
+            type: "button",
             label: i18nLocal.t("Cancel"),
             white: true,
-
         },
         {
             id: "save",
@@ -46,6 +45,7 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
         switch (action) {
             case "cancel":
                 setOpen('');
+                if (selectedCard?.edit) setSelectedCard({ edit: false, data: Object() })
                 break
             case "save":
                 const localData = dataStoreData?.schoolCalendar?.find((x: any) => x.id === id) as unknown as SchoolConfig;
@@ -72,9 +72,9 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
             <Form initialValues={selectedCard.edit ? { date: selectedCard.data.date, type: selectedCard.data.type, event: selectedCard.data.title } : {}} onSubmit={() => {
             }}
             >
-                {({ values, pristine }) => {
+                {({ values, pristine, handleSubmit, form }) => {
                     return (
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <br />
                             <GroupForm
                                 padding="0"
@@ -92,6 +92,7 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
                                 <ButtonStrip end>
                                     {modalActions.map((action, i) => (
                                         <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine} {...action} onClick={(e: any) => {
+                                            if (action.id === "cancel") form.reset()
                                             actions(action.id, values)
                                         }}>
                                             {action.label}

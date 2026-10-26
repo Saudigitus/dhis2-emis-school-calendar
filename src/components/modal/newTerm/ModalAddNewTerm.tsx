@@ -25,13 +25,17 @@ export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const [selectedCard, setSelectedCard] = useRecoilState(editState)
 
+    const onCancel = () => {
+        setOpen("");
+        if (selectedCard?.edit) setSelectedCard({ edit: false, data: Object() })
+    }
+
     const modalActions = [
         {
             id: "cancel",
-            type: "Cancel",
+            type: "button",
             label: i18nLocal.t("Cancel"),
             white: true,
-            onClick: () => setOpen("")
         },
         {
             id: "save",
@@ -65,7 +69,7 @@ export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React
             initialValues={selectedCard.edit ? { key: selectedCard.data.key, startDate: selectedCard.data.startDate, description: selectedCard.data.description, endDate: selectedCard.data.endDate } : {}}
             onSubmit={onFormSubmit}
         >
-            {({ pristine, handleSubmit }) => {
+            {({ pristine, handleSubmit, form }) => {
                 return (
                     <form onSubmit={handleSubmit} >
                         <br />
@@ -83,7 +87,7 @@ export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React
                         <ModalActions>
                             <ButtonStrip end>
                                 {modalActions.map((action, i) => (
-                                    <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine} {...action}>
+                                    <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine} {...action} onClick={action.id === "cancel" ? () => { form.reset(); onCancel() } : undefined}>
                                         {action.label}
                                     </Button>
                                 ))}
