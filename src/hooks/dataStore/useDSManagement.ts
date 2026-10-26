@@ -31,6 +31,43 @@ const stableStringify = (value: any): string => {
     return JSON.stringify(value) ?? "null"
 }
 
+const same = (a: any, b: any) => stableStringify(a) === stableStringify(b)
+const isObject = (value: any) => value !== null && typeof value === "object" && !Array.isArray(value)
+// years are identified by id, terms by key and non-school days by date
+const idOf = (item: any) => isObject(item) ? (item.id ?? item.key ?? item.date) : undefined
+
+// puts the changes this page made (base -> mine) on top of the version saved meanwhile (theirs);
+// fails only when both changed the same value
+function mergeChanges(base: any, mine: any, theirs: any): { ok: boolean, value?: any } {
+    if (same(mine, base)) return { ok: true, value: theirs }
+    if (same(theirs, base) || same(mine, theirs)) return { ok: true, value: mine }
+
+    const items = [...(Array.isArray(base) ? base : []), ...(Array.isArray(mine) ? mine : []), ...(Array.isArray(theirs) ? theirs : [])]
+    if (Array.isArray(mine) && Array.isArray(theirs) && (base === undefined || Array.isArray(base)) && items.every((x) => idOf(x) !== undefined)) {
+        const byId = (list: any[] = []) => new Map(list.map((x) => [idOf(x), x]))
+        const [b, m, t] = [byId(base), byId(mine), byId(theirs)]
+        const merged: any[] = []
+        for (const id of new Set([...m.keys(), ...t.keys()])) {
+            const result = mergeChanges(b.get(id), m.get(id), t.get(id))
+            if (!result.ok) return { ok: false }
+            if (result.value !== undefined) merged.push(result.value)
+        }
+        return { ok: true, value: merged }
+    }
+
+    if (isObject(mine) && isObject(theirs) && (base === undefined || isObject(base))) {
+        const merged: any = {}
+        for (const key of new Set([...Object.keys(mine), ...Object.keys(theirs)])) {
+            const result = mergeChanges(base?.[key], mine[key], theirs[key])
+            if (!result.ok) return { ok: false }
+            if (result.value !== undefined) merged[key] = result.value
+        }
+        return { ok: true, value: merged }
+    }
+
+    return { ok: false }
+}
+
 export const dataStoreManagement = () => {
     const engine = useDataEngine()
     const { refetch } = useDataStore()
@@ -55,7 +92,12 @@ export const dataStoreManagement = () => {
             setTimeout(hide, 5000);
             throw error
         }
-        if (stableStringify(current?.config) !== stableStringify(baseData)) {
+        const merged = same(current?.config, baseData)
+            ? { ok: true, value: data }
+            : mergeChanges(baseData, data, current?.config)
+        if (merged.ok) {
+            data = merged.value
+        } else {
             setloading(false)
             show({
                 message: i18n.t("The school calendar was changed by someone else. Reload the page to see the latest version."),
