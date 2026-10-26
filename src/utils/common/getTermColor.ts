@@ -160,6 +160,7 @@ export function getTermHighlightBorder(termIndex: number): string {
 export function isHolidayDate(dateStr: string, holidays: schoolCalendar["holidays"]): boolean {
     if (!holidays || holidays.length === 0) return false;
     return holidays.some((h) => {
+        if (!h?.date || isNaN(new Date(h.date).getTime())) return false;
         const hDate = new Date(h.date).toISOString().split("T")[0];
         return hDate === dateStr;
     });

@@ -62,6 +62,7 @@ function getSelectedTermClassPeriod(
 function getHolidayForDate(dateStr: string, holidays: schoolCalendar["holidays"]): HolidayType | undefined {
     if (!holidays || holidays.length === 0) return undefined;
     return holidays.find((h) => {
+        if (!h?.date || isNaN(new Date(h.date).getTime())) return false;
         const hDate = new Date(h.date).toISOString().split("T")[0];
         return hDate === dateStr;
     });

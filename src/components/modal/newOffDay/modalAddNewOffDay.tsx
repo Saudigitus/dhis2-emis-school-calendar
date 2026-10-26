@@ -34,7 +34,7 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
         },
         {
             id: "save",
-            type: "button",
+            type: "submit",
             label: i18nLocal.t("Save"),
             primary: true,
             icon: posting && <CircularLoader small />
@@ -48,6 +48,7 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
                 if (selectedCard?.edit) setSelectedCard({ edit: false, data: Object() })
                 break
             case "save":
+                if (!values?.date || !values?.type || !values?.event?.trim()) break
                 const localData = dataStoreData?.schoolCalendar?.find((x: any) => x.id === id) as unknown as SchoolConfig;
 
                 postData({
@@ -69,8 +70,7 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
 
     return (
         <div  >
-            <Form initialValues={selectedCard.edit ? { date: selectedCard.data.date, type: selectedCard.data.type, event: selectedCard.data.title } : {}} onSubmit={() => {
-            }}
+            <Form initialValues={selectedCard.edit ? { date: selectedCard.data.date, type: selectedCard.data.type, event: selectedCard.data.title } : {}} onSubmit={(values) => actions("save", values)}
             >
                 {({ values, pristine, handleSubmit, form }) => {
                     return (
@@ -91,10 +91,10 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
                             <ModalActions>
                                 <ButtonStrip end>
                                     {modalActions.map((action, i) => (
-                                        <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine} {...action} onClick={(e: any) => {
-                                            if (action.id === "cancel") form.reset()
+                                        <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine || !values?.date || !values?.type || !values?.event?.trim()} {...action} onClick={action.id === "cancel" ? () => {
+                                            form.reset()
                                             actions(action.id, values)
-                                        }}>
+                                        } : undefined}>
                                             {action.label}
                                         </Button>
                                     ))}
