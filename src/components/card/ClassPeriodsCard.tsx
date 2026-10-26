@@ -45,7 +45,6 @@ export default function ClassPeriodsCard({ classPeriods, index, i18next }: { cla
 
   return (
     <div onClick={() => {
-      console.log(key)
       setselectedTerm(key)
     }} >
       <Card
