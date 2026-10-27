@@ -137,7 +137,7 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
 
                                         return (
                                             <MainCard
-                                                key={"main-card"}
+                                                key={yearOption.value}
                                                 yearOption={yearOption}
                                                 onViewDetails={(args) => handleNavigate(args)}
                                                 onSetAsDefault={(args) => { handleSetDefault(args) }}

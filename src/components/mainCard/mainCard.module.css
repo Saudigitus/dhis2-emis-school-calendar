@@ -14,8 +14,8 @@
 
 /* Main */
 .card {
-    border: 1px solid #c8c8c8;
-    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -24,13 +24,91 @@
 }
 
 .defaultCard {
-    border: 1.5px solid #1e6194 !important;
+    border: 2px solid #2E5F8F !important;
 }
 
 .cardContent {
     height: 100%;
     display: flex;
     flex-direction: column;
+}
+
+.yearContent {
+    gap: 22px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px !important;
+}
+
+/* the 2px border of the default year takes one more pixel */
+.defaultCard .yearContent {
+    padding: 19px !important;
+}
+
+.yearHead {
+    gap: 8px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.yearTitle {
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chipRow {
+    gap: 6px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dates {
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dateLine {
+    gap: 8px;
+    display: flex;
+    font-size: 14px;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.summary {
+    gap: 10px 8px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.weekDays {
+    gap: 5px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.weekDay {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    border: 1px solid;
+    justify-content: center;
+}
+
+.yearActions {
+    gap: 8px;
+    display: flex;
+    margin-top: auto;
 }
 
 .cardHead {
