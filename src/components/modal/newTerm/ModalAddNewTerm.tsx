@@ -25,7 +25,6 @@ export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const [selectedCard, setSelectedCard] = useRecoilState(editState)
 
-    console.log(123)
     const modalActions = [
         {
             id: "cancel",
