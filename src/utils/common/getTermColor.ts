@@ -51,6 +51,9 @@ export function getCategoryForDate(
         return { category: "none", isStartBoundary: false, isEndBoundary: false };
     }
 
+    // a selected key that no longer exists (deleted term) shows every term
+    const selectedExists = classPeriods.some((p) => p?.key === selectedTerm);
+
     for (let i = 0; i < classPeriods.length; i++) {
         const period = classPeriods[i];
         const start = new Date(period.startDate);
@@ -62,9 +65,8 @@ export function getCategoryForDate(
             const isStart = startISO === dateStr;
             const isEnd = endISO === dateStr;
             const isSelected =
-                (selectedTerm === "term1" && i === 0) ||
-                (selectedTerm === "term2" && i === 1) ||
-                (selectedTerm === "term3" && i === 2) ||
+                period.key === selectedTerm ||
+                !selectedExists ||
                 !selectedTerm ||
                 selectedTerm === "non-school-days";
 
@@ -160,6 +162,7 @@ export function getTermHighlightBorder(termIndex: number): string {
 export function isHolidayDate(dateStr: string, holidays: schoolCalendar["holidays"]): boolean {
     if (!holidays || holidays.length === 0) return false;
     return holidays.some((h) => {
+        if (!h?.date || isNaN(new Date(h.date).getTime())) return false;
         const hDate = new Date(h.date).toISOString().split("T")[0];
         return hDate === dateStr;
     });

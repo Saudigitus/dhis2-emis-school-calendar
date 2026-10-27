@@ -16,6 +16,8 @@ import {
 import type { schoolCalendar, HolidayType } from "../../types/dataStore/DataStoreConfig";
 import type { SidebarOption } from "../sidebar/SidebarDropdown";
 import { HolidayPopover } from "./HolidayPopover";
+import type { D2I18n } from "dhis2-semis-types";
+import { getLocale } from "../../utils/common/getLocale";
 
 interface MonthGridProps {
     year: number;
@@ -23,9 +25,18 @@ interface MonthGridProps {
     classPeriods: schoolCalendar["classPeriods"];
     holidays: schoolCalendar["holidays"];
     selectedTerm?: SidebarOption;
+    i18n: D2I18n;
+    weekDays?: schoolCalendar["weekDays"];
 }
 
-const WEEKDAY_HEADERS = ["M", "T", "W", "T", "F", "S", "S"];
+const DAY_OFF_TEXT_COLOR = "#b0b7c3";
+
+const WEEKDAY_KEYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"] as const;
+
+function getWeekdayHeaders(locale: string): string[] {
+    // 1 January 2024 is a Monday
+    return Array.from({ length: 7 }, (_, i) => new Date(2024, 0, 1 + i).toLocaleString(locale, { weekday: "narrow" }));
+}
 
 function getDaysInMonth(year: number, month: number): number {
     return new Date(year, month + 1, 0).getDate();
@@ -42,11 +53,9 @@ function formatDate(year: number, month: number, day: number): string {
     return `${year}-${m}-${d}`;
 }
 
-function getTermIndexFromSelected(selected?: SidebarOption): number | undefined {
-    if (selected === "term1") return 0;
-    if (selected === "term2") return 1;
-    if (selected === "term3") return 2;
-    return undefined;
+function getTermIndexFromSelected(classPeriods: schoolCalendar["classPeriods"], selected?: SidebarOption): number | undefined {
+    const index = (classPeriods ?? []).findIndex((p) => p?.key === selected);
+    return index >= 0 ? index : undefined;
 }
 
 function getSelectedTermClassPeriod(
@@ -54,7 +63,7 @@ function getSelectedTermClassPeriod(
     selectedTerm?: SidebarOption
 ): any {
     if (!classPeriods || classPeriods.length === 0) return undefined;
-    const idx = getTermIndexFromSelected(selectedTerm);
+    const idx = getTermIndexFromSelected(classPeriods, selectedTerm);
     if (idx === undefined) return undefined;
     return classPeriods[idx];
 }
@@ -62,6 +71,7 @@ function getSelectedTermClassPeriod(
 function getHolidayForDate(dateStr: string, holidays: schoolCalendar["holidays"]): HolidayType | undefined {
     if (!holidays || holidays.length === 0) return undefined;
     return holidays.find((h) => {
+        if (!h?.date || isNaN(new Date(h.date).getTime())) return false;
         const hDate = new Date(h.date).toISOString().split("T")[0];
         return hDate === dateStr;
     });
@@ -72,16 +82,17 @@ interface ActiveHoliday {
     ref: React.RefObject<Element>;
 }
 
-export default function MonthGrid({ year, month, classPeriods, holidays, selectedTerm }: MonthGridProps) {
+export default function MonthGrid({ year, month, classPeriods, holidays, selectedTerm, i18n, weekDays }: MonthGridProps) {
 
     const [activeHoliday, setActiveHoliday] = useState<ActiveHoliday | null>(null);
 
     const daysInMonth = getDaysInMonth(year, month);
     const firstDay = getFirstDayOfMonth(year, month);
-    const monthName = `${new Date(year, month).toLocaleString("en-US", { month: "long" })} - ${year}`;
+    const locale = getLocale(i18n?.language);
+    const monthName = new Date(year, month).toLocaleString(locale, { month: "long" });
 
     const cells: React.ReactNode[] = [];
-    const selectedTermIndex = getTermIndexFromSelected(selectedTerm);
+    const selectedTermIndex = getTermIndexFromSelected(classPeriods, selectedTerm);
     const selectedPeriod = getSelectedTermClassPeriod(classPeriods, selectedTerm);
     for (let i = 0; i < firstDay; i++) {
         cells.push(<div key={`empty-${i}`} className={styles.dayCell} />);
@@ -121,9 +132,15 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
             dotColor = getTermDotColor(termColorKey);
         }
 
+        // week days without school are not shaded as term days
+        const isWeekDayOff = Boolean(weekDays) && !weekDays?.[WEEKDAY_KEYS[new Date(year, month, day).getDay()]];
+        if (isWeekDayOff && displayCategory === "class") {
+            displayCategory = "none";
+        }
+
         const cellStyle: React.CSSProperties = {
             backgroundColor: displayCategory !== "none" ? bgColor : undefined,
-            color: textColor,
+            color: isWeekDayOff && displayCategory === "none" ? DAY_OFF_TEXT_COLOR : textColor,
         };
 
         const isHoliday = displayCategory === "holiday";
@@ -158,7 +175,7 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
             <div className={styles.monthTitle}>{monthName} {year}</div>
             <div className={styles.monthBody}>
                 <div className={styles.weekdayHeader}>
-                    {WEEKDAY_HEADERS.map((w, i) => (
+                    {getWeekdayHeaders(locale).map((w, i) => (
                         <div key={i} className={styles.weekdayCell}>
                             {w}
                         </div>
@@ -171,6 +188,7 @@ export default function MonthGrid({ year, month, classPeriods, holidays, selecte
                 <HolidayPopover
                     holiday={activeHoliday.holiday}
                     reference={activeHoliday.ref}
+                    i18n={i18n}
                     onClose={() => setActiveHoliday(null)}
                 />
             )}

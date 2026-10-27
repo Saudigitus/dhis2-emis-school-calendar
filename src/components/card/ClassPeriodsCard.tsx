@@ -38,9 +38,11 @@ export default function ClassPeriodsCard({ classPeriods, index, i18next }: { cla
         })
       ]
 
-    }, i18next.t("Data registered successfully")).then(() => {
+    }, i18next.t("Deleted successfully")).then(() => {
       deletedTerm({ data: Object(), delete: false })
-    }).finally(() => setLoading(false))
+      // show every term in the year view after a delete
+      setselectedTerm("")
+    }).catch(() => { /* postData already showed the message */ }).finally(() => setLoading(false))
   }
 
   return (
@@ -59,6 +61,7 @@ export default function ClassPeriodsCard({ classPeriods, index, i18next }: { cla
           <MenuComponent
             i18n={i18next}
             row={classPeriods}
+            itemName={description}
             onDelete={deletePeriod}
           />
         </div>

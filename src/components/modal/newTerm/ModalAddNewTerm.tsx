@@ -5,12 +5,14 @@ import { Form } from "react-final-form";
 import GroupForm from "../../form/GroupForm";
 import { fieldsTerm } from "../../../utils/constants/fieldsTerm";
 import { dataStoreManagement } from "../../../hooks/dataStore/useDSManagement";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { editState } from "../../../schema/editDataSchema";
 import { useParams } from "react-router-dom";
 import { SchoolCalendarData } from "dhis2-semis-components";
 import { mergeTerm } from "../../../utils/common/mergeTerm";
 import { D2I18n } from "dhis2-semis-types";
+import { validateTerm } from "../../../utils/common/validateDates";
+import { SelectedTermAtom } from "../../../schema/selectedTerm";
 
 interface ContentProps {
     setOpen: (value: string) => void
@@ -24,14 +26,19 @@ export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React
     const { postData, posting } = dataStoreManagement()
     const dataStoreData = useRecoilValue(SchoolCalendarData)
     const [selectedCard, setSelectedCard] = useRecoilState(editState)
+    const setSelectedTerm = useSetRecoilState(SelectedTermAtom)
+
+    const onCancel = () => {
+        setOpen("");
+        if (selectedCard?.edit) setSelectedCard({ edit: false, data: Object() })
+    }
 
     const modalActions = [
         {
             id: "cancel",
-            type: "Cancel",
+            type: "button",
             label: i18nLocal.t("Cancel"),
             white: true,
-            onClick: () => setOpen("")
         },
         {
             id: "save",
@@ -56,16 +63,19 @@ export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React
 
         }, i18nLocal.t("Data registered successfully")).then(() => {
             setOpen("");
+            // show every term in the year view after a save
+            setSelectedTerm("")
             if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
-        })
+        }).catch(() => { /* postData already showed the message */ })
     }
 
     return (
         <Form
             initialValues={selectedCard.edit ? { key: selectedCard.data.key, startDate: selectedCard.data.startDate, description: selectedCard.data.description, endDate: selectedCard.data.endDate } : {}}
             onSubmit={onFormSubmit}
+            validate={(values) => validateTerm(values, dataStoreData?.schoolCalendar?.find((x: any) => x.id === id), selectedCard?.edit ? selectedCard?.data?.key : undefined, i18nLocal)}
         >
-            {({ pristine, handleSubmit }) => {
+            {({ pristine, handleSubmit, form }) => {
                 return (
                     <form onSubmit={handleSubmit} >
                         <br />
@@ -83,7 +93,7 @@ export default function NewSchoolTerm({ setOpen, i18next }: ContentProps): React
                         <ModalActions>
                             <ButtonStrip end>
                                 {modalActions.map((action, i) => (
-                                    <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine} {...action}>
+                                    <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine} {...action} onClick={action.id === "cancel" ? () => { form.reset(); onCancel() } : undefined}>
                                         {action.label}
                                     </Button>
                                 ))}

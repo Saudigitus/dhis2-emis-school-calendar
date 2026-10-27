@@ -21,7 +21,7 @@ const fieldsSchoolDetails = (i18n: D2I18n) => {
       name: "description",
       labelName: i18n.t("Description"),
       header: i18n.t("Description"),
-      Placeholder: i18n.t("Description you configuration"),
+      Placeholder: i18n.t("Description of the academic year"),
       valueType: "TEXT",
       disabled: false,
       pattern: "",

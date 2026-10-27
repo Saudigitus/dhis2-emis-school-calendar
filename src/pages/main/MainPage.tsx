@@ -56,6 +56,8 @@ function MainPage({ i18next }: { i18next: D2I18n }) {
                             classPeriods={classPeriods}
                             holidays={holidays}
                             selectedTerm={selectedTerm}
+                            i18n={i18next}
+                            weekDays={currentCalendar?.weekDays}
                         />
                     )}
                 </div>

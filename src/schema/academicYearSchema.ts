@@ -4,6 +4,7 @@ export interface academicYearRecord {
     options: {
         value: string
         label: string
+        sortOrder?: number
     }[]
     id: string
 }

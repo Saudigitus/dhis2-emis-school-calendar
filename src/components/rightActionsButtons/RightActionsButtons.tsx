@@ -17,9 +17,9 @@ function RightActionsButtons({ i18n }: { i18n: D2I18n }) {
                 disabled={false}
                 icon={<IconFilter24 />}
                 options={[
-                    { label: "All", onClick: () => { remove("filter") }, },
-                    { label: "Active", onClick: () => { add("filter", "active") }, },
-                    { label: "Inactive", onClick: () => { add("filter", "inactive") }, },
+                    { label: i18nLocal.t("All"), onClick: () => { remove("filter") }, },
+                    { label: i18nLocal.t("Active"), onClick: () => { add("filter", "active") }, },
+                    { label: i18nLocal.t("Inactive"), onClick: () => { add("filter", "inactive") }, },
                 ]}
                 name={<span className={styles.work_buttons_text}>{i18n.t('Filter Options')}</span> as unknown as string}
             />
@@ -32,7 +32,7 @@ function RightActionsButtons({ i18n }: { i18n: D2I18n }) {
                     icon={<IconAddCircle24 />}
                     className={styles.topButton}
                 >
-                    {i18nLocal.t("New Academc Year Option")}
+                    {i18nLocal.t("New Academic Year Option")}
                 </Button>
             </ButtonStrip>
 

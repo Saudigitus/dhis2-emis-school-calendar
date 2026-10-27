@@ -2,16 +2,21 @@ import React, { useRef } from "react";
 import { Popover, Tag } from "@dhis2/ui";
 import type { HolidayType } from "../../types/dataStore/DataStoreConfig";
 import styles from "./HolidayPopover.module.css";
+import type { D2I18n } from "dhis2-semis-types";
+import { getLocale } from "../../utils/common/getLocale";
+import { getDisplayName } from "../../utils/common/getTypeName";
 
 interface HolidayPopoverProps {
     holiday: HolidayType;
     /** The element the popover anchors to */
     reference: React.RefObject<Element>;
     onClose: () => void;
+    i18n: D2I18n;
 }
 
-export function HolidayPopover({ holiday, reference, onClose }: HolidayPopoverProps) {
-    const formattedDate = new Date(holiday.date).toLocaleDateString("en-US", {
+export function HolidayPopover({ holiday, reference, onClose, i18n }: HolidayPopoverProps) {
+    const formattedDate = new Date(holiday.date).toLocaleDateString(getLocale(i18n?.language), {
+        timeZone: "UTC",
         weekday: "short",
         year: "numeric",
         month: "long",
@@ -36,18 +41,18 @@ export function HolidayPopover({ holiday, reference, onClose }: HolidayPopoverPr
 
                 <div className={styles.body}>
                     <div className={styles.row}>
-                        <span className={styles.label}>Date</span>
+                        <span className={styles.label}>{i18n.t("Date")}</span>
                         <span className={styles.value}>{formattedDate}</span>
                     </div>
 
                     <div className={styles.row}>
-                        <span className={styles.label}>Type</span>
+                        <span className={styles.label}>{i18n.t("Type")}</span>
                         <Tag
                             negative={isNegative}
                             positive={isPositive}
                             neutral={!isNegative && !isPositive}
                         >
-                            {holiday.type}
+                            {getDisplayName(holiday.type, i18n)}
                         </Tag>
                     </div>
                 </div>

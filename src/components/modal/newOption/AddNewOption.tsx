@@ -46,7 +46,7 @@ export default function AddNewOption({ setOpen, i18next }: ContentProps) {
             case "save":
                 if (data?.options?.some((opt) => opt.value === values?.code || opt?.label === values?.name)) {
                     show({
-                        message: `${("Could not get data")}: typed code or name already exist.`,
+                        message: i18nLocal.t("The code or name already exists"),
                         type: { critical: true }
                     });
                     setTimeout(hide, 1000);
@@ -56,6 +56,8 @@ export default function AddNewOption({ setOpen, i18next }: ContentProps) {
                     getAcademicYear(false)
                     postOption({
                         ...values,
+                        // put the new option at the end of the list
+                        sortOrder: Math.max(data?.options?.length ?? 0, ...(data?.options ?? []).map((opt) => Number(opt?.sortOrder) || 0)) + 1,
                         optionSet: { id: data?.id }
                     },
                         i18nLocal.t("Option saved successfully."))

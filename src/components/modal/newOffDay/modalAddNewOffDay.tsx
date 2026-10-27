@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { mergeHoliday } from "../../../utils/common/mergeHoliday";
 import { SchoolCalendarData } from "dhis2-semis-components";
 import { D2I18n } from "dhis2-semis-types";
+import { validateNonSchoolDay } from "../../../utils/common/validateDates";
 
 interface ContentProps {
     setOpen: (value: string) => void
@@ -28,14 +29,13 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
     const modalActions = [
         {
             id: "cancel",
-            type: "Cancel",
+            type: "button",
             label: i18nLocal.t("Cancel"),
             white: true,
-
         },
         {
             id: "save",
-            type: "button",
+            type: "submit",
             label: i18nLocal.t("Save"),
             primary: true,
             icon: posting && <CircularLoader small />
@@ -46,13 +46,15 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
         switch (action) {
             case "cancel":
                 setOpen('');
+                if (selectedCard?.edit) setSelectedCard({ edit: false, data: Object() })
                 break
             case "save":
+                if (!values?.date || !values?.type || !values?.event?.trim()) break
                 const localData = dataStoreData?.schoolCalendar?.find((x: any) => x.id === id) as unknown as SchoolConfig;
 
                 postData({
                     ...dataStoreData,
-                    schoolCalendar: [{ ...mergeHoliday(localData, values) }, ...dataStoreData?.schoolCalendar.filter((x: any) => {
+                    schoolCalendar: [{ ...mergeHoliday(localData, values, selectedCard?.edit ? selectedCard?.data?.date : undefined) }, ...dataStoreData?.schoolCalendar.filter((x: any) => {
                         if (x.id !== id) {
                             return x;
                         }
@@ -61,7 +63,7 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
                 }, i18nLocal.t("Off day registered successfully")).then(() => {
                     setOpen('');
                     if (selectedCard.edit) setSelectedCard({ edit: false, data: Object() })
-                })
+                }).catch(() => { /* postData already showed the message */ })
 
                 break
         }
@@ -69,12 +71,12 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
 
     return (
         <div  >
-            <Form initialValues={selectedCard.edit ? { date: selectedCard.data.date, type: selectedCard.data.type, event: selectedCard.data.title } : {}} onSubmit={() => {
-            }}
+            <Form initialValues={selectedCard.edit ? { date: selectedCard.data.date, type: selectedCard.data.type, event: selectedCard.data.title } : {}} onSubmit={(values) => actions("save", values)}
+                validate={(values) => validateNonSchoolDay(values, dataStoreData?.schoolCalendar?.find((x: any) => x.id === id), selectedCard?.edit ? selectedCard?.data?.date : undefined, i18nLocal)}
             >
-                {({ values, pristine }) => {
+                {({ values, pristine, handleSubmit, form }) => {
                     return (
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <br />
                             <GroupForm
                                 padding="0"
@@ -91,9 +93,10 @@ export default function NewOdffDay({ setOpen, i18next }: ContentProps): React.Re
                             <ModalActions>
                                 <ButtonStrip end>
                                     {modalActions.map((action, i) => (
-                                        <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine} {...action} onClick={(e: any) => {
+                                        <Button key={i} disabled={action.id === "cancel" ? posting : posting || pristine || !values?.date || !values?.type || !values?.event?.trim()} {...action} onClick={action.id === "cancel" ? () => {
+                                            form.reset()
                                             actions(action.id, values)
-                                        }}>
+                                        } : undefined}>
                                             {action.label}
                                         </Button>
                                     ))}

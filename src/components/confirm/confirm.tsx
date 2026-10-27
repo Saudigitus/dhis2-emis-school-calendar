@@ -8,10 +8,11 @@ interface AlertDialogProps {
     setOpen: (arg: boolean) => void
     setAgree: (arg: boolean) => void,
     i18n: D2I18n
+    itemName?: string
 }
 
 export default function AlertDialog(props: AlertDialogProps) {
-    const { open, setOpen, setAgree, i18n } = props
+    const { open, setOpen, setAgree, i18n, itemName } = props
 
     const handleClose = () => {
         setOpen(false);
@@ -35,12 +36,14 @@ export default function AlertDialog(props: AlertDialogProps) {
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            {i18n.t("This will delete the selected data")}
+                            {itemName
+                                ? <>{i18n.t("This will delete")} <strong>{itemName}</strong>.</>
+                                : i18n.t("This will delete the selected data")}
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleClose} primary>{i18n.t("Disagree")}</Button>
-                        <Button onClick={handleAgree} destructive>{i18n.t("Agree")}</Button>
+                        <Button onClick={handleClose}>{i18n.t("Cancel")}</Button>
+                        <Button onClick={handleAgree} destructive>{i18n.t("Delete")}</Button>
                     </DialogActions>
                 </div>
             </Dialog>

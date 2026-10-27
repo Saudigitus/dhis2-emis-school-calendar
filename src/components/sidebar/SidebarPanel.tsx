@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { useParams } from "react-router-dom";
+import { SelectedPanelAtom } from "../../schema/selectedPanel";
 import styles from "./SidebarPanel.module.css";
 import type { D2I18n } from "dhis2-semis-types";
 import type { schoolCalendar } from "../../types/dataStore/DataStoreConfig";
@@ -16,28 +19,33 @@ interface SidebarPanelProps {
 }
 
 export default function SidebarPanel({ i18n }: SidebarPanelProps) {
-    const [selected, setSelected] = useState<string>('general-details');
+    const { id } = useParams();
+    const [selectedPanel, setSelectedPanel] = useRecoilState(SelectedPanelAtom);
+    const selected = selectedPanel.id === id ? selectedPanel.panel : 'general-details';
+    // a new key remounts the dropdown, which closes its menu after a choice
+    const [menuKey, setMenuKey] = useState(0);
+    const setSelected = (panel: string) => {
+        setSelectedPanel({ id, panel });
+        setMenuKey((key) => key + 1);
+    };
     const options: any = [
         {
-            label: <div style={{ minWidth: "180px" }} onClick={() => setSelected('general-details')} >
-                {i18n.t('General details')}
-            </div>,
+            label: i18n.t('General details'),
+            onClick: () => setSelected('general-details'),
             divider: true,
             key: "general-details",
             disabled: false,
         },
         {
-            label: <div style={{ minWidth: "180px" }} onClick={() => setSelected('terms')} >
-                {i18n.t('School terms')}
-            </div>,
+            label: i18n.t('School terms'),
+            onClick: () => setSelected('terms'),
             divider: true,
             key: "terms",
             disabled: false,
         },
         {
-            label: <div style={{ minWidth: "180px" }} onClick={() => setSelected('non-school-days')} >
-                {i18n.t('Non school days')}
-            </div>,
+            label: i18n.t('Non school days'),
+            onClick: () => setSelected('non-school-days'),
             divider: true,
             key: "non-school-days",
             disabled: false,
@@ -47,7 +55,8 @@ export default function SidebarPanel({ i18n }: SidebarPanelProps) {
     return (
         <div className={styles.sidebarPanel}>
             <DropdownButton
-                name={<span className={styles.work_buttons_text}>{options?.find(x => x.key == selected)?.label}</span> as unknown as string}
+                key={menuKey}
+                name={<span className={styles.work_buttons_text}>{options?.find((x: any) => x.key == selected)?.label}</span> as unknown as string}
                 icon={<IconUserGroup16 />}
                 options={options}
                 fullWidth={true}

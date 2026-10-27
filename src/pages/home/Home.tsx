@@ -44,8 +44,14 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
             }
         };
 
-        await postData(updatedData, i18nLocal.t("Default academic year updated successfully"));
-        setLoadingStore(false)
+        try {
+            await postData(updatedData, i18nLocal.t("Default academic year updated successfully"));
+        } catch {
+            // not saved: show the default that is still stored
+            setDefaultYear(data?.defaults?.academicYear || "")
+        } finally {
+            setLoadingStore(false)
+        }
     }
 
     const handleEdit = ({ id, values }: { id: string, values: schoolCalendar['academicYear'] }) => {
@@ -87,7 +93,7 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
                 <Paper>
                     <WithBorder type="bottom">
                         <div className={styles.header}>
-                            <h4 className={styles.title}>{"School Calendar"}</h4>
+                            <h4 className={styles.title}>{i18nLocal.t("School Calendar")}</h4>
                             <div className={styles.rightElements}>
                                 <RightActionsButtons i18n={i18next} />
                             </div>
@@ -154,7 +160,7 @@ function SchoolCalendarHomePage({ i18next }: { i18next: D2I18n }) {
             <ModalComponent
                 open={open}
                 handleClose={() => setOpen(false)}
-                title={i18nLocal.t("Add new school calendar")}
+                title={selected ? i18nLocal.t("Edit school calendar") : i18nLocal.t("Add new school calendar")}
                 children={
                     <AddNewSchoolCalendar
                         i18next={i18next}

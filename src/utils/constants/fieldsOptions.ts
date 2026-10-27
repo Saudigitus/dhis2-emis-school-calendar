@@ -22,7 +22,7 @@ const fieldsOptions = ({ i18n, errors }: { i18n: D2I18n; errors: any }) => {
       name: "code",
       labelName: i18n.t("Code"),
       header: i18n.t("Code"),
-      Placeholder: i18n.t("Code you configuration"),
+      Placeholder: i18n.t("Code of the option"),
       valueType: "TEXT",
       disabled: false,
       pattern: "",

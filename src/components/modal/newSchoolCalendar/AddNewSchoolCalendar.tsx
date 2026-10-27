@@ -11,6 +11,7 @@ import { generateId } from "../../../utils/common/generateId";
 import { updateSchoolConfig } from "../../../utils/common/updateSchoolConfig";
 import { schoolCalendar } from "../../../types/dataStore/DataStoreConfig";
 import { SchoolCalendarData } from "dhis2-semis-components";
+import { validateYearDates } from "../../../utils/common/validateDates";
 import { D2I18n } from "dhis2-semis-types";
 
 interface ContentProps {
@@ -61,7 +62,8 @@ export default function AddNewSchoolCalendar({ setOpen, selected, academicYearVa
                         }
                     })]
                 }, i18nLocal.t("School calendar updated successfully"))
-                    .then(() => { setOpen(false) });
+                    .then(() => { setOpen(false) })
+                    .catch(() => { /* postData already showed the message; keep the modal open */ });
             }
         } else {
             const safeValues = (values && typeof values === "object" && !Array.isArray(values))
@@ -75,13 +77,13 @@ export default function AddNewSchoolCalendar({ setOpen, selected, academicYearVa
                 },
                 id: generateId(),
                 weekDays: {
-                    friday: false,
-                    monday: false,
+                    friday: true,
+                    monday: true,
                     saturday: false,
                     sunday: false,
-                    thursday: false,
-                    tuesday: false,
-                    wednesday: false
+                    thursday: true,
+                    tuesday: true,
+                    wednesday: true
                 }
             });
 
@@ -90,7 +92,8 @@ export default function AddNewSchoolCalendar({ setOpen, selected, academicYearVa
                     dataStoreData?.schoolCalendar ? dataStoreData?.schoolCalendar : []
                 ), currentData]
             }, i18nLocal.t("School calendar updated successfully"))
-                .then(() => { setOpen(false) });
+                .then(() => { setOpen(false) })
+                    .catch(() => { /* postData already showed the message; keep the modal open */ });
         }
     }
     // addAcademicYearOptions as options to fieldsSchoolDetails and return the updated fieldsSchoolDetails
@@ -119,9 +122,9 @@ export default function AddNewSchoolCalendar({ setOpen, selected, academicYearVa
     return (
         <WithPadding padding="0px">
             <span>
-                {i18nLocal.t("To register new school calendar, please fill out the form")}
+                {selected ? i18nLocal.t("To change this school calendar, edit the form") : i18nLocal.t("To register new school calendar, please fill out the form")}
             </span>
-            <Form initialValues={academicYearValues} onSubmit={onSubmit}>
+            <Form initialValues={academicYearValues} onSubmit={onSubmit} validate={(values) => validateYearDates(values, i18nLocal)}>
                 {({ values, handleSubmit, pristine, valid }) => {
                     return (
                         <form onSubmit={handleSubmit} >
